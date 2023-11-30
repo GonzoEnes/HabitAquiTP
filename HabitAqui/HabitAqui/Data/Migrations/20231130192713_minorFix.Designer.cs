@@ -4,6 +4,7 @@ using HabitAqui.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HabitAqui.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231130192713_minorFix")]
+    partial class minorFix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,9 +108,15 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ArrendamentoId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Avaliacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ContratoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Danos")
                         .IsRequired()
@@ -116,6 +124,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.Property<bool>("Disponivel")
                         .HasColumnType("bit");
+
+                    b.Property<int>("EstadoId")
+                        .HasColumnType("int");
 
                     b.Property<int>("IdArrendamento")
                         .HasColumnType("int");
@@ -135,6 +146,9 @@ namespace HabitAqui.Data.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocadorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Localizacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -147,7 +161,20 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TipoHabitacaoId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ArrendamentoId");
+
+                    b.HasIndex("ContratoId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("LocadorId");
+
+                    b.HasIndex("TipoHabitacaoId");
 
                     b.ToTable("Habitacoes");
                 });
@@ -421,6 +448,49 @@ namespace HabitAqui.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
+                {
+                    b.HasOne("HabitAqui.Models.Arrendamento", "Arrendamento")
+                        .WithMany()
+                        .HasForeignKey("ArrendamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Contrato", "Contrato")
+                        .WithMany()
+                        .HasForeignKey("ContratoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Locador", "Locador")
+                        .WithMany()
+                        .HasForeignKey("LocadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.TipoHabitacao", "TipoHabitacao")
+                        .WithMany()
+                        .HasForeignKey("TipoHabitacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Arrendamento");
+
+                    b.Navigation("Contrato");
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Locador");
+
+                    b.Navigation("TipoHabitacao");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Reserva", b =>

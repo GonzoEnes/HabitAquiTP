@@ -5,12 +5,30 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Habitações</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@* <table class="table">
+<h1>
+    @ViewData["Title"]
+    <small><a class="btn btn-primary btn-sm" asp-action="Create">Adicionar</a></small>
+</h1>
+<hr />
+<br />
+<div class="row">
+    <div class="col-6">
+        <form method="post">
+            Pesquisa:
+            <input type="text" id="TextoAPesquisar" name="TextoAPesquisar">
+            <input type="submit" value="Pesquisar" />
+        </form>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-3">
+        <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="Habitacoes" asp-route-disponivel="">Todos</a> |
+        <a class="btn btn-primary btn-sm" asp-action="Index" asp-route-disponivel="true">Activos</a> |
+        <a class="btn btn-primary btn-sm" asp-action="Index" asp-route-disponivel="false">Inactivos</a>
+    </div>
+</div>
+ <table class="table tabel-bordered table-striped table-hover">
     <thead>
         <tr>
             <th>
@@ -94,5 +112,5 @@
             </tr>
 }
     </tbody>
-</table> *@
+</table> 
 

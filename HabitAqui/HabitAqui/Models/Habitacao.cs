@@ -10,7 +10,7 @@ namespace HabitAqui.Models
 
         public int IdContrato { get; set; }
 
-        public Contrato Contrato { get; set; }
+     //   public Contrato Contrato { get; set; }
 
         public bool Disponivel { get; set; }
 
@@ -18,26 +18,26 @@ namespace HabitAqui.Models
 
         public int IdArrendamento { get; set; }
 
-        public Arrendamento Arrendamento { get; set; }
+     //   public Arrendamento Arrendamento { get; set; }
 
         public int IdTipo { get; set; }
 
-        public TipoHabitacao TipoHabitacao { get; set; }
+      //  public TipoHabitacao TipoHabitacao { get; set; }
 
         public int IdLocador { get; set; }
 
-        public Locador Locador { get; set; }
+      //  public Locador Locador { get; set; }
 
         public string Avaliacao { get; set; }
 
         public int IdEstado { get; set; }
 
-        public Estado Estado { get; set; }
+      //  public Estado Estado { get; set; }
 
         public string Danos { get; set; }
 
         public string Observacoes { get; set; }
 
-        public string Image { get; set; }
+        public string? Image { get; set; }
     }
 }
