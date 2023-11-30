@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Uj9z1IcSHmYebSXl48PMQQQg5OMsw8JksCULSkIP0rnJRq7ZAGBSxntCEKZIjpzOEXKRQVCN0Wtkb4vsKog7kA==",
+  "dgSpecHash": "v+ZKcVlihnGJmzy1hLtMp+dNhliNoNi4A3O+LOPae3gBUUvnIb4mVGWb4YNOVjQZLBgPI/k0YgHFn4XkVW3fyA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Gonsalo\\Desktop\\ISEC\\PWEB\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
+  "projectFilePath": "C:\\Users\\Gonsalo\\Desktop\\ISEC\\PWEB\\TP\\HabitAquiTP\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Gonsalo\\.nuget\\packages\\humanizer\\2.14.1\\humanizer.2.14.1.nupkg.sha512",
     "C:\\Users\\Gonsalo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-HabitAqui-3212b7f7-89b2-4ef6-9025-7875837aebc0</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\NewFile.txt" />
+    <Content Remove="wwwroot\Logo" />
+    <Content Remove="wwwroot\real-estate-high-resolution-logo-black-transparent.png" />
+    <Content Remove="wwwroot\real-estate-high-resolution-logo.png" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.23" />

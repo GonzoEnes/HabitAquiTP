@@ -13,6 +13,56 @@ html {
   min-height: 100%;
 }
 
+@font-face {
+    font-family: 'KronaOne-Regular';
+    src: url('../fonts/KronaOne-Regular.ttf') format('truetype');
+    font-size: 1px;
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'KronaOne-Regular', sans-serif;
+}
+.banner_01 {
+    background-image: url('/img/banner_01.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.banner_02 {
+    background-image: url('/img/banner_02.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.banner_03 {
+    background-image: url('/img/banner_03.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.banner_04 {
+    background-image: url('/img/banner_04.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.banner_05 {
+    background-image: url('/img/banner_05.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.banner_06 {
+    background-image: url('/img/banner_06.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
 }
