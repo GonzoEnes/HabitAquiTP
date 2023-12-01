@@ -39,15 +39,21 @@
                             <input type="text" class="form-control border-0 py-3" placeholder="Pesquisar...">
                         </div>
                         <div class="col-md-4">
-                            <select asp-for="Nome" asp-items="ViewBag.PropriedadeList" class="form-select border-0 py-3">
-                                <option selected>Propriedade</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
                             <select asp-for="Localizacao" asp-items="ViewBag.LocalizacaoList" class="form-select border-0 py-3">
                                 <option selected>Localização</option>
                             </select>
                         </div>
+                        <div class="col-md-4">
+                            <select asp-for="Tipo" asp-items="ViewBag.TipoPropriedadeList" class="form-select border-0 py-3">
+                                <option selected>Tipo de Habitação</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <select asp-for="Nome" asp-items="ViewBag.PropriedadeList" class="form-select border-0 py-3">
+                                <option selected>Propriedade</option>
+                            </select>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-md-2">

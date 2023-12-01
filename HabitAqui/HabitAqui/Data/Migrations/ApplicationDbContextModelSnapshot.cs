@@ -117,22 +117,20 @@ namespace HabitAqui.Data.Migrations
                     b.Property<bool>("Disponivel")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("IdArrendamento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdCategoria")
                         .HasColumnType("int");
 
                     b.Property<int>("IdContrato")
                         .HasColumnType("int");
 
-                    b.Property<int>("IdEstado")
-                        .HasColumnType("int");
-
                     b.Property<int>("IdLocador")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTipo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdTipologia")
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
@@ -154,6 +152,10 @@ namespace HabitAqui.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Observacoes")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tipo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
