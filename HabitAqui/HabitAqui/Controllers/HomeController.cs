@@ -1,5 +1,8 @@
-﻿using HabitAqui.Models;
+﻿using HabitAqui.Data;
+using HabitAqui.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using SQLitePCL;
 using System.Diagnostics;
 
 namespace HabitAqui.Controllers
@@ -7,14 +10,24 @@ namespace HabitAqui.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            var propertyList = _context.Habitacoes.GroupBy(c => c.Nome).Select(group => group.FirstOrDefault());
+
+            ViewData["PropriedadeList"] = new SelectList(propertyList.ToList(), "Id", "Nome");
+
+            var locationList = _context.Habitacoes.GroupBy(c => c.Localizacao).Select(group => group.FirstOrDefault());
+
+            ViewData["LocalizacaoList"] = new SelectList(locationList.ToList(), "Id", "Localizacao");
+
             return View();
         }
 

@@ -5,11 +5,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Habitações</h1>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-0 gx-5 align-items-end">
+            <div class="col-lg-6">
+                <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                    <h1 class="mb-3">Propriedades</h1>
+                    <p>Aqui pode pesquisar a nossa seleção de habitações!</p>
+                </div>
+            </div>
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane fade show p-0 active">
+                <div class="row g-4">
+                    @foreach (var Habitacao in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="property-item rounded overflow-hidden">
+                                <div class="position-relative overflow-hidden">
+                                    <a href=""><img class="img-fluid" src="~/img/@Habitacao.Image" alt=""></a>
+                                    <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Tipo de Habitação</div>
+                                </div>
+                                <div class="p-4 pb-0">
+                                    <h5 class="text-primary mb-3">$12,345</h5>
+                                    <a class="d-block h5 mb-2" href="">@Habitacao.Nome</a>
+                                    <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Habitacao.Localizacao</p>
+                                </div>
+                                <div class="d-flex border-top">
+                                    <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>@Habitacao.Area m²</small>
+                                    <small class="flex-fill text-center border-end py-2"><i class="fa fa-bed text-primary me-2"></i>@Habitacao.NBedroom Quartos</small>
+                                    <small class="flex-fill text-center py-2"><i class="fa fa-bath text-primary me-2"></i>@Habitacao.NBath Banho</small>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @* <table class="table">
     <thead>
         <tr>
