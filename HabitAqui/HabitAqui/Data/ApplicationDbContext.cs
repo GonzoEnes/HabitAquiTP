@@ -20,14 +20,10 @@ namespace HabitAqui.Data
 
         public DbSet<Contrato> Contratos { get; set; }
 
-        public DbSet<Estado> Estado { get; set; }
-
         public DbSet<Habitacao> Habitacoes { get; set; }
 
         public DbSet<Locador> Locadores { get; set; }
 
         public DbSet<Reserva> Reservas { get; set; }
-
-        public DbSet<TipoHabitacao> TipoHabitacoes { get; set; }
     }
 }

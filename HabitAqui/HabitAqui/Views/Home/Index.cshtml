@@ -12,7 +12,7 @@
                     <p class="animated fadeIn mb-4 pb-2">
                         Desde casas a apartamentos, a HabitAqui tem tudo o que necessita. Venha experienciar a nossa vasta escolha de imobiliários.
                     </p>
-                    <a href="" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Comece já!</a>
+                    <a asp-controller="Habitacoes" asp-action="Index" class="btn btn-primary py-3 px-5 me-3 animated fadeIn">Comece já!</a>
                 </div>
                 <div class="col-md-6 animated fadeIn">
                     <div class="owl-carousel header-carousel">
@@ -30,7 +30,7 @@
 <!-- Search Start -->
 @using (Html.BeginForm("Index", "Habitacoes", FormMethod.Get))
 {
-    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
+    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 50px 35px;">
         <div class="container">
             <div class="row g-2">
                 <div class="col-md-10">
@@ -48,16 +48,38 @@
                                 <option selected>Tipo de Habitação</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
-                            <select asp-for="Nome" asp-items="ViewBag.PropriedadeList" class="form-select border-0 py-3">
-                                <option selected>Propriedade</option>
-                            </select>
+                        <div class="col-md-12 px-2">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                        <div class="input-append date form_datetime">
+                                            <label for="BeginDate">Data Início Contrato:</label>
+                                            <input type="datetime-local" id="BeginDateSearch" name="BeginDateSearch">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                        <div class="input-append date form_datetime">
+                                            <label for="EndDate">Data Fim Contrato:</label>
+                                            <input type="datetime-local" id="EndDateSearch" name="EndDateSearch">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                        <div class="input-append date form_datetime">
+                                            <label for="Arrendamento">Período Mínimo Arrendamento:</label>
+                                            <input type="datetime-local" id="ArrendamentoSearch" name="ArrendamentoSearch">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-dark border-0 w-100 py-3">Pesquisar</button>
+                <div class="col-md-2 d-flex align-items-center justify-content-center">
+                    <button class="btn btn-dark border-0 w-100 py-4">Pesquisar</button>
                 </div>
             </div>
         </div>
@@ -71,7 +93,7 @@
         <div class="row g-5 align-items-center">
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
                 <div class="about-img position-relative overflow-hidden p-5 pe-0">
-                    <img class="img-fluid w-100" src="img/about.jpg">
+                    <img class="img-fluid w-100" src="~/img/about.jpg">
                 </div>
             </div>
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">

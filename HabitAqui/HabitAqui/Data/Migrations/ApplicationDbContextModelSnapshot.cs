@@ -78,23 +78,6 @@ namespace HabitAqui.Data.Migrations
                     b.ToTable("Contratos");
                 });
 
-            modelBuilder.Entity("HabitAqui.Models.Estado", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Estado");
-                });
-
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.Property<int>("Id")
@@ -214,23 +197,6 @@ namespace HabitAqui.Data.Migrations
                     b.HasIndex("HabitacaoId");
 
                     b.ToTable("Reservas");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.TipoHabitacao", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TipoHabitacoes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
