@@ -46,7 +46,7 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -85,9 +85,6 @@ namespace HabitAqui.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("IdHabitacao")
-                        .HasColumnType("int");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -141,6 +138,9 @@ namespace HabitAqui.Data.Migrations
                     b.Property<int>("IdTipo")
                         .HasColumnType("int");
 
+                    b.Property<int>("IdTipologia")
+                        .HasColumnType("int");
+
                     b.Property<string>("Image")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -163,6 +163,9 @@ namespace HabitAqui.Data.Migrations
                     b.Property<int>("TipoHabitacaoId")
                         .HasColumnType("int");
 
+                    b.Property<int>("TipologiaId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArrendamentoId");
@@ -174,6 +177,8 @@ namespace HabitAqui.Data.Migrations
                     b.HasIndex("LocadorId");
 
                     b.HasIndex("TipoHabitacaoId");
+
+                    b.HasIndex("TipologiaId");
 
                     b.ToTable("Habitacoes");
                 });
@@ -245,6 +250,23 @@ namespace HabitAqui.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TipoHabitacoes");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Tipologia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tipologia");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -481,6 +503,12 @@ namespace HabitAqui.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HabitAqui.Models.Tipologia", "Tipologia")
+                        .WithMany()
+                        .HasForeignKey("TipologiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Arrendamento");
 
                     b.Navigation("Contrato");
@@ -490,6 +518,8 @@ namespace HabitAqui.Data.Migrations
                     b.Navigation("Locador");
 
                     b.Navigation("TipoHabitacao");
+
+                    b.Navigation("Tipologia");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Reserva", b =>

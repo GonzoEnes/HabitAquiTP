@@ -7,6 +7,6 @@
 
         public string Nome { get; set; } // o estado
 
-        public int IdHabitacao { get; set; }
+        //public int IdHabitacao { get; set; } // acho que isto não vai ser preciso, se calhar
     }
 }

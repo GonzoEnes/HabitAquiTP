@@ -22,7 +22,7 @@ namespace HabitAqui.Models
 
         public int IdTipo { get; set; }
 
-        public TipoHabitacao TipoHabitacao { get; set; }
+        public TipoHabitacao TipoHabitacao { get; set; } // se é apartamento ou casa ou bla bla bla
 
         public int IdLocador { get; set; }
 
@@ -32,11 +32,15 @@ namespace HabitAqui.Models
 
         public int IdEstado { get; set; }
 
-        public Estado Estado { get; set; }
+        public Estado Estado { get; set; } // novo, renovado e usado
 
         public string Danos { get; set; }
 
         public string Observacoes { get; set; }
+
+        public Tipologia Tipologia { get; set; }
+
+        public int IdTipologia { get; set; }
 
         public string Image { get; set; }
     }
