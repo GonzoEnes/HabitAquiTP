@@ -10,11 +10,36 @@
         <div class="row g-0 gx-5 align-items-end">
             <div class="col-lg-6">
                 <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                    <form action="Search" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="textoAPesquisar"
+                                   id="textoAPesquisar" placeholder="Pesquisar..."
+                                   class="form-control form-control-sm" />
+
+                            <button type="submit"
+                                    class="btn btn-default ms-2 me-2">
+                                <svg bootstrap-icon="Search"
+                                     class="text-warning" width="24" height="24"
+                                     aria-label="Search"></svg>
+                            </button>
+                        </div>
+                    </form>
+
                     <h1 class="mb-3">Propriedades</h1>
                     <p>Aqui pode pesquisar a nossa seleção de habitações! Clique na que desejar para ver mais informações.</p>
                 </div>
             </div>
+            <div class="col-lg-6">
+                <div class="text-end mx-auto mb-5 wow slideInRight" data-wow-delay="0.1s">
+                    <a class="btn btn-success" asp-action="Create">Nova Habitação</a>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+
+
 
         <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
@@ -25,7 +50,7 @@
                             <div class="property-item rounded overflow-hidden">
                                 <div class="position-relative overflow-hidden">
                                     <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Habitacao.Id"><img class="img-fluid" src="~/img/@Habitacao.Image" alt=""></a>
-                                    <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">Tipo de Habitação</div>
+                                    <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Habitacao.Tipo</div>
                                 </div>
                                 <div class="p-4 pb-0">
                                     <h5 class="text-primary mb-3">$12,345</h5>

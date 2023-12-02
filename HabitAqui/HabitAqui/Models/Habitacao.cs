@@ -12,7 +12,7 @@ namespace HabitAqui.Models
         public string Nome { get; set; }
 
         [Display(Name = "Tipo", Prompt = "Qual é o tipo da habitação?")]
-        public string Tipo { get; set; }
+        public string? Tipo { get; set; }
         public int IdContrato { get; set; }
         
         //[Display(Name = "Contrato", Prompt = "Contrato associado à habitação")]
@@ -52,7 +52,7 @@ namespace HabitAqui.Models
         public string Avaliacao { get; set; }
 
         [Display(Name = "Estado da Habitação", Prompt = "Como se encontra a habitação?")]
-        public string Estado { get; set; } // novo, renovado e usado
+        public string? Estado { get; set; } // novo, renovado e usado
 
         [Display(Name = "Danos", Prompt = "A habitação possui alguns danos?")]
         public string Danos { get; set; }
@@ -60,6 +60,6 @@ namespace HabitAqui.Models
         [Display(Name = "Observações", Prompt = "Deixe umas observações sobre a habitação")]
         public string Observacoes { get; set; }
 
-        public string Image { get; set; }
+        public string? Image { get; set; }
     }
 }

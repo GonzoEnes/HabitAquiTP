@@ -56,7 +56,7 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,IdContrato,Disponivel,Localizacao,IdArrendamento,IdTipo,IdLocador,Avaliacao,IdEstado,Danos,Observacoes,IdTipologia,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,IdContrato,Disponivel,Localizacao,IdArrendamento,IdTipo,IdLocador,Avaliacao,Danos,Observacoes,Image,IdCategoria,NBath,NBedroom,Area,Estado,Tipo")] Habitacao habitacao)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +64,10 @@ namespace HabitAqui.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ListaDeHabitacoes"] = new SelectList(_context.Habitacoes.OrderBy(c => c.Disponivel).ToList(), "Id", "Nome");
+
+
+
             return View(habitacao);
         }
 
