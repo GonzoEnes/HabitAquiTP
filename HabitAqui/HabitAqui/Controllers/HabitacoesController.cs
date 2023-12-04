@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HabitAqui.Data;
 using HabitAqui.Models;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using HabitAqui.ViewModels;
+using Microsoft.Extensions.Hosting;
 
 namespace HabitAqui.Controllers
 {
@@ -14,9 +17,12 @@ namespace HabitAqui.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public HabitacoesController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _environment;
+
+        public HabitacoesController(ApplicationDbContext context, IWebHostEnvironment environment)
         {
             _context = context;
+            _environment = environment;
         }
 
         // GET: Habitacoes
@@ -66,8 +72,6 @@ namespace HabitAqui.Controllers
             }
             ViewData["ListaDeHabitacoes"] = new SelectList(_context.Habitacoes.OrderBy(c => c.Disponivel).ToList(), "Id", "Nome");
 
-
-
             return View(habitacao);
         }
 
@@ -87,6 +91,53 @@ namespace HabitAqui.Controllers
             return View(habitacao);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Search([Bind("TextoAPesquisar")] HabitacoesViewModel pesquisaHabitacoes)
+        {
+            ViewData["Title"] = "Pesquisar Habitações";
+            
+            if (string.IsNullOrEmpty(pesquisaHabitacoes.TextoAPesquisar))
+            {
+                pesquisaHabitacoes.ListaHabitacoes = await _context.Habitacoes.OrderBy(c => c.Nome).ToListAsync();
+                pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
+            }
+            else
+            {
+                pesquisaHabitacoes.ListaHabitacoes =
+                    await _context.Habitacoes.Where(c => c.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar)
+                                                || c.Danos.Contains(pesquisaHabitacoes.TextoAPesquisar)
+                                                || c.Estado.Contains(pesquisaHabitacoes.TextoAPesquisar) 
+                                                || c.Localizacao.Contains(pesquisaHabitacoes.TextoAPesquisar)
+                                                ).OrderBy(c => c.Nome).ToListAsync();
+                pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
+            }
+            return View(pesquisaHabitacoes);
+        }
+
+        public async Task<IActionResult> Search(string? TextoAPesquisar)
+        {
+            HabitacoesViewModel pesquisaHabit = new HabitacoesViewModel();
+            
+            ViewData["Title"] = "Pesquisar Habitações";
+
+            if (string.IsNullOrWhiteSpace(TextoAPesquisar))
+                pesquisaHabit.ListaHabitacoes = await _context.Habitacoes.OrderBy(c => c.Nome).ToListAsync();
+            else
+            {
+                pesquisaHabit.ListaHabitacoes =
+                    await _context.Habitacoes.Where(c => c.Nome.Contains(TextoAPesquisar)
+                                                || c.Observacoes.Contains(TextoAPesquisar)
+                                                || c.Estado.Contains(TextoAPesquisar)
+                                                || c.Localizacao.Contains(TextoAPesquisar)
+                                                ).ToListAsync();
+                pesquisaHabit.TextoAPesquisar = TextoAPesquisar;
+ 
+            }
+            pesquisaHabit.NResults = pesquisaHabit.ListaHabitacoes.Count();
+
+            return View(pesquisaHabit);
+        }
         // POST: Habitacoes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.

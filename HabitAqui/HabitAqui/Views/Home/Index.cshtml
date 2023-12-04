@@ -28,7 +28,7 @@
         </div>
 
 <!-- Search Start -->
-@using (Html.BeginForm("Index", "Habitacoes", FormMethod.Get))
+@using (Html.BeginForm("Search", "Habitacoes", FormMethod.Get))
 {
     <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 50px 35px;">
         <div class="container">
@@ -38,16 +38,18 @@
                         <div class="col-md-4">
                             <input type="text" class="form-control border-0 py-3" placeholder="Pesquisar...">
                         </div>
-                        <div class="col-md-4">
-                            <select asp-for="Localizacao" asp-items="ViewBag.LocalizacaoList" class="form-select border-0 py-3">
-                                <option selected>Localização</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <select asp-for="Tipo" asp-items="ViewBag.TipoPropriedadeList" class="form-select border-0 py-3">
-                                <option selected>Tipo de Habitação</option>
-                            </select>
-                        </div>
+                        <form asp-controller="Habitacoes" asp-action="Search" method="post">
+                            <div class="col-md-4">
+                                <select asp-for="Localizacao" asp-items="ViewBag.LocalizacaoList" class="form-select border-0 py-3">
+                                    <option selected>Localização</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <select asp-for="Tipo" asp-items="ViewBag.TipoPropriedadeList" class="form-select border-0 py-3">
+                                    <option selected>Tipo de Habitação</option>
+                                </select>
+                            </div>
+                        </form>
                         <div class="col-md-12 px-2">
                             <div class="row">
                                 <div class="col-md-4">

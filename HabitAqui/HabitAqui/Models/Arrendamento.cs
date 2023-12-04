@@ -7,5 +7,7 @@
         public int Id { get; set; }
 
         public decimal? CustoArrendamento { get; set; }
+
+        public int DiasPeriodoArrendamento { get; set; }
     }
 }
