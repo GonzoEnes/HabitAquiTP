@@ -78,6 +78,26 @@ namespace HabitAqui.Data.Migrations
                     b.ToTable("Contratos");
                 });
 
+<<<<<<< Updated upstream
+=======
+            modelBuilder.Entity("HabitAqui.Models.Estado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estado");
+                });
+
+>>>>>>> Stashed changes
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.Property<int>("Id")
@@ -115,6 +135,15 @@ namespace HabitAqui.Data.Migrations
                     b.Property<int>("IdLocador")
                         .HasColumnType("int");
 
+<<<<<<< Updated upstream
+=======
+                    b.Property<int>("IdTipo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdTipologia")
+                        .HasColumnType("int");
+
+>>>>>>> Stashed changes
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -139,8 +168,26 @@ namespace HabitAqui.Data.Migrations
                     b.Property<string>("Tipo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TipologiaId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+<<<<<<< Updated upstream
+=======
+                    b.HasIndex("ArrendamentoId");
+
+                    b.HasIndex("ContratoId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("LocadorId");
+
+                    b.HasIndex("TipoHabitacaoId");
+
+                    b.HasIndex("TipologiaId");
+
+>>>>>>> Stashed changes
                     b.ToTable("Habitacoes");
                 });
 
@@ -196,6 +243,43 @@ namespace HabitAqui.Data.Migrations
                     b.ToTable("Reservas");
                 });
 
+<<<<<<< Updated upstream
+=======
+            modelBuilder.Entity("HabitAqui.Models.TipoHabitacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TipoHabitacoes");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Tipologia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tipologia");
+                });
+
+>>>>>>> Stashed changes
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -398,6 +482,60 @@ namespace HabitAqui.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+<<<<<<< Updated upstream
+=======
+            modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
+                {
+                    b.HasOne("HabitAqui.Models.Arrendamento", "Arrendamento")
+                        .WithMany()
+                        .HasForeignKey("ArrendamentoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Contrato", "Contrato")
+                        .WithMany()
+                        .HasForeignKey("ContratoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Locador", "Locador")
+                        .WithMany()
+                        .HasForeignKey("LocadorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.TipoHabitacao", "TipoHabitacao")
+                        .WithMany()
+                        .HasForeignKey("TipoHabitacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Tipologia", "Tipologia")
+                        .WithMany()
+                        .HasForeignKey("TipologiaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Arrendamento");
+
+                    b.Navigation("Contrato");
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Locador");
+
+                    b.Navigation("TipoHabitacao");
+
+                    b.Navigation("Tipologia");
+                });
+
+>>>>>>> Stashed changes
             modelBuilder.Entity("HabitAqui.Models.Reserva", b =>
                 {
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
