@@ -6,7 +6,11 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
+<<<<<<< Updated upstream
         <a  class="nav-link text-dark text-decoration-underline" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @User.Identity?.Name!.Split('@')[0] !</a>
+=======
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+>>>>>>> Stashed changes
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

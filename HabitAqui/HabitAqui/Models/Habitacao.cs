@@ -38,10 +38,14 @@ namespace HabitAqui.Models
         [Display(Name = "Área", Prompt = "Qual é a área (em metros quadrados) desta habitação?")]
         public decimal? Area { get; set; }
 
+<<<<<<< Updated upstream
         public int IdArrendamento { get; set; }
 
         //[Display(Name = "Arrendamento", Prompt = "Arrendamento desta habitação")]
         //public Arrendamento Arrendamento { get; set; }
+=======
+        public TipoHabitacao TipoHabitacao { get; set; } // se é apartamento ou casa ou bla bla bla
+>>>>>>> Stashed changes
 
         public int IdLocador { get; set; }
 
@@ -51,14 +55,24 @@ namespace HabitAqui.Models
         [Display(Name = "Avaliação", Prompt = "As habitações não podem ter avaliações quando criadas, mudar depois")]
         public string Avaliacao { get; set; }
 
+<<<<<<< Updated upstream
         [Display(Name = "Estado da Habitação", Prompt = "Como se encontra a habitação?")]
         public string Estado { get; set; } // novo, renovado e usado
+=======
+        public int IdEstado { get; set; }
+
+        public Estado Estado { get; set; } // novo, renovado e usado
+>>>>>>> Stashed changes
 
         [Display(Name = "Danos", Prompt = "A habitação possui alguns danos?")]
         public string Danos { get; set; }
 
         [Display(Name = "Observações", Prompt = "Deixe umas observações sobre a habitação")]
         public string Observacoes { get; set; }
+
+        public Tipologia Tipologia { get; set; }
+
+        public int IdTipologia { get; set; }
 
         public string Image { get; set; }
     }
