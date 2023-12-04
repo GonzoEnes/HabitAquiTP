@@ -1432,6 +1432,5 @@ C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.genruntimeconfig.cache
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\net6.0\ref\HabitAqui.dll
 =======
-=======
 >>>>>>> Stashed changes
 >>>>>>> main
