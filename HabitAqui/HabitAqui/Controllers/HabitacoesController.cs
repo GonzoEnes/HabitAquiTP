@@ -10,6 +10,7 @@ using HabitAqui.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using HabitAqui.ViewModels;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HabitAqui.Controllers
 {
@@ -26,6 +27,7 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes
+        [Authorize]
         public async Task<IActionResult> Index()
         {
               return _context.Habitacoes != null ? 
@@ -53,11 +55,16 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes/Create
+        [Authorize(Roles = "Admin,Funcionario")]
         public IActionResult Create()
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            
+               
 
-            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+            
+           // ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+          //  ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
 
             return View();
         }
@@ -67,13 +74,13 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,ContratoId,Disponivel,Localizacao,ArrendamentoId,TipoId,LocadorId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome, ContratoId ,Disponivel,Localizacao,ArrendamentoId,TipoId,LocadorId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
             
-            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+           // ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
 
-            if (ModelState.IsValid)
+           if (ModelState.IsValid)
             {
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
@@ -152,7 +159,7 @@ namespace HabitAqui.Controllers
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
 
-            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+           // ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
 
             if (id != habitacao.Id)
             {

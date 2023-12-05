@@ -18,11 +18,11 @@
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
 
-                <div class="mb-3">
+               @*  <div class="mb-3">
                     <label asp-for="ContratoId" class="form-label"></label>
                     <input asp-for="ContratoId" class="form-control" />
                     <span asp-validation-for="ContratoId" class="text-danger"></span>
-                </div>
+                </div> *@
 
                 <div class="mb-3 form-check">
                     <input class="form-check-input" asp-for="Disponivel" />
@@ -40,9 +40,14 @@
                     <span asp-validation-for="ArrendamentoId" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
+                    <label asp-for="Avaliacao" class="form-label"></label>
+                    <input asp-for="Avaliacao" class="form-control" />
+                    <span asp-validation-for="Avaliacao" class="text-danger"></span>
+                </div>
+                @* <div class="mb-3">
                     <label asp-for="LocadorId" class="form-label"></label>
                     <select asp-for="LocadorId" class="form-control" asp-items="ViewBag.ListaLocadores"></select>
-                </div>
+                </div> *@
                 <div class="mb-3">
                     <label asp-for="CategoriaId" class="form-label"></label>
                     <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.ListaCategorias"></select>
