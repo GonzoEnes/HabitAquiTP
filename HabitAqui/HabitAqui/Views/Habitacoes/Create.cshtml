@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Create";
 }
-<<<<<<< HEAD
 
 <div class="container mt-5">
     <h1 class="text-center">Criar Habitação</h1>
@@ -20,9 +19,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="IdContrato" class="form-label"></label>
-                    <input asp-for="IdContrato" class="form-control" />
-                    <span asp-validation-for="IdContrato" class="text-danger"></span>
+                    <label asp-for="ContratoId" class="form-label"></label>
+                    <input asp-for="ContratoId" class="form-control" />
+                    <span asp-validation-for="ContratoId" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3 form-check">
@@ -36,34 +35,17 @@
                     <span asp-validation-for="Localizacao" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="IdArrendamento" class="form-label"></label>
-                    <input asp-for="IdArrendamento" class="form-control" />
-                    <span asp-validation-for="IdArrendamento" class="text-danger"></span>
+                    <label asp-for="ArrendamentoId" class="form-label"></label>
+                    <input asp-for="ArrendamentoId" class="form-control" />
+                    <span asp-validation-for="ArrendamentoId" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="IdLocador" class="form-label"></label>
-                    <input asp-for="IdLocador" class="form-control" />
-                    <span asp-validation-for="IdLocador" class="text-danger"></span>
+                    <label asp-for="LocadorId" class="form-label"></label>
+                    <select asp-for="LocadorId" class="form-control" asp-items="ViewBag.ListaLocadores"></select>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Avaliacao" class="form-label"></label>
-                    <input asp-for="Avaliacao" class="form-control" />
-                    <span asp-validation-for="Avaliacao" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Danos" class="form-label"></label>
-                    <input asp-for="Danos" class="form-control" />
-                    <span asp-validation-for="Danos" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Observacoes" class="form-label"></label>
-                    <input asp-for="Observacoes" class="form-control" />
-                    <span asp-validation-for="Observacoes" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="IdCategoria" class="form-label"></label>
-                    <input asp-for="IdCategoria" class="form-control" />
-                    <span asp-validation-for="IdCategoria" class="text-danger"></span>
+                    <label asp-for="CategoriaId" class="form-label"></label>
+                    <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.ListaCategorias"></select>
                 </div>
                 <div class="mb-3">
                     <label asp-for="NBath" class="form-label"></label>
@@ -90,74 +72,6 @@
                     <input type="submit" value="Create" class="btn btn-primary" />
                 </div>
 
-=======
-<<<<<<< Updated upstream
-<div class="container">
-    <h1>Criar</h1>
-<h4>Habitação</h4>
-=======
-
-<h1>Criar</h1>
-
-<h4>Habitação</h4>
-<hr />
->>>>>>> Stashed changes
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdContrato" class="control-label"></label>
-                <input asp-for="IdContrato" class="form-control" />
-                <span asp-validation-for="IdContrato" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Disponivel" /> @Html.DisplayNameFor(model => model.Disponivel)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Localizacao" class="control-label"></label>
-                <input asp-for="Localizacao" class="form-control" />
-                <span asp-validation-for="Localizacao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdArrendamento" class="control-label"></label>
-                <input asp-for="IdArrendamento" class="form-control" />
-                <span asp-validation-for="IdArrendamento" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="IdLocador" class="control-label"></label>
-                <input asp-for="IdLocador" class="form-control" />
-                <span asp-validation-for="IdLocador" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Avaliacao" class="control-label"></label>
-                <input asp-for="Avaliacao" class="form-control" />
-                <span asp-validation-for="Avaliacao" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Danos" class="control-label"></label>
-                <input asp-for="Danos" class="form-control" />
-                <span asp-validation-for="Danos" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Observacoes" class="control-label"></label>
-                <input asp-for="Observacoes" class="form-control" />
-                <span asp-validation-for="Observacoes" class="text-danger"></span>
-            </div>
-                
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
->>>>>>> main
                 
 
               

@@ -19,9 +19,9 @@
                 <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdContrato" class="control-label"></label>
-                <input asp-for="IdContrato" class="form-control" />
-                <span asp-validation-for="IdContrato" class="text-danger"></span>
+                <label asp-for="ContratoId" class="control-label"></label>
+                <input asp-for="ContratoId" class="form-control" />
+                <span asp-validation-for="ContratoId" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -34,15 +34,15 @@
                 <span asp-validation-for="Localizacao" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdArrendamento" class="control-label"></label>
-                <input asp-for="IdArrendamento" class="form-control" />
-                <span asp-validation-for="IdArrendamento" class="text-danger"></span>
+                <label asp-for="ArrendamentoId" class="control-label"></label>
+                <input asp-for="ArrendamentoId" class="form-control" />
+                <span asp-validation-for="ArrendamentoId" class="text-danger"></span>
             </div>
             
             <div class="form-group">
-                <label asp-for="IdLocador" class="control-label"></label>
-                <input asp-for="IdLocador" class="form-control" />
-                <span asp-validation-for="IdLocador" class="text-danger"></span>
+                <label asp-for="LocadorId" class="control-label"></label>
+                <input asp-for="LocadorId" class="form-control" />
+                <span asp-validation-for="LocadorId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Avaliacao" class="control-label"></label>
@@ -50,7 +50,7 @@
                 <span asp-validation-for="Avaliacao" class="text-danger"></span>
             </div>
             
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Danos" class="control-label"></label>
                 <input asp-for="Danos" class="form-control" />
                 <span asp-validation-for="Danos" class="text-danger"></span>
@@ -59,7 +59,7 @@
                 <label asp-for="Observacoes" class="control-label"></label>
                 <input asp-for="Observacoes" class="form-control" />
                 <span asp-validation-for="Observacoes" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

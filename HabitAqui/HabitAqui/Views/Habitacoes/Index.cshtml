@@ -15,10 +15,10 @@
                     <h1 class="mb-3">Propriedades</h1>
                     <p>Aqui pode pesquisar a nossa seleção de habitações! Clique na que desejar para ver mais informações.</p>
 
-                    <form asp-controller="Habitacoes" asp-action="Search" method="GET">
+                    <form asp-controller="Habitacoes" asp-action="Search" method="POST">
                         <div class="input-group">
-                            <input type="text" name="textoAPesquisar"
-                                   id="textoAPesquisar" placeholder="Pesquisar..."
+                            <input type="text" name="TextoAPesquisar"
+                                   id="TextoAPesquisar" placeholder="Pesquisar..."
                                    class="form-control form-control-sm" />
 
                             <button type="submit" class="btn btn-default ms-2 me-2">
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="p-4 pb-0">
                                     <h5 class="text-primary mb-3">$12,345</h5>
-                                    <a class="d-block h5 mb-2" a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Habitacao.Id">@Habitacao.Nome</a>
+                                    <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Habitacao.Id" class="d-block h5 mb-2">@Habitacao.Nome</a>
                                     <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Habitacao.Localizacao</p>
                                 </div>
                                 <div class="d-flex border-top">

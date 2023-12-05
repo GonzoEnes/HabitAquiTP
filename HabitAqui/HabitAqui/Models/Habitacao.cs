@@ -1,5 +1,6 @@
 ﻿using Humanizer.Bytes;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Xml.Linq;
 
 namespace HabitAqui.Models
@@ -13,15 +14,15 @@ namespace HabitAqui.Models
 
         [Display(Name = "Tipo", Prompt = "Qual é o tipo da habitação?")]
         public string? Tipo { get; set; }
-        public int IdContrato { get; set; }
+        public int? ContratoId { get; set; }
         
-        //[Display(Name = "Contrato", Prompt = "Contrato associado à habitação")]
-        //public Contrato Contrato { get; set; }
+        [Display(Name = "Contrato", Prompt = "Contrato associado à habitação")]
+        public Contrato? Contrato { get; set; }
 
-        public int IdCategoria { get; set; }
+        public int? CategoriaId { get; set; }
 
-        //[Display(Name = "Categoria", Prompt = "Qual a categoria desta habitação?")]
-        //public Categoria Categoria { get; set; }
+        [Display(Name = "Categoria", Prompt = "Qual a categoria desta habitação?")]
+        public Categoria? Categoria { get; set; }
 
         [Display(Name = "Disponível", Prompt = "Esta habitação irá estar disponível?")]
         public bool Disponivel { get; set; }
@@ -38,50 +39,28 @@ namespace HabitAqui.Models
         [Display(Name = "Área", Prompt = "Qual é a área (em metros quadrados) desta habitação?")]
         public decimal? Area { get; set; }
 
-<<<<<<< Updated upstream
-        public int IdArrendamento { get; set; }
+        public int? ArrendamentoId { get; set; }
 
         //[Display(Name = "Arrendamento", Prompt = "Arrendamento desta habitação")]
         //public Arrendamento Arrendamento { get; set; }
-=======
-        public TipoHabitacao TipoHabitacao { get; set; } // se é apartamento ou casa ou bla bla bla
->>>>>>> Stashed changes
 
-        public int IdLocador { get; set; }
+        public int? LocadorId { get; set; }
 
-        //[Display(Name = "Locador", Prompt = "Quem é o Locador desta habitação?")]
-        //public Locador Locador { get; set; }
+        [Display(Name = "Locador", Prompt = "Quem é o Locador desta habitação?")]
+        public Locador? Locador { get; set; }
 
         [Display(Name = "Avaliação", Prompt = "As habitações não podem ter avaliações quando criadas, mudar depois")]
         public string Avaliacao { get; set; }
+       
+        public int? EstadoId { get; set; }
 
-<<<<<<< Updated upstream
         [Display(Name = "Estado da Habitação", Prompt = "Como se encontra a habitação?")]
-<<<<<<< HEAD
-        public string? Estado { get; set; } // novo, renovado e usado
-=======
-        public string Estado { get; set; } // novo, renovado e usado
-=======
-        public int IdEstado { get; set; }
+        public Estado? Estado { get; set; }
 
-        public Estado Estado { get; set; } // novo, renovado e usado
->>>>>>> Stashed changes
->>>>>>> main
+        public int? TipologiaId { get; set; }
 
-        [Display(Name = "Danos", Prompt = "A habitação possui alguns danos?")]
-        public string Danos { get; set; }
+        public Tipologia? Tipologia { get; set; }
 
-        [Display(Name = "Observações", Prompt = "Deixe umas observações sobre a habitação")]
-        public string Observacoes { get; set; }
-
-<<<<<<< HEAD
         public string? Image { get; set; }
-=======
-        public Tipologia Tipologia { get; set; }
-
-        public int IdTipologia { get; set; }
-
-        public string Image { get; set; }
->>>>>>> main
     }
 }

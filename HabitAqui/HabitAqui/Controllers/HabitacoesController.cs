@@ -43,6 +43,7 @@ namespace HabitAqui.Controllers
 
             var habitacao = await _context.Habitacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
+            
             if (habitacao == null)
             {
                 return NotFound();
@@ -54,6 +55,10 @@ namespace HabitAqui.Controllers
         // GET: Habitacoes/Create
         public IActionResult Create()
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+
             return View();
         }
 
@@ -62,16 +67,20 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,IdContrato,Disponivel,Localizacao,IdArrendamento,IdTipo,IdLocador,Avaliacao,Danos,Observacoes,Image,IdCategoria,NBath,NBedroom,Area,Estado,Tipo")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,ContratoId,Disponivel,Localizacao,ArrendamentoId,TipoId,LocadorId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            
+            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+
             if (ModelState.IsValid)
             {
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ListaDeHabitacoes"] = new SelectList(_context.Habitacoes.OrderBy(c => c.Disponivel).ToList(), "Id", "Nome");
 
+            ViewData["ListaDeHabitacoes"] = new SelectList(_context.Habitacoes.OrderBy(c => c.Disponivel).ToList(), "Id", "Nome");
             return View(habitacao);
         }
 
@@ -106,8 +115,6 @@ namespace HabitAqui.Controllers
             {
                 pesquisaHabitacoes.ListaHabitacoes =
                     await _context.Habitacoes.Where(c => c.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar)
-                                                || c.Danos.Contains(pesquisaHabitacoes.TextoAPesquisar)
-                                                || c.Estado.Contains(pesquisaHabitacoes.TextoAPesquisar) 
                                                 || c.Localizacao.Contains(pesquisaHabitacoes.TextoAPesquisar)
                                                 ).OrderBy(c => c.Nome).ToListAsync();
                 pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
@@ -127,8 +134,6 @@ namespace HabitAqui.Controllers
             {
                 pesquisaHabit.ListaHabitacoes =
                     await _context.Habitacoes.Where(c => c.Nome.Contains(TextoAPesquisar)
-                                                || c.Observacoes.Contains(TextoAPesquisar)
-                                                || c.Estado.Contains(TextoAPesquisar)
                                                 || c.Localizacao.Contains(TextoAPesquisar)
                                                 ).ToListAsync();
                 pesquisaHabit.TextoAPesquisar = TextoAPesquisar;
@@ -145,6 +150,10 @@ namespace HabitAqui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,IdContrato,Disponivel,Localizacao,IdArrendamento,IdTipo,IdLocador,Avaliacao,IdEstado,Danos,Observacoes")] Habitacao habitacao)
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+
             if (id != habitacao.Id)
             {
                 return NotFound();

@@ -1,6 +1,6 @@
 ﻿namespace HabitAqui.Models
 {
-    public class Tipologia
+    public class Tipologia // se é casa, apartamento, quarto...
     {
         public int Id { get; set; }
 

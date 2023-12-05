@@ -856,7 +856,6 @@ C:\Users\Goncalo\Desktop\ISEC\PWEB\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net
 C:\Users\Goncalo\Desktop\ISEC\PWEB\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.pdb
 C:\Users\Goncalo\Desktop\ISEC\PWEB\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.genruntimeconfig.cache
 C:\Users\Goncalo\Desktop\ISEC\PWEB\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\ref\HabitAqui.dll
-<<<<<<< Updated upstream
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\bin\Debug\net6.0\appsettings.json
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\bin\Debug\net6.0\HabitAqui.staticwebassets.runtime.json
@@ -1143,7 +1142,6 @@ C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.pdb
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.genruntimeconfig.cache
 C:\Users\Goncalo\Documents\GitHub\HabitAquiTP\HabitAqui\HabitAqui\obj\Debug\net6.0\ref\HabitAqui.dll
-<<<<<<< HEAD
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\bin\Debug\net6.0\appsettings.json
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\bin\Debug\net6.0\HabitAqui.staticwebassets.runtime.json
@@ -1431,6 +1429,3 @@ C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.pdb
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\net6.0\HabitAqui.genruntimeconfig.cache
 C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\obj\Debug\net6.0\ref\HabitAqui.dll
-=======
->>>>>>> Stashed changes
->>>>>>> main
