@@ -21,6 +21,6 @@ namespace HabitAqui.Data
 
         public DbSet<Habitacao> Habitacoes { get; set; }
 
-        public DbSet<Locador> Locadores { get; set; }
+        public DbSet<Tipologia> Tipologia { get; set; }
     }
 }

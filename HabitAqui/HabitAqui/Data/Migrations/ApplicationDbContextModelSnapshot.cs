@@ -115,13 +115,35 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<decimal?>("CustoArrendamento")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("DiasPeriodoArrendamento")
+                    b.Property<DateTime>("DataFinal")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataInicio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DataPedido")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("HabitacaoId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("HabitacaoId");
 
                     b.ToTable("Arrendamentos");
                 });
@@ -133,6 +155,13 @@ namespace HabitAqui.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Disponivel")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Nome")
                         .IsRequired()
@@ -203,18 +232,17 @@ namespace HabitAqui.Data.Migrations
                     b.Property<decimal?>("Area")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("ArrendamentoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Avaliacao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal?>("Avaliacao")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("CategoriaId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ContratoId")
                         .HasColumnType("int");
+
+                    b.Property<decimal?>("Custo")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Disponivel")
                         .HasColumnType("bit");
@@ -224,9 +252,6 @@ namespace HabitAqui.Data.Migrations
 
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("LocadorId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Localizacao")
                         .IsRequired()
@@ -242,9 +267,6 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Tipo")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("TipologiaId")
                         .HasColumnType("int");
 
@@ -256,32 +278,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("EstadoId");
 
-                    b.HasIndex("LocadorId");
-
                     b.HasIndex("TipologiaId");
 
                     b.ToTable("Habitacoes");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.Locador", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Avaliacao")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locadores");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Tipologia", b =>
@@ -438,10 +437,33 @@ namespace HabitAqui.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HabitAqui.Models.Arrendamento", b =>
+                {
+                    b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId");
+
+                    b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
+                        .WithMany("Arrendamentos")
+                        .HasForeignKey("HabitacaoId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Habitacao");
+                });
+
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.HasOne("HabitAqui.Models.Categoria", "Categoria")
-                        .WithMany()
+                        .WithMany("Habitacoes")
                         .HasForeignKey("CategoriaId");
 
                     b.HasOne("HabitAqui.Models.Contrato", "Contrato")
@@ -452,10 +474,6 @@ namespace HabitAqui.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EstadoId");
 
-                    b.HasOne("HabitAqui.Models.Locador", "Locador")
-                        .WithMany()
-                        .HasForeignKey("LocadorId");
-
                     b.HasOne("HabitAqui.Models.Tipologia", "Tipologia")
                         .WithMany()
                         .HasForeignKey("TipologiaId");
@@ -465,8 +483,6 @@ namespace HabitAqui.Data.Migrations
                     b.Navigation("Contrato");
 
                     b.Navigation("Estado");
-
-                    b.Navigation("Locador");
 
                     b.Navigation("Tipologia");
                 });
@@ -520,6 +536,16 @@ namespace HabitAqui.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Categoria", b =>
+                {
+                    b.Navigation("Habitacoes");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
+                {
+                    b.Navigation("Arrendamentos");
                 });
 #pragma warning restore 612, 618
         }

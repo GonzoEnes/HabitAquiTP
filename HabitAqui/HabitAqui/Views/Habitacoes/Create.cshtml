@@ -35,20 +35,6 @@
                     <span asp-validation-for="Localizacao" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="ArrendamentoId" class="form-label"></label>
-                    <input asp-for="ArrendamentoId" class="form-control" />
-                    <span asp-validation-for="ArrendamentoId" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Avaliacao" class="form-label"></label>
-                    <input asp-for="Avaliacao" class="form-control" />
-                    <span asp-validation-for="Avaliacao" class="text-danger"></span>
-                </div>
-                @* <div class="mb-3">
-                    <label asp-for="LocadorId" class="form-label"></label>
-                    <select asp-for="LocadorId" class="form-control" asp-items="ViewBag.ListaLocadores"></select>
-                </div> *@
-                <div class="mb-3">
                     <label asp-for="CategoriaId" class="form-label"></label>
                     <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.ListaCategorias"></select>
                 </div>
@@ -57,6 +43,11 @@
                     <input asp-for="NBath" class="form-control" />
                     <span asp-validation-for="NBath" class="text-danger"></span>
                 </div>
+                <div class="mb-3">
+                    <label asp-for="TipologiaId" class="form-label"></label>
+                    <select asp-for="TipologiaId" asp-items="@ViewBag.ListaTipologias" class="form-control"></select>
+                </div>
+
                 <div class="mb-3">
                     <label asp-for="Area" class="form-label"></label>
                     <input asp-for="Area" class="form-control" />
@@ -71,6 +62,11 @@
                     <label asp-for="Estado" class="form-label"></label>
                     <input asp-for="Estado" class="form-control" />
                     <span asp-validation-for="Estado" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Custo" class="form-label"></label>
+                    <input asp-for="Custo" class="form-control" />
+                    <span asp-validation-for="Custo" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">

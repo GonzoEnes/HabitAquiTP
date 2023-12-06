@@ -40,7 +40,7 @@
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.ContratoId)</dd>
 
                         <dt class="col-sm-3 fw-bold">Categoria:</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.CategoriaId)</dd>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Categoria.Nome)</dd>
 
                         <dt class="col-sm-3 fw-bold">Disponível:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Disponivel)</dd>
@@ -48,14 +48,19 @@
                         <dt class="col-sm-3 fw-bold">Localização:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Localizacao)</dd>
 
-                        <dt class="col-sm-3 fw-bold">Arrendamento:</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.ArrendamentoId)</dd>
+                        @if (Model.Avaliacao == null)
+                        {
+                            <dt class="col-sm-3 fw-bold">Avaliação:</dt>
+                            <dd class="col-sm-9">Esta propriedade não possui avaliação de momento.</dd>
+                        }
+                        else
+                        {
+                            <dt class="col-sm-3 fw-bold">Avaliação:</dt>
+                            <dd class="col-sm-9">@Html.DisplayFor(model => model.Avaliacao) / 5.00</dd>
+                        }
 
-                        <dt class="col-sm-3 fw-bold">Locador:</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.LocadorId)</dd>
-
-                        <dt class="col-sm-3 fw-bold">Avaliação:</dt>
-                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Avaliacao)</dd>
+                        <dt class="col-sm-3 fw-bold">Tipo:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Tipologia.Nome)</dd>
 @*
                         <dt class="col-sm-3 fw-bold">Danos:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Danos)</dd>
@@ -66,12 +71,12 @@
                 </div>
             </div>
 
-            <div class="col-lg-6 position-relative overflow-hidden wow slideInRight" data-wow-delay="0.1s">
+            @*<div class="col-lg-6 position-relative overflow-hidden wow slideInRight" data-wow-delay="0.1s">
                 <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Model.Id">
                     <img class="img-fluid" src="~/img/@Model?.Image" alt="">
                 </a>
-                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Model.Tipo</div>
-            </div>
+                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Model.Tipologia.Nome</div>
+            </div>*@
 
             <div class="col-lg-6">
                 <div class="text-start mb-5 wow slideInLeft" data-wow-delay="0.1s">

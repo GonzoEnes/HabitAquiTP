@@ -12,9 +12,10 @@ namespace HabitAqui.Models
         [Display(Name = "Nome", Prompt = "Qual o nome da habitação?")]
         public string Nome { get; set; }
 
-        [Display(Name = "Tipo", Prompt = "Qual é o tipo da habitação?")]
-        public string? Tipo { get; set; }
         public int? ContratoId { get; set; }
+
+        [Display(Name = "Custo", Prompt = "Insira o custo da habitação")]
+        public decimal? Custo { get; set; }
         
         [Display(Name = "Contrato", Prompt = "Contrato associado à habitação")]
         public Contrato? Contrato { get; set; }
@@ -39,19 +40,11 @@ namespace HabitAqui.Models
         [Display(Name = "Área", Prompt = "Qual é a área (em metros quadrados) desta habitação?")]
         public decimal? Area { get; set; }
 
-        public int? ArrendamentoId { get; set; }
+        public ICollection<Arrendamento>? Arrendamentos { get; set; }
 
-        //[Display(Name = "Arrendamento", Prompt = "Arrendamento desta habitação")]
-        //public Arrendamento Arrendamento { get; set; }
+        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5 estrelas, permitindo valores intermédios (ex: 4.52)")]
+        public decimal? Avaliacao { get; set; }
 
-        public int? LocadorId { get; set; }
-
-        [Display(Name = "Locador", Prompt = "Quem é o Locador desta habitação?")]
-        public Locador? Locador { get; set; }
-
-        [Display(Name = "Avaliação", Prompt = "As habitações não podem ter avaliações quando criadas, mudar depois")]
-        public string Avaliacao { get; set; }
-       
         public int? EstadoId { get; set; }
 
         [Display(Name = "Estado da Habitação", Prompt = "Como se encontra a habitação?")]
@@ -59,6 +52,7 @@ namespace HabitAqui.Models
 
         public int? TipologiaId { get; set; }
 
+        [Display(Name = "Tipo de Habitação", Prompt = "Escolha o tipo de habitação")]
         public Tipologia? Tipologia { get; set; }
 
         public string? Image { get; set; }

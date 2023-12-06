@@ -1,4 +1,6 @@
-﻿@model IEnumerable<HabitAqui.Models.Habitacao>
+﻿@*@model IEnumerable<HabitAqui.Models.Habitacao>*@
+
+@model HabitAqui.ViewModels.HabitacoesViewModel;
 
 @{
     ViewData["Title"] = "Index";
@@ -21,10 +23,18 @@
                                    id="TextoAPesquisar" placeholder="Pesquisar..."
                                    class="form-control form-control-sm" />
 
+                            <select asp-for="Ordenar" class="form-control ms-2">
+                                <option selected>Ordenar Por</option>
+                                <option value="1">Maior Avaliação</option>
+                                <option value="2">Menor Avaliação</option>
+                                <option value="3">Menor Custo</option>
+                                <option value="4">Maior Custo</option>
+                            </select>
+
                             <button type="submit" class="btn btn-default ms-2 me-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00B98E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning" aria-label="Search">
-                                    <circle cx="11" cy="11" r="8"/>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                 </svg>
                             </button>
                         </div>
@@ -41,21 +51,19 @@
 </div>
 
 
-
-
         <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
                 <div class="row g-4">
-                    @foreach (var Habitacao in Model)
+                    @foreach (var Habitacao in Model.ListaHabitacoes)
                     {
                         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                             <div class="property-item rounded overflow-hidden">
                                 <div class="position-relative overflow-hidden">
                                     <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Habitacao.Id"><img class="img-fluid" src="~/img/@Habitacao.Image" alt=""></a>
-                                    <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Habitacao.Tipo</div>
+                                    <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Habitacao.Tipologia.Nome</div>
                                 </div>
                                 <div class="p-4 pb-0">
-                                    <h5 class="text-primary mb-3">$12,345</h5>
+                                    <h5 class="text-primary mb-3">@Habitacao.Custo €</h5>
                                     <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Habitacao.Id" class="d-block h5 mb-2">@Habitacao.Nome</a>
                                     <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Habitacao.Localizacao</p>
                                 </div>
