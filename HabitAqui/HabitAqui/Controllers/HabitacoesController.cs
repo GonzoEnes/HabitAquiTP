@@ -25,42 +25,12 @@ namespace HabitAqui.Controllers
 
         // GET: Habitacoes
         [Authorize]
-        public async Task<IActionResult> Index(int? OrdenarPor)
+        public async Task<IActionResult> Index()
         {
-
             var habitacoesViewModel = new HabitacoesViewModel();
-
             habitacoesViewModel.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").ToListAsync();
 
-            if (OrdenarPor.HasValue) {
-                
-                habitacoesViewModel.Ordenar = (int)OrdenarPor;
-
-                switch (habitacoesViewModel.Ordenar)
-                {
-                    case 1: // MAIOR AVALIACAO
-                        habitacoesViewModel.ListaHabitacoes = habitacoesViewModel.ListaHabitacoes.OrderBy(h => h.Avaliacao).ToList();
-                        break;
-                    case 2: // MENOR AVALIACAO
-                        habitacoesViewModel.ListaHabitacoes = habitacoesViewModel.ListaHabitacoes.OrderByDescending(h => h.Avaliacao).ToList();
-                        break;
-                    case 3: // MENOR CUSTO
-                        habitacoesViewModel.ListaHabitacoes = habitacoesViewModel.ListaHabitacoes.OrderBy(h => h.Custo).ToList();
-                        break;
-                    case 4: // MAIOR CUSTO
-                        habitacoesViewModel.ListaHabitacoes = habitacoesViewModel.ListaHabitacoes.OrderByDescending(h => h.Custo).ToList();
-                        break;
-                    default:
-                        break;
-
-                }
-            }
-
             return View(habitacoesViewModel);
-            
-            //return _context.Habitacoes != null ? 
-            //            View(await _context.Habitacoes.Include("Categoria").ToListAsync()) :
-            //            Problem("Entity set 'ApplicationDbContext.Habitacoes'  is null.");
         }
 
         // GET: Habitacoes/Details/5
@@ -100,7 +70,7 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,ContratoId,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
             
@@ -150,13 +120,60 @@ namespace HabitAqui.Controllers
                     c.Categoria.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar));
             }
 
-            if (pesquisaHabitacoes.DataInicioPesquisa != default && pesquisaHabitacoes.DataFinalPesquisa != default)
+            IQueryable<Habitacao> ListaFiltrada = query;
+
+            
+                foreach (var habitacao in query)
+                {
+                    bool disponivel = true;
+
+                    foreach (var arrendamento in habitacao.Arrendamentos)
+                    {
+                        if ((arrendamento.DataInicio <= pesquisaHabitacoes.DataFinalPesquisa && arrendamento.DataFinal >= pesquisaHabitacoes.DataInicioPesquisa) || (arrendamento.DataFinal >= pesquisaHabitacoes.DataInicioPesquisa && arrendamento.DataInicio <= pesquisaHabitacoes.DataFinalPesquisa))
+                        {
+                            disponivel = false;
+                            break;
+                        }
+                    }
+
+                    if (!disponivel)
+                    {
+                        ListaFiltrada = ListaFiltrada.Where(c => c.Id != habitacao.Id);
+                    }
+                }
+
+                query = ListaFiltrada;
+
+                pesquisaHabitacoes.ListaHabitacoes = await query.ToListAsync();
+
+                pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
+
+                string ordenarValue = Request.Form["Ordenar"]; // get value from select in search
+
+            if (int.TryParse(ordenarValue, out int ordenar))
             {
-                query = query.Where(c => c.Contrato.DataInicio >= pesquisaHabitacoes.DataInicioPesquisa && c.Contrato.DataFim <= pesquisaHabitacoes.DataFinalPesquisa);
+                pesquisaHabitacoes.Ordenar = ordenar;
+
+                switch (pesquisaHabitacoes.Ordenar)
+                {
+                    case 1:
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.Custo).ToList();
+                        break;
+                    case 2:
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Custo).ToList();
+                        break;
+                    case 3:
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.Avaliacao).ToList();
+                        break;
+                    case 4:
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Avaliacao).ToList();
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            pesquisaHabitacoes.ListaHabitacoes = await query.OrderBy(c => c.Nome).ToListAsync();
-            pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
+            //pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
 
             return View(pesquisaHabitacoes);
         }
@@ -172,12 +189,13 @@ namespace HabitAqui.Controllers
             else
             {
                 pesquisaHabit.ListaHabitacoes =
-                    await _context.Habitacoes.Include("Categoria").Where(c => c.Nome.Contains(TextoAPesquisar)
+                    await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Where(c => c.Nome.Contains(TextoAPesquisar)
                                                 || c.Localizacao.Contains(TextoAPesquisar)
                                                 ).ToListAsync();
                 pesquisaHabit.TextoAPesquisar = TextoAPesquisar;
  
             }
+
             pesquisaHabit.NResults = pesquisaHabit.ListaHabitacoes.Count();
 
             return View(pesquisaHabit);

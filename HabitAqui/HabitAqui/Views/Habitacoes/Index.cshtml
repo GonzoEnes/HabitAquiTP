@@ -12,24 +12,23 @@
         <div class="row g-0 gx-5 align-items-end">
             <div class="col-lg-6">
                 <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
-                    
 
                     <h1 class="mb-3">Propriedades</h1>
                     <p>Aqui pode pesquisar a nossa seleção de habitações! Clique na que desejar para ver mais informações.</p>
 
-                    <form asp-controller="Habitacoes" asp-action="Search" method="POST">
+                    <form asp-controller="Habitacoes" asp-action="Search" method="post">
                         <div class="input-group">
                             <input type="text" name="TextoAPesquisar"
                                    id="TextoAPesquisar" placeholder="Pesquisar..."
                                    class="form-control form-control-sm" />
 
                             <select asp-for="Ordenar" class="form-control ms-2">
-                                <option selected>Ordenar Por</option>
-                                <option value="1">Maior Avaliação</option>
-                                <option value="2">Menor Avaliação</option>
-                                <option value="3">Menor Custo</option>
-                                <option value="4">Maior Custo</option>
-                            </select>
+                                    <option selected>Ordenar Por</option>
+                                    <option value="1">Menor Custo</option>
+                                    <option value="2">Maior Custo</option>
+                                    <option value="3">Menor Avaliação</option>
+                                    <option value="4">Maior Avaliação</option>
+                                </select>
 
                             <button type="submit" class="btn btn-default ms-2 me-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00B98E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning" aria-label="Search">
@@ -49,7 +48,6 @@
         </div>
     </div>
 </div>
-
 
         <div class="tab-content">
             <div id="tab-1" class="tab-pane fade show p-0 active">
@@ -80,91 +78,3 @@
         </div>
     </div>
 </div>
-
-
-@* <table class="table">
-    <thead>
-        <tr>
-            <th>
-@Html.DisplayNameFor(model => model.Nome)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.IdContrato)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.Disponivel)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.Localizacao)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.IdArrendamento)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.IdTipo)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.IdLocador)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.Avaliacao)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.IdEstado)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.Danos)
-            </th>
-            <th>
-@Html.DisplayNameFor(model => model.Observacoes)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model)
-{
-            <tr>
-                <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.IdContrato)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.Disponivel)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.Localizacao)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.IdArrendamento)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.IdTipo)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.IdLocador)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.Avaliacao)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.IdEstado)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.Danos)
-                </td>
-                <td>
-            @Html.DisplayFor(modelItem => item.Observacoes)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-}
-    </tbody>
-</table> *@
-

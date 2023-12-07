@@ -12,14 +12,9 @@ namespace HabitAqui.Models
         [Display(Name = "Nome", Prompt = "Qual o nome da habitação?")]
         public string Nome { get; set; }
 
-        public int? ContratoId { get; set; }
-
         [Display(Name = "Custo", Prompt = "Insira o custo da habitação")]
         public decimal? Custo { get; set; }
-        
-        [Display(Name = "Contrato", Prompt = "Contrato associado à habitação")]
-        public Contrato? Contrato { get; set; }
-
+       
         public int? CategoriaId { get; set; }
 
         [Display(Name = "Categoria", Prompt = "Qual a categoria desta habitação?")]

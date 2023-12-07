@@ -17,8 +17,6 @@ namespace HabitAqui.Data
 
         public DbSet<Categoria> Categorias { get; set; }
 
-        public DbSet<Contrato> Contratos { get; set; }
-
         public DbSet<Habitacao> Habitacoes { get; set; }
 
         public DbSet<Tipologia> Tipologia { get; set; }
