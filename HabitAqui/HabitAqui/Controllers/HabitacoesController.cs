@@ -172,7 +172,7 @@ namespace HabitAqui.Controllers
             else
             {
                 pesquisaHabit.ListaHabitacoes =
-                    await _context.Habitacoes.Include("Categoria").Where(c => c.Nome.Contains(TextoAPesquisar)
+                    await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Where(c => c.Nome.Contains(TextoAPesquisar)
                                                 || c.Localizacao.Contains(TextoAPesquisar)
                                                 ).ToListAsync();
                 pesquisaHabit.TextoAPesquisar = TextoAPesquisar;

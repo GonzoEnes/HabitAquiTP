@@ -5,7 +5,7 @@ namespace HabitAqui.ViewModels
 {
     public class HabitacoesViewModel
     {
-        public List<Habitacao> ListaHabitacoes;
+        public List<Habitacao>? ListaHabitacoes;
 
         public int NResults { get; set; }
 
