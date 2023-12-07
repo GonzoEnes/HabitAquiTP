@@ -17,13 +17,6 @@
                     <input asp-for="Nome" class="form-control" />
                     <span asp-validation-for="Nome" class="text-danger"></span>
                 </div>
-
-               @*  <div class="mb-3">
-                    <label asp-for="ContratoId" class="form-label"></label>
-                    <input asp-for="ContratoId" class="form-control" />
-                    <span asp-validation-for="ContratoId" class="text-danger"></span>
-                </div> *@
-
                 <div class="mb-3 form-check">
                     <input class="form-check-input" asp-for="Disponivel" />
                     <label class="form-check-label" for="Disponivel">@Html.DisplayNameFor(model => model.Disponivel)</label>
@@ -45,7 +38,7 @@
                 </div>
                 <div class="mb-3">
                     <label asp-for="TipologiaId" class="form-label"></label>
-                    <select asp-for="TipologiaId" asp-items="@ViewBag.ListaTipologias" class="form-control"></select>
+                    <select asp-for="TipologiaId" asp-items="ViewBag.ListaTipologias" class="form-control"></select>
                 </div>
 
                 <div class="mb-3">

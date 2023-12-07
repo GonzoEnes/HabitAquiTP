@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SQLitePCL;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace HabitAqui.Controllers
 {
@@ -27,6 +28,18 @@ namespace HabitAqui.Controllers
             var locationList = _context.Habitacoes.GroupBy(c => c.Localizacao).Select(group => group.FirstOrDefault());
 
             ViewData["LocalizacaoList"] = new SelectList(locationList.ToList(), "Id", "Localizacao");
+
+            var tipologiaIds = _context.Habitacoes
+    .Select(c => c.Tipologia.Id) // Assuming Tipologia has an Id property
+    .Distinct()
+    .ToList();
+
+            var tipologiaList = _context.Tipologia
+                .Where(t => tipologiaIds.Contains(t.Id))
+                .Select(t => t.Nome)
+                .ToList();
+
+            ViewData["TipologiaList"] = new SelectList(tipologiaList);
 
             return View();
         }

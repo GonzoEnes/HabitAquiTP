@@ -37,7 +37,7 @@ namespace HabitAqui.Models
 
         public ICollection<Arrendamento>? Arrendamentos { get; set; }
 
-        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5 estrelas, permitindo valores intermédios (ex: 4.52)")]
+        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5, permitindo valores intermédios (ex: 4.52)")]
         public decimal? Avaliacao { get; set; }
 
         public int? EstadoId { get; set; }
