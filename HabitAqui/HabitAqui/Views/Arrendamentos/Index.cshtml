@@ -1,0 +1,56 @@
+﻿@model IEnumerable<HabitAqui.Models.Arrendamento>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>Os meus arrendamentos</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Nome habitacao
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                Data Inicio
+            </th>
+            <th>
+                Data Fim
+            </th>
+            <th>
+                Preco
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ApplicationUser.UserName</td>
+                <td>@item.ApplicationUser.PrimeiroNome</td>
+                <td>@item.ApplicationUser.UltimoNome</td>
+                <td>@Html.DisplayFor(modelItem => item.Habitacao.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Habitacao.Estado)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataInicio)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataFinal)</td>
+                <td>@Html.DisplayFor(modelItem => item.CustoArrendamento)</td>
+                <td><a asp-action="Details" asp-route-id="@item.Id">Details</a> </td>
+            </tr>
+        }
+    </tbody>
+</table>
