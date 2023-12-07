@@ -12,5 +12,13 @@ namespace HabitAqui.Models
 
         [Display(Name = "Avaliação", Prompt = "Insira a avaliação desta empresa")]
         public int Avaliacao { get; set; }
+
+        [Display(Name = "Disponível")]
+        public bool Disponivel { get; set; }
+
+        [Display(Name = "Lista de Habitações")]
+        public ICollection<Habitacao> Habitacoes { get; set; }
+        public ICollection<Funcionario> Funcionarios { get; set; }
+        public ICollection<Gestor> Gestores { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace HabitAqui.Data
         public DbSet<Habitacao> Habitacoes { get; set; }
 
         public DbSet<Tipologia> Tipologia { get; set; }
+
+        public DbSet<HabitAqui.Models.Empresa>? Empresa { get; set; }
     }
 }

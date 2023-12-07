@@ -157,23 +157,31 @@ namespace HabitAqui.Controllers
                 switch (pesquisaHabitacoes.Ordenar)
                 {
                     case 1:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.Custo).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes  
+                            .OrderBy(c => c.Custo)
+                            .ToList();
                         break;
                     case 2:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Custo).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                            .OrderByDescending(c => c.Custo)
+                            .ToList();
                         break;
                     case 3:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.Avaliacao).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                            .Where(c => c.Avaliacao.HasValue)  
+                            .OrderBy(c => c.Avaliacao)
+                            .ToList();
                         break;
                     case 4:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Avaliacao).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                            .Where(c => c.Avaliacao.HasValue) 
+                            .OrderByDescending(c => c.Avaliacao)
+                            .ToList();
                         break;
                     default:
                         break;
                 }
             }
-
-            //pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
 
             return View(pesquisaHabitacoes);
         }

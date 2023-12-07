@@ -65,7 +65,20 @@
                                 <div class="p-4 pb-0">
                                     <h5 class="text-primary mb-3">@Habitacao.Custo €</h5>
                                     <a class="d-block h5 mb-2" href="">@Habitacao.Nome</a>
+                                @if (Habitacao.Avaliacao != null)
+                                {
+                                    <i class="fa fa-star" style="color:#00B98E;"></i>
+                                    <span class="me-2"> @Habitacao.Avaliacao / 5,00</span>
+
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star" style="color:#00B98E;"></i>
+                                    <span class="me-2">Sem avaliação!</span>
+                                }
                                     <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Habitacao.Localizacao</p>
+
+                                
                                 </div>
                                 <div class="d-flex border-top">
                                     <small class="flex-fill text-center border-end py-2"><i class="fa fa-ruler-combined text-primary me-2"></i>@Habitacao.Area m²</small>
@@ -139,6 +152,17 @@ else
                             <div class="p-4 pb-0">
                                 <h5 class="text-primary mb-3">@Habitacao.Custo €</h5>
                                 <a class="d-block h5 mb-2" href="">@Habitacao.Nome</a>
+                                @if (Habitacao.Avaliacao != null)
+                                {
+                                    <i class="fa fa-star" style="color:#00B98E;"></i>
+                                    <span class="me-2"> @Habitacao.Avaliacao / 5,00</span>
+
+                                }
+                                else
+                                {
+                                    <i class="fa fa-star" style="color:#00B98E;"></i>
+                                    <span class="me-2">Sem avaliação!</span>
+                                }
                                 <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Habitacao.Localizacao</p>
                             </div>
                             <div class="d-flex border-top">
