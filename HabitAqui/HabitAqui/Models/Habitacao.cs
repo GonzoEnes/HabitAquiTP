@@ -13,7 +13,7 @@ namespace HabitAqui.Models
         public string Nome { get; set; }
 
         [Display(Name = "Custo", Prompt = "Insira o custo da habitação")]
-        public decimal? Custo { get; set; }
+        public decimal Custo { get; set; }
        
         public int? CategoriaId { get; set; }
 
@@ -37,8 +37,8 @@ namespace HabitAqui.Models
 
         public ICollection<Arrendamento>? Arrendamentos { get; set; }
 
-        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5 estrelas, permitindo valores intermédios (ex: 4.52)")]
-        public decimal? Avaliacao { get; set; }
+        public decimal? MediaAvaliacoes { get; set; }   
+        public ICollection<Avaliacao>? Avaliacoes { get; set; }
 
         public int? EstadoId { get; set; }
 
@@ -51,5 +51,6 @@ namespace HabitAqui.Models
         public Tipologia? Tipologia { get; set; }
 
         public string? Image { get; set; }
+
     }
 }

@@ -57,17 +57,14 @@
                         <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
                         <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
                         <div>
-                            @if (this.User.IsInRole("Cliente") || this.User.IsInRole("Admin"))
+                            @if (this.User.IsInRole("Cliente"))
                             {
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Reservations
-                                    </a>
-                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" asp-controller="Arrendamentos" asp-action="Index">My reservations</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Arrendamentos" asp-action="PedidoArrendamento">New Reservation</a></li>
-                                    </ul>
-                                </li>
+                                <div class="nav-item dropdown">
+                                    <a class="nav-item nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
+                                </div>
+                                <div class="nav-item dropdown">
+                                    <a class="nav-item nav-link" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
+                                </div>
                             }
                             else if (this.User.IsInRole("Funcionario") || this.User.IsInRole("Gestor") )
                             {

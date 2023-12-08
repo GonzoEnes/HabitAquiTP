@@ -10,6 +10,7 @@ using HabitAqui.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using HabitAqui.ViewModels;
 
 namespace HabitAqui.Controllers
 {
@@ -37,6 +38,7 @@ namespace HabitAqui.Controllers
         {
             var reservations = _context.Arrendamentos.
             Include(a => a.Habitacao).
+            Include(a => a.Habitacao.Tipologia).
             Include(a => a.ApplicationUser).
             Where(a => a.ApplicationUserId == _userManager.GetUserId(User));
             return View(await reservations.ToListAsync());
@@ -50,26 +52,81 @@ namespace HabitAqui.Controllers
                 return NotFound();
             }
 
-            var arrendamento = await _context.Arrendamentos
+            var avaliacao = await _context.Arrendamentos
                 .Include(a => a.ApplicationUser)
-                .Include(a => a.Estado)
                 .Include(a => a.Habitacao)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (arrendamento == null)
+            if (avaliacao == null)
             {
                 return NotFound();
             }
 
-            return View(arrendamento);
+            return View(avaliacao);
         }
 
+
         // GET: Arrendamentos/Create
-        public IActionResult Create()
+        public IActionResult Create(int? id)
         {
+            ViewData["NomeHabitacao"] = new SelectList(_context.Habitacoes.Where(c => c.Id == id).ToList(), "Id", "Nome");
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id");
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id");
             return View();
+        }
+
+        public IActionResult CalculaPreco([Bind("DataInicio,DataFinal,HabitacaoId")] ArrendamentosViewModel pedido)
+        {
+
+            double NrDays = 0;
+
+            if (pedido.DataInicio < DateTime.Now)
+                ModelState.AddModelError("DataInicio", "The start date must be after the current time");
+            if (pedido.DataInicio > pedido.DataFinal)
+                ModelState.AddModelError("DataInicio", "The start date cannot be greater than the end date");
+
+            var habitacao = _context.Habitacoes.Include("Arrendamentos").Include("Tipologia").Include("Categoria").FirstOrDefault(v => v.Id == pedido.HabitacaoId);
+            if (habitacao == null)
+            {
+                ModelState.AddModelError("vehicleId", "Invalid chosen vehicle");
+            }
+
+            bool disponivel = true;
+            // Iterate through each reservation for this vehicle
+            foreach (Arrendamento arrendamento in habitacao.Arrendamentos)
+            {
+                // Check if the time frame of this reservation overlaps with the time frame we're searching for
+                if ((arrendamento.DataInicio <= pedido.DataFinal && arrendamento.DataFinal >= pedido.DataInicio) ||
+                    (arrendamento.DataFinal >= pedido.DataInicio && arrendamento.DataInicio <= pedido.DataFinal))
+                {
+                    disponivel = false;
+                    break;
+                }
+            }
+            // If the vehicle is not available, remove it from the filtered search results
+            if (!disponivel)
+            {
+                ModelState.AddModelError("BeginDate", "Vehicle already has reservations for choosen time period");
+            }
+
+            if (ModelState.IsValid)
+            {
+                NrDays = (pedido.DataFinal - pedido.DataInicio).TotalDays;
+
+                Arrendamento x = new Arrendamento();
+                x.DataFinal = pedido.DataFinal;
+                x.DataInicio = pedido.DataInicio;
+                x.HabitacaoId = pedido.HabitacaoId;
+                x.DataPedido = DateTime.Now;
+                x.CustoArrendamento = Math.Round(habitacao.Custo * (decimal)NrDays);
+                x.Habitacao = habitacao;
+                x.Confirmado = false;
+
+                return View("Create", x);
+
+            }
+
+            return View("pedido", pedido);
         }
 
         // POST: Arrendamentos/Create

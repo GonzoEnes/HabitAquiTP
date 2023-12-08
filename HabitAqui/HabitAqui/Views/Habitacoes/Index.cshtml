@@ -40,17 +40,20 @@
                     </form>
                 </div>
             </div>
+            @if (User.IsInRole("Funcionario") || User.IsInRole("Gestor"))
+            {
             <div class="col-lg-6">
                 <div class="text-end mx-auto mb-5 wow slideInRight" data-wow-delay="0.1s">
-                    <a class="btn btn-success" asp-controller="Arrendamentos" asp-action="PedidoArrendamento">Nova Habitação</a>
+                    <a class="btn btn-success" asp-controller="Habitacoes" asp-action="Create">Nova Habitação</a>
                 </div>
-            </div>
+            </div> 
+            }
         </div>
     </div>
 </div>
 
-        <div class="tab-content">
-            <div id="tab-1" class="tab-pane fade show p-0 active">
+<div class="tab-content">
+           <div id="tab-1" class="tab-pane fade show p-0 active">
                 <div class="row g-4">
                     @foreach (var Habitacao in Model.ListaHabitacoes)
                     {

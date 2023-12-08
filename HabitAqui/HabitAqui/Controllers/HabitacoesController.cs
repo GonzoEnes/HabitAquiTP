@@ -163,10 +163,10 @@ namespace HabitAqui.Controllers
                         pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Custo).ToList();
                         break;
                     case 3:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.Avaliacao).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderBy(c => c.MediaAvaliacoes).ToList();
                         break;
                     case 4:
-                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.Avaliacao).ToList();
+                        pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.OrderByDescending(c => c.MediaAvaliacoes).ToList();
                         break;
                     default:
                         break;

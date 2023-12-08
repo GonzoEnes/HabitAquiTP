@@ -76,6 +76,26 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xQZWRpZG9BcnJlbmRhbWVudG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Avaliacoes/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhbGlhY29lc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Avaliacoes/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhbGlhY29lc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Avaliacoes/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhbGlhY29lc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Avaliacoes/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhbGlhY29lc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Avaliacoes/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZhbGlhY29lc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/joaom/OneDrive/Desktop/HabitAquiTP/HabitAqui/HabitAqui/Views/Categorias/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
