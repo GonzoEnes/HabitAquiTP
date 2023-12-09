@@ -1,0 +1,37 @@
+﻿@model HabitAqui.Models.Avaliacao
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Avaliacao</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AvaliacaoNota" class="control-label"></label>
+                <input asp-for="AvaliacaoNota" class="form-control" />
+                <span asp-validation-for="AvaliacaoNota" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HabitacaoId" class="control-label"></label>
+                <label asp-for="Habitacao" class ="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Voltar à Lista</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

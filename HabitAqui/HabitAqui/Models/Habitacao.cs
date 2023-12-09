@@ -37,8 +37,10 @@ namespace HabitAqui.Models
 
         public ICollection<Arrendamento>? Arrendamentos { get; set; }
 
-        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5, permitindo valores intermédios (ex: 4.52)")]
-        public decimal? Avaliacao { get; set; }
+        public ICollection<Avaliacao>? Avaliacoes { get; set; }
+
+        [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5, permitindo valores intermédios (ex: 4,52)")]
+        public decimal? MediaAvaliacoes { get; set; }
 
         public int? EstadoId { get; set; }
 
@@ -51,5 +53,8 @@ namespace HabitAqui.Models
         public Tipologia? Tipologia { get; set; }
 
         public string? Image { get; set; }
+
+        //[Display(Name = "Fotografias da Habitação", Prompt = "Escolha as fotografias a anexar")]
+        //public byte[]? Fotografias { get; set; }
     }
 }

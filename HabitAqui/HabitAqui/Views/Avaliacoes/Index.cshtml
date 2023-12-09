@@ -1,0 +1,68 @@
+﻿@model IEnumerable<HabitAqui.Models.Avaliacao>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-0 gx-5 align-items-end">
+            <div class="col-lg-6">
+                <div class="text-start mx-auto mb-5 wow slideInLeft" data-wow-delay="0.1s">
+
+                    <h1 class="mb-3">As minhas Avaliações</h1>
+@*                    <p>Aqui pode pesquisar a nossa seleção de habitações! Clique na que desejar para ver mais informações.</p>
+*@
+                    <form asp-controller="Habitacoes" asp-action="Search" method="post">
+                        <div class="input-group">
+                            <input type="text" name="TextoAPesquisar"
+                                   id="TextoAPesquisar" placeholder="Pesquisar..."
+                                   class="form-control form-control-sm" />
+@*
+                            <select asp-for="Ordenar" class="form-control ms-2">
+                                    <option selected>Ordenar Por</option>
+                                    <option value="1">Menor Avaliação</option>
+                                    <option value="2">Maior Avaliação</option>
+                                </select>*@
+
+                            <button type="submit" class="btn btn-default ms-2 me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00B98E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning" aria-label="Search">
+                                    <circle cx="11" cy="11" r="8" />
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="text-end mx-auto mb-5 wow slideInRight" data-wow-delay="0.1s">
+                    <a class="btn btn-success" asp-controller="Avaliacoes" asp-action="Create">Nova Avaliação</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tab-content">
+           <div id="tab-1" class="tab-pane fade show p-0 active">
+                <div class="row g-4">
+                    @foreach (var Avaliacao in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <div class="property-item rounded overflow-hidden">
+                                <div class="position-relative overflow-hidden">
+                                    <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Avaliacao.Id"><img class="img-fluid" src="~/img/@Avaliacao.Habitacao.Image" alt=""></a>
+                                </div>
+                                <div class="p-4 pb-0">
+                                    <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Avaliacao.Id" class="d-block h5 mb-2">@Avaliacao.Habitacao.Nome</a>
+                                    <p><i class="fa fa-map-marker-alt text-primary me-2"></i>@Avaliacao.AvaliacaoNota</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

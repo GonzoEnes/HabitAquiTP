@@ -1,0 +1,45 @@
+﻿@model HabitAqui.ViewModels.ArrendamentosViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Arrendamento</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CalculaPreco">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" class="form-control" />
+                <span asp-validation-for="DataInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataFinal" class="control-label"></label>
+                <input asp-for="DataFinal" class="form-control" />
+                <span asp-validation-for="DataFinal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HabitacaoId" class="control-label"></label>
+                <input asp-for="HabitacaoId" class="form-control" />
+                <span asp-validation-for="Habitacao.Nome" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <input type="submit" value="Calcular o custo de Arrendamento" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

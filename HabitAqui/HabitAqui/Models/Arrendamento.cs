@@ -31,5 +31,7 @@ namespace HabitAqui.Models
 
         [Display(Name = "Estado", Prompt = "Insira o estado da habitação")]
         public Estado? Estado { get; set; }
+
+        public bool? Confirmado { get; set; }
     }
 }

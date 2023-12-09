@@ -65,10 +65,10 @@
                                 <div class="p-4 pb-0">
                                     <h5 class="text-primary mb-3">@Habitacao.Custo €</h5>
                                     <a class="d-block h5 mb-2" href="">@Habitacao.Nome</a>
-                                @if (Habitacao.Avaliacao != null)
+                                @if (Habitacao.MediaAvaliacoes != null)
                                 {
                                     <i class="fa fa-star" style="color:#00B98E;"></i>
-                                    <span class="me-2"> @Habitacao.Avaliacao / 5,00</span>
+                                    <span class="me-2"> @Habitacao.MediaAvaliacoes / 5,00</span>
 
                                 }
                                 else
@@ -129,11 +129,14 @@ else
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="text-end mx-auto mb-5 wow slideInRight" data-wow-delay="0.1s">
-                        <a class="btn btn-success" asp-action="Create">Nova Habitação</a>
+                @if (User.IsInRole("Funcionario") || User.IsInRole("Gestor"))
+                {
+                    <div class="col-lg-6">
+                        <div class="text-end mx-auto mb-5 wow slideInRight" data-wow-delay="0.1s">
+                            <a class="btn btn-success" asp-controller="Habitacoes" asp-action="Create">Nova Habitação</a>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>
@@ -152,10 +155,10 @@ else
                             <div class="p-4 pb-0">
                                 <h5 class="text-primary mb-3">@Habitacao.Custo €</h5>
                                 <a class="d-block h5 mb-2" href="">@Habitacao.Nome</a>
-                                @if (Habitacao.Avaliacao != null)
+                                @if (Habitacao.MediaAvaliacoes != null)
                                 {
                                     <i class="fa fa-star" style="color:#00B98E;"></i>
-                                    <span class="me-2"> @Habitacao.Avaliacao / 5,00</span>
+                                    <span class="me-2"> @Habitacao.MediaAvaliacoes / 5,00</span>
 
                                 }
                                 else

@@ -168,14 +168,14 @@ namespace HabitAqui.Controllers
                         break;
                     case 3:
                         pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
-                            .Where(c => c.Avaliacao.HasValue)  
-                            .OrderBy(c => c.Avaliacao)
+                            .Where(c => c.MediaAvaliacoes.HasValue)  
+                            .OrderBy(c => c.MediaAvaliacoes)
                             .ToList();
                         break;
                     case 4:
                         pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
-                            .Where(c => c.Avaliacao.HasValue) 
-                            .OrderByDescending(c => c.Avaliacao)
+                            .Where(c => c.MediaAvaliacoes.HasValue) 
+                            .OrderByDescending(c => c.MediaAvaliacoes)
                             .ToList();
                         break;
                     default:
@@ -187,13 +187,13 @@ namespace HabitAqui.Controllers
         }
 
         public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia")] HabitacoesViewModel pesquisaHabit,
-            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId")] Habitacao habitacao, string? TextoAPesquisar)
+            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,EstadoId")] Habitacao habitacao, string? TextoAPesquisar)
         {
-            //HabitacoesViewModel pesquisaHabit = new HabitacoesViewModel();
+            
 
             ViewData["Title"] = "Pesquisar Habitações";
 
-            if ( // if not both are filled
+            if ( 
                     (pesquisaHabit.DataInicioPesquisa == default(DateTime) && pesquisaHabit.DataFinalPesquisa != default(DateTime)) ||
                     (pesquisaHabit.DataInicioPesquisa != default(DateTime) && pesquisaHabit.DataFinalPesquisa == default(DateTime))
                 )
@@ -240,9 +240,9 @@ namespace HabitAqui.Controllers
                 listaHabitacao = listaHabitacao.Where(l => l.Localizacao.Equals(localizacao));
             }
 
-            if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null) {
+            /*if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null) {
                 listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == habitacao.CategoriaId);
-            }
+            }*/
 
             if (habitacao.TipologiaId != 0 && habitacao.TipologiaId != null) {
                 listaHabitacao = listaHabitacao.Where(c => c.TipologiaId == habitacao.TipologiaId);

@@ -15,7 +15,9 @@ namespace HabitAqui.ViewModels
         public DateTime DataFinal { get; set; }
 
         [Display(Name = "Habitação", Prompt = "Escolher a habitação")]
-        public int HabitacaoId { get; set; }
+        public int? HabitacaoId { get; set; }
+
+        public Habitacao? Habitacao { get; set; }
         public int? CategoriaId { get; set; }
 
         [Display(Name = "Categoria", Prompt = "Categoria da Habitação")]
@@ -24,5 +26,7 @@ namespace HabitAqui.ViewModels
         [Display(Name = "Cliente")]
         public string? ApplicationUserId { get; set; }
         public ApplicationUser? Cliente { get; set; }
+
+        public int Ordenar { get; set; }
     }
 }

@@ -45,7 +45,7 @@
                         <dt class="col-sm-3 fw-bold">Localização:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Localizacao)</dd>
 
-                        @if (Model.Avaliacao == null)
+                        @if (Model.MediaAvaliacoes == null)
                         {
                             <dt class="col-sm-3 fw-bold">Avaliação:</dt>
                             <dd class="col-sm-9">Esta propriedade não possui avaliação de momento.</dd>
@@ -53,7 +53,7 @@
                         else
                         {
                             <dt class="col-sm-3 fw-bold">Avaliação:</dt>
-                            <dd class="col-sm-9">@Html.DisplayFor(model => model.Avaliacao) / 5.00</dd>
+                            <dd class="col-sm-9">@Html.DisplayFor(model => model.MediaAvaliacoes) / 5,00</dd>
                         }
 
                         <dt class="col-sm-3 fw-bold">Tipo:</dt>

@@ -58,6 +58,23 @@
                         <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
                     </div>
                     <div>
+                        @if (this.User.IsInRole("Cliente"))
+                        {
+                            <div class="nav-item dropdown">
+                                <a class="nav-item nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
+                            </div>
+                            <div class="nav-item dropdown">
+                                <a class="nav-item nav-link" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
+                            </div>
+                        }
+                        else if (this.User.IsInRole("Funcionario") || this.User.IsInRole("Gestor"))
+                        {
+                            <div class="nav-item dropdown">
+                                <a class="nav-item nav-link" asp-controller="Reservations" asp-action="ListCompanyReservations">Reservations</a>
+                            </div>
+                        }
+                    </div>
+                    <div>
                         <partial name="_LoginPartial" />
                     </div>
                 </div>

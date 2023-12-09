@@ -119,6 +119,9 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<bool?>("Confirmado")
+                        .HasColumnType("bit");
+
                     b.Property<decimal?>("CustoArrendamento")
                         .HasColumnType("decimal(18,2)");
 
@@ -146,6 +149,33 @@ namespace HabitAqui.Data.Migrations
                     b.HasIndex("HabitacaoId");
 
                     b.ToTable("Arrendamentos");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("AvaliacaoNota")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("HabitacaoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("HabitacaoId");
+
+                    b.ToTable("Avaliacao");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Categoria", b =>
@@ -284,9 +314,6 @@ namespace HabitAqui.Data.Migrations
                     b.Property<decimal?>("Area")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal?>("Avaliacao")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int?>("CategoriaId")
                         .HasColumnType("int");
 
@@ -308,6 +335,9 @@ namespace HabitAqui.Data.Migrations
                     b.Property<string>("Localizacao")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("MediaAvaliacoes")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("NBath")
                         .HasColumnType("int");
@@ -512,6 +542,25 @@ namespace HabitAqui.Data.Migrations
                     b.Navigation("Habitacao");
                 });
 
+            modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
+                {
+                    b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
+                        .WithMany("Avaliacoes")
+                        .HasForeignKey("HabitacaoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Habitacao");
+                });
+
             modelBuilder.Entity("HabitAqui.Models.Funcionario", b =>
                 {
                     b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
@@ -643,6 +692,8 @@ namespace HabitAqui.Data.Migrations
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.Navigation("Arrendamentos");
+
+                    b.Navigation("Avaliacoes");
                 });
 #pragma warning restore 612, 618
         }
