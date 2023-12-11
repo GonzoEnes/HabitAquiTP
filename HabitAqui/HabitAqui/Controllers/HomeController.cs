@@ -30,6 +30,7 @@ namespace HabitAqui.Controllers
             ViewData["LocalizacaoList"] = new SelectList(locationList.ToList(), "Id", "Localizacao");
 
             var tipologiaIds = _context.Habitacoes
+    .Where(c => c.Tipologia != null)
     .Select(c => c.Tipologia.Id)
     .Distinct()
     .ToList();

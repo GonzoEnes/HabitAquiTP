@@ -36,12 +36,12 @@ namespace HabitAqui.Controllers
         // GET: Arrendamentos
         public async Task<IActionResult> Index()
         {
-            var reservations = _context.Arrendamentos.
+            var arrendamentos = _context.Arrendamentos.
             Include(a => a.Habitacao).
             Include(a => a.Habitacao.Tipologia).
             Include(a => a.ApplicationUser).
             Where(a => a.ApplicationUserId == _userManager.GetUserId(User));
-            return View(await reservations.ToListAsync());
+            return View(await arrendamentos.ToListAsync());
         }
 
         // GET: Arrendamentos/Details/5
@@ -66,18 +66,28 @@ namespace HabitAqui.Controllers
 
 
         // GET: Arrendamentos/Create
-        public IActionResult Create(int? id)
+        /*public IActionResult Create(int? id)
         {
             ViewData["NomeHabitacao"] = new SelectList(_context.Habitacoes.Where(c => c.Id == id).ToList(), "Id", "Nome");
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id");
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id");
             return View();
+        }*/
+
+        public IActionResult Create(string? habitacaoNome)
+        {
+           var viewModel = new ArrendamentosViewModel {
+                HabitacaoNome = habitacaoNome
+        };
+
+            return View(viewModel);
+            
         }
 
         public IActionResult CalculaPreco([Bind("DataInicio,DataFinal,HabitacaoId")] ArrendamentosViewModel pedido)
         {
-
+            
             double NrDays = 0;
 
             if (pedido.DataInicio < DateTime.Now)

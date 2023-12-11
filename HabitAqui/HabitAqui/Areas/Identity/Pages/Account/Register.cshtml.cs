@@ -141,6 +141,7 @@ namespace HabitAqui.Areas.Identity.Pages.Account
                 user.DataNascimento = Input.DataNascimento;
                 user.Disponivel = true;
                 user.DataRegisto = DateTime.Now;
+                
 
                 await _userManager.UpdateAsync(user);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -148,6 +149,8 @@ namespace HabitAqui.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, "Cliente");
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -177,7 +180,7 @@ namespace HabitAqui.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
+            
             return Page();
         }
 

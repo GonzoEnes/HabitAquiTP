@@ -40,7 +40,7 @@ namespace HabitAqui.Data.Migrations
                     b.Property<DateTime?>("DataRegisto")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Disponivel")
+                    b.Property<bool>("Disponivel")
                         .HasColumnType("bit");
 
                     b.Property<string>("Email")
@@ -260,7 +260,6 @@ namespace HabitAqui.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EmpresaId")
@@ -276,7 +275,7 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("Funcionario");
+                    b.ToTable("Funcionarios");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Gestor", b =>
@@ -288,7 +287,6 @@ namespace HabitAqui.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("EmpresaId")
@@ -300,7 +298,7 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("EmpresaId");
 
-                    b.ToTable("Gestor");
+                    b.ToTable("Gestores");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
@@ -565,9 +563,7 @@ namespace HabitAqui.Data.Migrations
                 {
                     b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("HabitAqui.Models.Empresa", "Empresa")
                         .WithMany("Funcionarios")
@@ -584,9 +580,7 @@ namespace HabitAqui.Data.Migrations
                 {
                     b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ApplicationUserId");
 
                     b.HasOne("HabitAqui.Models.Empresa", "Empresa")
                         .WithMany("Gestores")
@@ -605,7 +599,7 @@ namespace HabitAqui.Data.Migrations
                         .WithMany("Habitacoes")
                         .HasForeignKey("CategoriaId");
 
-                    b.HasOne("HabitAqui.Models.Empresa", null)
+                    b.HasOne("HabitAqui.Models.Empresa", "Empresa")
                         .WithMany("Habitacoes")
                         .HasForeignKey("EmpresaId");
 
@@ -618,6 +612,8 @@ namespace HabitAqui.Data.Migrations
                         .HasForeignKey("TipologiaId");
 
                     b.Navigation("Categoria");
+
+                    b.Navigation("Empresa");
 
                     b.Navigation("Estado");
 

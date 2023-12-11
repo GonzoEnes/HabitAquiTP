@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using HabitAqui.ViewModels;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography.Xml;
 
 namespace HabitAqui.Controllers
 {
@@ -27,8 +28,13 @@ namespace HabitAqui.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+
             var habitacoesViewModel = new HabitacoesViewModel();
-            habitacoesViewModel.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").ToListAsync();
+
+            habitacoesViewModel.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa").ToListAsync();
 
             return View(habitacoesViewModel);
         }
@@ -41,7 +47,7 @@ namespace HabitAqui.Controllers
                 return NotFound();
             }
 
-            var habitacao = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia")
+            var habitacao = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa")
                 .FirstOrDefaultAsync(m => m.Id == id);
             
             if (habitacao == null)
@@ -58,9 +64,9 @@ namespace HabitAqui.Controllers
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
 
-            //  ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
-
             ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
 
             return View();
         }
@@ -70,11 +76,11 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
             
-           // ViewData["ListaLocadores"] = new SelectList(_context.Locadores.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
 
            if (ModelState.IsValid)
             {
@@ -105,11 +111,15 @@ namespace HabitAqui.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia")] HabitacoesViewModel pesquisaHabitacoes)
+        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabitacoes)
         {
             ViewData["Title"] = "Pesquisar Habitações";
 
-            IQueryable<Habitacao> query = _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+
+            IQueryable<Habitacao> query = _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa");
             
             if (!string.IsNullOrEmpty(pesquisaHabitacoes.TextoAPesquisar))
             {
@@ -118,6 +128,7 @@ namespace HabitAqui.Controllers
                     c.Localizacao.Contains(pesquisaHabitacoes.TextoAPesquisar) ||
                     c.Tipologia.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar) ||
                     c.Custo.ToString().Contains(pesquisaHabitacoes.TextoAPesquisar) ||
+                    c.Empresa.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar) ||
                     c.Categoria.Nome.Contains(pesquisaHabitacoes.TextoAPesquisar));
             }
 
@@ -186,10 +197,14 @@ namespace HabitAqui.Controllers
             return View(pesquisaHabitacoes);
         }
 
-        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia")] HabitacoesViewModel pesquisaHabit,
-            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,EstadoId")] Habitacao habitacao, string? TextoAPesquisar)
+        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabit,
+            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao, string? TextoAPesquisar)
         {
-            
+
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+
 
             ViewData["Title"] = "Pesquisar Habitações";
 
@@ -212,17 +227,17 @@ namespace HabitAqui.Controllers
                 return RedirectToAction("Index", "Home", new { error = "Data de Final deve ser após a Data de Início!" });
             }
 
-            IQueryable<Habitacao> listaHabitacao = _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos");
+            IQueryable<Habitacao> listaHabitacao = _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa");
 
 
             if (string.IsNullOrWhiteSpace(TextoAPesquisar)) {
-                listaHabitacao = _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia");
+                listaHabitacao = _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa");
                 pesquisaHabit.ListaHabitacoes = await listaHabitacao.ToListAsync();
             }
             else
             { 
                 listaHabitacao =
-                    _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Where(
+                    _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(
                         c => c.Nome.Contains(TextoAPesquisar)
                                                 || c.Localizacao.Contains(TextoAPesquisar)
                                                 || c.Tipologia.Nome.Contains(TextoAPesquisar)
@@ -248,6 +263,18 @@ namespace HabitAqui.Controllers
                 listaHabitacao = listaHabitacao.Where(c => c.TipologiaId == habitacao.TipologiaId);
             }
 
+            if (!string.IsNullOrEmpty(pesquisaHabit.Categoria))
+            {
+                int valor = int.Parse(pesquisaHabit.Categoria);
+                listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == valor);
+            }
+
+            if (!string.IsNullOrEmpty(pesquisaHabit.Empresa))
+            {
+                int valor = int.Parse(pesquisaHabit.Empresa);
+                listaHabitacao = listaHabitacao.Where(c => c.EmpresaId == valor);
+            }
+
             pesquisaHabit.ListaHabitacoes = await listaHabitacao.ToListAsync();
 
             pesquisaHabit.NResults = pesquisaHabit.ListaHabitacoes.Count();
@@ -260,9 +287,13 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId")] Habitacao habitacao)
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+
+            ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
 
             if (id != habitacao.Id)
             {

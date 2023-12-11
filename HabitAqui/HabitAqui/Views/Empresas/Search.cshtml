@@ -1,0 +1,65 @@
+﻿@model HabitAqui.ViewModels.SearchEmpresasViewModel
+
+<h1>Pesquisa de Empresas</h1>
+
+
+<p>Existe/m @Model.ListaEmpresas.Count empresas disponiveis.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome Empresa
+            </th>
+            <th>
+                Classificação
+            </th>
+            <th>
+                Habitações
+            </th>
+            <th>
+                Disponível
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaEmpresas)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Avaliacao)
+                </td>
+                <td>
+                    @if (item.Habitacoes.Count == 0)
+                    {
+                        <a>Sem Habitações para mostrar</a>
+                    }
+                    @if (item.Habitacoes.Count != 0)
+                    {
+                        var counter = 0;
+                        @foreach (var habi in item.Habitacoes)
+                        {
+                            var habidisplay = habi.Empresa + " " + habi.Tipologia;
+                            counter++;
+                            if (counter == item.Habitacoes.Count)
+                            {
+                                habidisplay += " ";
+                            }
+                            else
+                            {
+                                habidisplay += ", ";
+                            }
+                            @Html.DisplayFor(modelItem => habidisplay)
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disponivel)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

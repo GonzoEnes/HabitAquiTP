@@ -37,8 +37,12 @@
                     <span asp-validation-for="NBath" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Tipologia" class="form-label"></label>
-                    <select asp-for="Tipologia" asp-items="ViewBag.ListaTipologias" class="form-control"></select>
+                    <label asp-for="TipologiaId" class="form-label"></label>
+                    <select asp-for="TipologiaId" asp-items="ViewBag.ListaTipologias" class="form-control"></select>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Empresa" class="form-label"></label>
+                    <select asp-for="Empresa" class="form-control" asp-items="ViewBag.ListaEmpresas"></select>
                 </div>
 
                 <div class="mb-3">

@@ -7,26 +7,47 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Empresa</h4>
+    <h4>Company</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nome)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nome)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Avaliacao)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Avaliacao)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Disponivel)
+        <dt class="col-sm-2">
+            Car list
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Disponivel)
+        <dd class="col-sm-10">
+            @if (Model.Habitacoes == null)
+            {
+                <a>Sem habitacoes para mostrar </a>
+            }
+            @if (Model.Habitacoes != null)
+            {
+                var counter = 0;
+                @foreach (var habitacao in Model.Habitacoes)
+                {
+                    var HabitacoesDisplay = habitacao.Empresa + " " + habitacao.Tipologia;
+                    counter++;
+                    if (counter == Model.Habitacoes.Count)
+                    {
+                        HabitacoesDisplay += " ";
+                    }
+                    else
+                    {
+                        HabitacoesDisplay += ", ";
+                    }
+                    @Html.DisplayFor(modelItem => HabitacoesDisplay)
+                }
+            }
         </dd>
     </dl>
 </div>

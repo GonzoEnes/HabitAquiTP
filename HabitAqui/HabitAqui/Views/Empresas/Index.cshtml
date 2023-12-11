@@ -1,47 +1,92 @@
 ﻿@model IEnumerable<HabitAqui.Models.Empresa>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Criar Nova Empresa";
 }
 
-<h1>Index</h1>
-
+<h1>Criar Nova Empresa</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+<p>
+    <small>(<a asp-action="Create">Adicionar nova empresa</a>)</small>
 </p>
+</p>
+
+@using (Html.BeginForm("Search", "Empresas", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-10" style="padding: 20px">
+            Pesquisar:
+            <input type="text" for="TextoAPesquisar" id="TextoAPesquisar" name="TextoAPesquisar" />
+            Disponível:
+            <input type="checkbox" for="disponivel" id="disponivel" name="disponivel" value="true" />
+            <input type="hidden" for="disponivel" id="disponivel" name="disponivel" value="false" />
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </div>
+    </div>
+}
+
+
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Nome)
+                Nome da Empresa
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Avaliacao)
+                Classificação
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Disponivel)
+                Habitações
             </th>
-            <th></th>
+            <th>
+                Disponível
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Avaliacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Disponivel)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Avaliacao)
+                </td>
+                <td>
+                    @if (item.Habitacoes.Count == 0)
+                    {
+                        <a>Sem Habitações para mostrar</a>
+                    }
+                    @if (item.Habitacoes.Count != 0)
+                    {
+                        var counter = 0;
+                        @foreach (var habitacao in item.Habitacoes)
+                        {
+                            var habitacaoDisplay = habitacao.Empresa + " " + habitacao.Tipologia;
+                            counter++;
+                            if (counter == item.Habitacoes.Count)
+                            {
+                                habitacaoDisplay += " ";
+                            }
+                            else
+                            {
+                                habitacaoDisplay += ", ";
+                            }
+                            @Html.DisplayFor(modelItem => habitacaoDisplay)
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Disponivel)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Apagar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

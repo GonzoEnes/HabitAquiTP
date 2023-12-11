@@ -14,7 +14,7 @@ namespace HabitAqui.Models
         [Display(Name = "NIF", Prompt = "Inserir o seu NIF")]
         public int NIF { set; get; }
         [Display(Name = "Available")]
-        public bool? Disponivel { get; set; }
+        public bool Disponivel { get; set; }
         public DateTime? DataRegisto { get; set; }
     }
 }

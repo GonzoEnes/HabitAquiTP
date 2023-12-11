@@ -17,6 +17,9 @@ namespace HabitAqui.ViewModels
         [Display(Name = "Habitação", Prompt = "Escolher a habitação")]
         public int? HabitacaoId { get; set; }
 
+        [Display(Name = "Habitação", Prompt = "Nome da Habitação")]
+        public string? HabitacaoNome { get; set; }
+
         public Habitacao? Habitacao { get; set; }
         public int? CategoriaId { get; set; }
 

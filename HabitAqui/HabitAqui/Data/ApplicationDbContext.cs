@@ -23,6 +23,10 @@ namespace HabitAqui.Data
 
         public DbSet<Tipologia> Tipologia { get; set; }
 
-        public DbSet<HabitAqui.Models.Empresa>? Empresa { get; set; }
+        public DbSet<Empresa> Empresa { get; set; }
+
+        public DbSet<Funcionario> Funcionarios { get; set; }
+
+        public DbSet<Gestor> Gestores { get; set; }
     }
 }

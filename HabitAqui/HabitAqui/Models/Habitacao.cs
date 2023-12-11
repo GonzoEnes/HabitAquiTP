@@ -54,6 +54,10 @@ namespace HabitAqui.Models
 
         public string? Image { get; set; }
 
+        public Empresa? Empresa { get; set; }
+
+        public int? EmpresaId { get; set; }
+
         //[Display(Name = "Fotografias da Habitação", Prompt = "Escolha as fotografias a anexar")]
         //public byte[]? Fotografias { get; set; }
     }
