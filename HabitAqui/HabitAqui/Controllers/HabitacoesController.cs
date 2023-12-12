@@ -25,7 +25,6 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes
-        [Authorize]
         public async Task<IActionResult> Index()
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
@@ -59,7 +58,7 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes/Create
-        [Authorize(Roles = "Admin,Funcionario")]
+        [Authorize(Roles = "Admin,Funcionario,Gestor")]
         public IActionResult Create()
         {
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
@@ -94,6 +93,7 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes/Edit/5
+        [Authorize(Roles = "Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Habitacoes == null)

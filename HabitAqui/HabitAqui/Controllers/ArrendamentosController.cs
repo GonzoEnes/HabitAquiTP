@@ -75,17 +75,14 @@ namespace HabitAqui.Controllers
             return View();
         }*/
 
-        public IActionResult Create(string? habitacaoNome)
+        public IActionResult Create()
         {
-           var viewModel = new ArrendamentosViewModel {
-                HabitacaoNome = habitacaoNome
-        };
+            ViewData["HabitacaoListaBag"] = new SelectList(_context.Habitacoes, "Id", "Nome");
 
-            return View(viewModel);
-            
+            return View();
         }
 
-        public IActionResult CalculaPreco([Bind("DataInicio,DataFinal,HabitacaoId")] ArrendamentosViewModel pedido)
+        /*public IActionResult CalculaPreco([Bind("DataInicio,DataFinal,HabitacaoId")] ArrendamentosViewModel pedido)
         {
             
             double NrDays = 0;
@@ -102,8 +99,8 @@ namespace HabitAqui.Controllers
             }
 
             bool disponivel = true;
-            
-            foreach (Arrendamento arrendamento in habitacao.Arrendamentos)
+
+            /*foreach (Arrendamento arrendamento in habitacao.Arrendamentos)
             {
                 
                 if ((arrendamento.DataInicio <= pedido.DataFinal && arrendamento.DataFinal >= pedido.DataInicio) ||
@@ -113,8 +110,8 @@ namespace HabitAqui.Controllers
                     break;
                 }
             }
-            
-            if (!disponivel)
+
+            /*if (!disponivel)
             {
                 ModelState.AddModelError("DataInicio", "Habitação já tem reserva neste período, pedimos desculpa.");
             }
@@ -128,33 +125,67 @@ namespace HabitAqui.Controllers
                 x.DataInicio = pedido.DataInicio;
                 x.HabitacaoId = pedido.HabitacaoId;
                 x.DataPedido = DateTime.Now;
-                x.CustoArrendamento = Math.Round((decimal)habitacao.Custo * (decimal)NrDays);
+                x.CustoArrendamento = habitacao.Custo * (decimal?)NrDays;
                 x.Habitacao = habitacao;
                 x.Confirmado = false;
 
-                return View("Create", x);
+                pedido.ListaArrendamentos.Add(x);
+
+                return View("Index", pedido.ListaArrendamentos);
 
             }
+            else {
+                return Problem("Não foi possível criar Arrendamento.");
+            }
 
-            return View("Pedido", pedido);
-        }
+            //return View("Index", pedido);
+
+            //return View("Pedido", pedido);
+        }*/
 
         // POST: Arrendamentos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, Cliente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,CustoArrendamento,DataInicio,DataFinal,DataPedido,HabitacaoId,ApplicationUserId,EstadoId")] Arrendamento arrendamento)
         {
+
+            //ViewData["HabitacaoLista"] = new SelectList(_context.Habitacoes.ToList(), "Id", "Nome");
+
+            if (arrendamento.DataInicio < DateTime.Now)
+                ModelState.AddModelError("DataInicio", "A data de início deve ser depois da data atual!");
+            if (arrendamento.DataInicio > arrendamento.DataFinal)
+                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data final!");
+
+            arrendamento.ApplicationUserId = _context.Users.Where(c => c.UserName == User.Identity.Name).FirstOrDefault().Id;
+
+            //var habitacao = _context.Habitacoes.Include("Empresa").Include("Arrendamentos").Include("Tipologia").Include("Categoria").FirstOrDefault(v => v.Id == arrendamento.HabitacaoId);
+            
+            //if (habitacao == null)
+            //{
+            //    ModelState.AddModelError("HabitacaoId", "Habitação não existe!");
+            //}
+
+            double DiasArrendamento = (arrendamento.DataFinal - arrendamento.DataInicio).TotalDays;
+
+            decimal custoPerDay = (decimal)_context.Habitacoes.Where(c => c.Id == arrendamento.HabitacaoId).FirstOrDefault().Custo;
+
+            decimal precoTotal = (decimal)(DiasArrendamento * (double)custoPerDay);
+
+            arrendamento.CustoArrendamento = precoTotal;
+
             if (ModelState.IsValid)
             {
                 _context.Add(arrendamento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", arrendamento.ApplicationUserId);
-            ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
-            ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
+            //ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", arrendamento.ApplicationUserId);
+            //ViewData["EstadoId"] = new SelectList(_context., "Id", "Id", arrendamento.EstadoId);
+            //ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes.ToList(), "Id", "Nome", arrendamento.HabitacaoId);
+            
             return View(arrendamento);
         }
 
