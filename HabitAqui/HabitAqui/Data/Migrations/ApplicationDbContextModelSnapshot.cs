@@ -122,7 +122,7 @@ namespace HabitAqui.Data.Migrations
                     b.Property<bool?>("Confirmado")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("CustoArrendamento")
+                    b.Property<decimal>("CustoArrendamento")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("DataFinal")
@@ -315,7 +315,7 @@ namespace HabitAqui.Data.Migrations
                     b.Property<int?>("CategoriaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Custo")
+                    b.Property<decimal>("Custo")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<bool>("Disponivel")

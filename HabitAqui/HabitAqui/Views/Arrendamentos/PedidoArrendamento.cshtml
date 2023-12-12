@@ -6,42 +6,38 @@
 }
 
 
-<h1>Pedido</h1>
+<h4>Pedido Arrendamento - Confirmação</h4>
 <hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Request">
+            <input type="hidden" asp-for="CustoArrendamento" />
+            <input type="hidden" asp-for="HabitacaoId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Habitacao</label>
+                <input type="text" class="form-control form-control-lg" readonly disabled value="@Model.Habitacao.Nome" />
+            </div>
+            <div class="form-group">
+                <label asp-for="DataInicio" class="control-label"></label>
+                <input asp-for="DataInicio" class="form-control" readonly />
+                <span asp-validation-for="DataInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataFinal" class="control-label"></label>
+                <input asp-for="DataFinal" class="form-control" readonly />
+                <span asp-validation-for="DataFinal" class="text-danger"></span>
+            </div>
 
-@if (User.Identity.IsAuthenticated)
-{
-
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Calculate">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="DataInicio" class="control-label"></label>
-                    <input asp-for="DataInicio" class="form-control" />
-                    <span asp-validation-for="DataInicio" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="DataFinal" class="control-label"></label>
-                    <input asp-for="DataFinal" class="form-control" />
-                    <span asp-validation-for="DataFinal" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Calcular Custo de Arrendamento" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+            <div class="form-group pt-4">
+                <p class="alert alert-info">O custo do arrendamento:  <b>@Model.CustoArrendamento</b> Euros. </p>
+            </div>
+            <div class="form-group">
+                <p>Please choose of the options above:</p>
+                <input type="submit" value="Confirmar Arrendamento" class="btn btn-primary" />
+                <a class="btn btn-danger" asp-controller="Reservations" asp-action="Request">Cancel</a>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div>
-        <a asp-action="Index">Voltar à Lista</a>
-    </div>
-
-}
-else
-{
-    <p class="alert alert-warning">
-        Apenas utilizadores autenticados conseguem realizar um arrendamento.
-    </p>
-}   

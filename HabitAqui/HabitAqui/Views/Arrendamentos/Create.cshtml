@@ -5,42 +5,43 @@
 }
 
 <h1>Criar</h1>
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Calculate">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="HabitacaoId" class="control-label"></label>
+                    <select asp-for="HabitacaoId" class="form-control" asp-items="ViewBag.ListaHabitacoes"></select>
+                </div>
 
-<h4>Arrendamento</h4>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="DataInicio" class="control-label"></label>
-                <input asp-for="DataInicio" class="form-control" />
-                <span asp-validation-for="DataInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataFinal" class="control-label"></label>
-                <input asp-for="DataFinal" class="form-control" />
-                <span asp-validation-for="DataFinal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Habitacao" class="control-label"></label>
-                <select asp-for="HabitacaoId" asp-items="ViewBag.HabitacaoListaBag" class="form-control" />
-               
-            </div>
+                <div class="form-group">
+                    <label asp-for="DataInicio" class="control-label"></label>
+                    <input asp-for="DataInicio" class="form-control" />
+                    <span asp-validation-for="DataInicio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DataFinal" class="control-label"></label>
+                    <input asp-for="DataFinal" class="form-control" />
+                    <span asp-validation-for="DataFinal" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <input type="submit" value="Calcular o Custo de Arrendamento" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <input type="submit" value="Calculate cost" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-controller="Habitacoes" asp-action="Index">Voltar à Lista</a>
-</div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
 }
+else
+{
+    <p class="alert alert-warning">
+        Only authenticated users can make a reservation.
+    </p>
+}   

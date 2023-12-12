@@ -13,7 +13,7 @@ namespace HabitAqui.Models
         public string Nome { get; set; }
 
         [Display(Name = "Custo", Prompt = "Insira o custo da habitação")]
-        public decimal? Custo { get; set; }
+        public decimal Custo { get; set; }
        
         public int? CategoriaId { get; set; }
 

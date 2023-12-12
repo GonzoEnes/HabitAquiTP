@@ -7,7 +7,7 @@ namespace HabitAqui.Models
         public int Id { get; set; }
 
         [Display(Name = "Custo do Arrendamento", Prompt = "Quanto vai custar?")]
-        public decimal? CustoArrendamento { get; set; }
+        public decimal CustoArrendamento { get; set; }
 
         [Display(Name = "Data Início Arrendamento", Prompt = "Insira a data de início do arrendamento")]
         public DateTime DataInicio { get; set; }
