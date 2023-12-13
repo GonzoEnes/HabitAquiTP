@@ -67,10 +67,32 @@
                                     <a class="nav-link" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
                                 </div>
                             }
-                            else if (this.User.IsInRole("Funcionario") || this.User.IsInRole("Gestor"))
+                            else if (this.User.IsInRole("Funcionario"))
                             {
                                 <div class="nav-item dropdown">
                                     <a class="nav-link" asp-controller="Reservations" asp-action="ListCompanyReservations">Reservations</a>
+                                </div>                          
+                            }                          
+                            else if (this.User.IsInRole("Gestor"))
+                            {
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" asp-controller="Empresas" asp-action="ListEmpresaFuncionarios">Funcionários</a>
+                                </div>                                                        
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Registo Func</a>
+                                </div>
+
+                            }
+                            else if (this.User.IsInRole("Admin"))
+                            {
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" asp-controller="UserRolesManager" asp-action="Index">Permissões</a>
+                                </div>                                
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" asp-controller="Empresas" asp-action="Index">Empresas</a>
+                                </div>
+                                <div class="nav-item dropdown">
+                                    <a class="nav-link" asp-controller="Reservations" asp-action="ListCompanyReservations">Reservas</a>
                                 </div>
                             }
                         </div>
