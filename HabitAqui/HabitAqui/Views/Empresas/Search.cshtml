@@ -5,6 +5,20 @@
 
 <p>Existe/m @Model.ListaEmpresas.Count empresas disponiveis.</p>
 
+@using (Html.BeginForm("Search", "Empresas", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-10" style="padding: 20px">
+            Pesquisar:
+            <input type="text" for="TextoAPesquisar" id="TextoAPesquisar" name="TextoAPesquisar" />
+            Disponível:
+            <input type="checkbox" for="disponivel" id="disponivel" name="disponivel" value="true" />
+            <input type="hidden" for="disponivel" id="disponivel" name="disponivel" value="false" />
+            <input type="submit" class="btn btn-primary" value="Search" />
+        </div>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>

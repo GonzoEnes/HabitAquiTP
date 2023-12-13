@@ -1,5 +1,4 @@
-﻿
-using System.Data;
+﻿using System.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,7 +23,7 @@ namespace HabitAqui.Controllers
             _context = context;
             _userManager = userManager;
             _userStore = userStore;
-           // _emailStore = GetEmailStore();
+            // _emailStore = GetEmailStore();
         }
 
         // GET: Companies
@@ -38,11 +37,12 @@ namespace HabitAqui.Controllers
         public async Task<IActionResult> Search(string? TextoAPesquisar, bool? disponivel)
         {
             SearchEmpresasViewModel searchEmpresa = new SearchEmpresasViewModel();
-            
+
             if (string.IsNullOrWhiteSpace(TextoAPesquisar) && disponivel == null)
             {
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").ToListAsync();
             }
+            
             if (disponivel != null && TextoAPesquisar != null)
             {
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").Where(c => c.Disponivel == disponivel && c.Nome.Contains(TextoAPesquisar)).ToListAsync();
@@ -53,7 +53,7 @@ namespace HabitAqui.Controllers
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").Where(c => c.Nome.Contains(TextoAPesquisar)).ToListAsync();
             }
 
-            if (disponivel != null && TextoAPesquisar == null)
+            if (disponivel != null && string.IsNullOrEmpty(TextoAPesquisar))
             {
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").Where(c => c.Disponivel == disponivel).ToListAsync();
             }
@@ -115,7 +115,7 @@ namespace HabitAqui.Controllers
                 if (result.Succeeded)
                 {
                     _context.Add(empresa);
-                 //   await _context.SaveChangesAsync();
+                    //   await _context.SaveChangesAsync();
                     var gestor = new Gestor
                     {
                         Id = empresa.Id,
@@ -123,7 +123,7 @@ namespace HabitAqui.Controllers
                         ApplicationUser = user
 
                     };
-                    await _context.SaveChangesAsync();
+                    
                     _context.Update(gestor);
                     await _context.SaveChangesAsync();
                     await _userManager.AddToRoleAsync(user, "Gestor");
@@ -216,7 +216,7 @@ namespace HabitAqui.Controllers
             }
             return RedirectToAction(nameof(ListEmpresaFuncionarios));
         }
-        
+
         //MUDAR VARIAVEIS
         [Authorize(Roles = "Gestor,Admin")]
         public async Task<IActionResult> makeManagerAvailableUnavailable(int? id)
@@ -468,8 +468,8 @@ namespace HabitAqui.Controllers
             //            _context.Habitacoes.Remove(habi);
             //        }
             //    }
-                _context.Empresa.Remove(empresa);
-                await _context.SaveChangesAsync();
+            _context.Empresa.Remove(empresa);
+            await _context.SaveChangesAsync();
             //}
             return RedirectToAction(nameof(Index));
         }
@@ -495,7 +495,7 @@ namespace HabitAqui.Controllers
 
         private bool EmpresaExists(int id)
         {
-          return (_context.Empresa?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Empresa?.Any(e => e.Id == id)).GetValueOrDefault();
         }
         private ApplicationUser CreateUser()
         {

@@ -42,19 +42,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ApplicationUser.Disponivel)
                 </td>
-               @*  @if (item.ApplicationUser.Disponivel)
-                    {
-                        <td>
-                            <a asp-action="makeEmployeeAvailableUnavailable"  asp-route-id="@item.Id" class="btn btn-danger">Disponivel</a>
-                        </td>
-                    }                
-                    else
-                    {
-                        <td>
+                @if (item.ApplicationUser.Disponivel)
+                {
+                    <td>
+                        <a asp-action="makeEmployeeAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-danger">Indisponível</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
                         <a asp-action="makeEmployeeAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
-                        </td>
-                    } *@
-             </tr>
+                    </td>
+                }
+            </tr>
         }
     </tbody>
 </table>
