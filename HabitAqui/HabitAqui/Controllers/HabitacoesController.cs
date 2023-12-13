@@ -35,7 +35,7 @@ namespace HabitAqui.Controllers
 
             var habitacoesViewModel = new HabitacoesViewModel();
 
-            habitacoesViewModel.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa").ToListAsync();
+            habitacoesViewModel.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa").Where(c => c.Disponivel == true).ToListAsync();
 
             return View(habitacoesViewModel);
         }
@@ -200,6 +200,99 @@ namespace HabitAqui.Controllers
             return View(pesquisaHabitacoes);
         }
 
+        public async Task<IActionResult> SearchEmpresa([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabitacoes)
+        {
+
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true), "Id", "Nome");
+
+            string ordenarValue = Request.Form["Ordenar"]; // get value from select in search
+
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (User.IsInRole("Funcionario")) {
+                var funcionario = _context.Funcionarios.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                pesquisaHabitacoes.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == funcionario.EmpresaId).ToListAsync();
+
+                if (int.TryParse(ordenarValue, out int ordenar))
+                {
+                    pesquisaHabitacoes.Ordenar = ordenar;
+
+                    switch (pesquisaHabitacoes.Ordenar)
+                    {
+                        case 1:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .OrderBy(c => c.Custo)
+                                .ToList();
+                            break;
+                        case 2:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .OrderByDescending(c => c.Custo)
+                                .ToList();
+                            break;
+                        case 3:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .Where(c => c.MediaAvaliacoes.HasValue)
+                                .OrderBy(c => c.MediaAvaliacoes)
+                                .ToList();
+                            break;
+                        case 4:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .Where(c => c.MediaAvaliacoes.HasValue)
+                                .OrderByDescending(c => c.MediaAvaliacoes)
+                                .ToList();
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+
+            else if (User.IsInRole("Gestor")) {
+                var gestor = _context.Gestores.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                pesquisaHabitacoes.ListaHabitacoes = _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == gestor.EmpresaId).ToList();
+
+                if (int.TryParse(ordenarValue, out int ordenar))
+                {
+                    pesquisaHabitacoes.Ordenar = ordenar;
+
+                    switch (pesquisaHabitacoes.Ordenar)
+                    {
+                        case 1:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .OrderBy(c => c.Custo)
+                                .ToList();
+                            break;
+                        case 2:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .OrderByDescending(c => c.Custo)
+                                .ToList();
+                            break;
+                        case 3:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .Where(c => c.MediaAvaliacoes.HasValue)
+                                .OrderBy(c => c.MediaAvaliacoes)
+                                .ToList();
+                            break;
+                        case 4:
+                            pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes
+                                .Where(c => c.MediaAvaliacoes.HasValue)
+                                .OrderByDescending(c => c.MediaAvaliacoes)
+                                .ToList();
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+
+
+            return View(pesquisaHabitacoes);
+        }
+
         public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabit,
             [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,PeriodoMinimoArrendamento,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao, string? TextoAPesquisar)
         {
@@ -336,9 +429,15 @@ namespace HabitAqui.Controllers
 
             var habitacao = await _context.Habitacoes
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (habitacao == null)
             {
                 return NotFound();
+            }
+
+            if (habitacao.Arrendamentos != null)
+            {
+                return Problem("Esta habitação possui arrendamentos. Impossível apagar.");
             }
 
             return View(habitacao);
@@ -371,6 +470,8 @@ namespace HabitAqui.Controllers
         [Authorize(Roles = "Gestor,Funcionario")]
         public async Task<IActionResult> ListaHabitacoesByEmpresaId()
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
+
             var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (User.IsInRole("Funcionario"))
             {
@@ -380,7 +481,12 @@ namespace HabitAqui.Controllers
             }
             var gestor = _context.Gestores.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
             var habitacoes = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == gestor.EmpresaId).ToListAsync();
-            return View(habitacoes);
+
+            var habitacoesViewModel = new HabitacoesViewModel();
+
+            habitacoesViewModel.ListaHabitacoes = habitacoes;
+            
+            return View(habitacoesViewModel);
         }
     }
 }
