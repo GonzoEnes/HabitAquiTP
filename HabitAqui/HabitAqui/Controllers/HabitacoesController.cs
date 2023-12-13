@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography.Xml;
 using System.Security.Claims;
+using System.Numerics;
 
 namespace HabitAqui.Controllers
 {
@@ -67,7 +68,24 @@ namespace HabitAqui.Controllers
 
             ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (User.IsInRole("Gestor"))
+            {
+                var gestor = _context.Gestores.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Id == gestor.EmpresaId).ToList(), "Id", "Nome");
+            }
+            else if (User.IsInRole("Funcionario"))
+            {
+                var funcionario = _context.Funcionarios.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Id == funcionario.EmpresaId).ToList(), "Id", "Nome");
+            }
+            else if (User.IsInRole("Admin"))
+            {
+                ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
+            }
 
             return View();
         }
@@ -80,10 +98,9 @@ namespace HabitAqui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,PeriodoMinimoArrendamento,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
+
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
             
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
-
            if (ModelState.IsValid)
             {
                 _context.Add(habitacao);
