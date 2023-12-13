@@ -68,7 +68,7 @@ namespace HabitAqui.Controllers
         public async Task<IActionResult> Request(
             [Bind("Id,DataInicio,DataFinal,CustoArrendamento,DataPedido,HabitacaoId")] Arrendamento arrendamento)
         {
-            // clear the stuff you didn't bind?
+            
             ModelState.Remove(nameof(arrendamento.Habitacao));
             ModelState.Remove(nameof(arrendamento.ApplicationUserId));
             ModelState.Remove(nameof(arrendamento.ApplicationUser));
@@ -82,46 +82,46 @@ namespace HabitAqui.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["TipoDeAulaId"] = new SelectList(_context.vehicles, "Id", "Id", reserv.vehicleId); // _context.TipoDeAula?
-            ViewData["CarList"] = new SelectList(_context.Habitacoes.Where(v => v.Disponivel == true).ToList(), "Id", "Nome", arrendamento.HabitacaoId);
+            
+            ViewData["ListaHabitacao"] = new SelectList(_context.Habitacoes.Where(v => v.Disponivel == true).ToList(), "Id", "Nome", arrendamento.HabitacaoId);
             return View(arrendamento);
         }
 
         public IActionResult Calculate([Bind("HabitacaoId,DataInicio,DataFinal")] ArrendamentosViewModel request)
         {
-            // ViewData["Vehicle"]
+            
             ViewData["ListaHabitacoes"] = new SelectList(_context.Habitacoes.Where(v => v.Disponivel == true).ToList(), "Id", "Nome");
 
             double NrDays = 0;
 
             if (request.DataInicio < DateTime.Now)
-                ModelState.AddModelError("DataInicio", "The start date must be after the current time");
+                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data do fim!");
             if (request.DataInicio > request.DataFinal)
-                ModelState.AddModelError("DataInicio", "The start date cannot be greater than the end date");
+                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data do fim!");
 
 
             var habitacao = _context.Habitacoes.Include("Arrendamentos").Include("Tipologia").Include("Categoria").FirstOrDefault(v => v.Id == request.HabitacaoId);
             if (habitacao == null)
             {
-                ModelState.AddModelError("vehicleId", "Invalid chosen vehicle");
+                ModelState.AddModelError("HabitacaoId", "Habitação não existe!");
             }
 
             bool available = true;
-            // Iterate through each reservation for this vehicle
-            foreach (Arrendamento reservation in habitacao.Arrendamentos)
+            
+            foreach (Arrendamento arrendamento in habitacao.Arrendamentos)
             {
-                // Check if the time frame of this reservation overlaps with the time frame we're searching for
-                if ((reservation.DataInicio <= request.DataFinal && reservation.DataFinal >= request.DataInicio) ||
-                    (reservation.DataFinal >= request.DataInicio && reservation.DataInicio <= request.DataFinal))
+               
+                if ((arrendamento.DataInicio <= request.DataFinal && arrendamento.DataFinal >= request.DataInicio) ||
+                    (arrendamento.DataFinal >= request.DataInicio && arrendamento.DataInicio <= request.DataFinal))
                 {
                     available = false;
                     break;
                 }
             }
-            // If the vehicle is not available, remove it from the filtered search results
+           
             if (!available)
             {
-                ModelState.AddModelError("BeginDate", "Vehicle already has reservations for choosen time period");
+                ModelState.AddModelError("DataInicio", "Habitação já tem uma reserva neste período de tempo, pedimos desculpa.");
             }
 
             if (ModelState.IsValid)

@@ -28,8 +28,8 @@
                     <span asp-validation-for="Localizacao" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Categoria" class="form-label"></label>
-                    <select asp-for="Categoria" class="form-control" asp-items="ViewBag.ListaCategorias"></select>
+                    <label asp-for="CategoriaId" class="form-label"></label>
+                    <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.ListaCategorias"></select>
                 </div>
                 <div class="mb-3">
                     <label asp-for="NBath" class="form-label"></label>
@@ -37,12 +37,17 @@
                     <span asp-validation-for="NBath" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
+                    <label asp-for="PeriodoMinimoArrendamento" class="form-label"></label>
+                    <input asp-for="PeriodoMinimoArrendamento" class="form-control" />
+                    <span asp-validation-for="PeriodoMinimoArrendamento" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
                     <label asp-for="TipologiaId" class="form-label"></label>
                     <select asp-for="TipologiaId" asp-items="ViewBag.ListaTipologias" class="form-control"></select>
                 </div>
                 <div class="mb-3">
-                    <label asp-for="Empresa" class="form-label"></label>
-                    <select asp-for="Empresa" class="form-control" asp-items="ViewBag.ListaEmpresas"></select>
+                    <label asp-for="EmpresaId" class="form-label"></label>
+                    <select asp-for="EmpresaId" class="form-control" asp-items="ViewBag.ListaEmpresas"></select>
                 </div>
 
                 <div class="mb-3">

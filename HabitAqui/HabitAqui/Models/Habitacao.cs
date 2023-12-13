@@ -14,10 +14,13 @@ namespace HabitAqui.Models
 
         [Display(Name = "Custo", Prompt = "Insira o custo da habitação")]
         public decimal Custo { get; set; }
-       
-        public int? CategoriaId { get; set; }
+
+        [Display(Name = "Período Mínimo de Arrendamento", Prompt = "Insira o período mínimo (em dias) que esta habitação poderá ser arrendada. (ex: 3 dias)")]
+        public int? PeriodoMinimoArrendamento { get; set; }
 
         [Display(Name = "Categoria", Prompt = "Qual a categoria desta habitação?")]
+        public int? CategoriaId { get; set; }
+
         public Categoria? Categoria { get; set; }
 
         [Display(Name = "Disponível", Prompt = "Esta habitação irá estar disponível?")]
@@ -47,9 +50,9 @@ namespace HabitAqui.Models
         [Display(Name = "Estado da Habitação", Prompt = "Como se encontra a habitação?")]
         public Estado? Estado { get; set; }
 
+        [Display(Name = "Tipo de Habitação", Prompt = "Escolha o tipo de habitação")]
         public int? TipologiaId { get; set; }
 
-        [Display(Name = "Tipo de Habitação", Prompt = "Escolha o tipo de habitação")]
         public Tipologia? Tipologia { get; set; }
 
         public string? Image { get; set; }

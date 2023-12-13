@@ -27,9 +27,9 @@ namespace HabitAqui.Controllers
         // GET: Habitacoes
         public async Task<IActionResult> Index()
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             var habitacoesViewModel = new HabitacoesViewModel();
 
@@ -61,11 +61,11 @@ namespace HabitAqui.Controllers
         [Authorize(Roles = "Admin,Funcionario,Gestor")]
         public IActionResult Create()
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             return View();
         }
@@ -73,13 +73,14 @@ namespace HabitAqui.Controllers
         // POST: Habitacoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin,Funcionario,Gestor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,PeriodoMinimoArrendamento,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
             
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
            if (ModelState.IsValid)
             {
@@ -115,9 +116,9 @@ namespace HabitAqui.Controllers
         {
             ViewData["Title"] = "Pesquisar Habitações";
 
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             IQueryable<Habitacao> query = _context.Habitacoes.Include("Categoria").Include("Arrendamentos").Include("Tipologia").Include("Empresa");
             
@@ -198,12 +199,12 @@ namespace HabitAqui.Controllers
         }
 
         public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabit,
-            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao, string? TextoAPesquisar)
+            [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,PeriodoMinimoArrendamento,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao, string? TextoAPesquisar)
         {
 
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
 
             ViewData["Title"] = "Pesquisar Habitações";
@@ -287,11 +288,11 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId")] Habitacao habitacao)
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.ToList(), "Id", "Nome");
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.ToList(), "Id", "Nome");
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
 

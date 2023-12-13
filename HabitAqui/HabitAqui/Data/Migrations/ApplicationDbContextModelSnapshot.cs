@@ -341,6 +341,9 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PeriodoMinimoArrendamento")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TipologiaId")
                         .HasColumnType("int");
 
