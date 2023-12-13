@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HabitAqui.Models
 {
@@ -21,7 +22,6 @@ namespace HabitAqui.Models
 
         [Display(Name = "Habitação", Prompt = "Insira a habitação")]
         public Habitacao? Habitacao { get; set; }
-
         public string ApplicationUserId { get; set; }
 
         [Display(Name = "Utilizador", Prompt = "Utilizador que realizou o arrendamento")]
@@ -31,7 +31,10 @@ namespace HabitAqui.Models
 
         [Display(Name = "Estado", Prompt = "Insira o estado da habitação")]
         public Estado? Estado { get; set; }
-
         public bool? Confirmado { get; set; }
+
+        [Display(Name = "Nota de Avaliação", Prompt = "Insira a avaliação dessa habitação")]
+        public int? AvaliacaoId { get; set; }
+        public Avaliacao? Avaliacao { get; set; }
     }
 }

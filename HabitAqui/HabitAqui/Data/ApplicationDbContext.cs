@@ -12,9 +12,7 @@ namespace HabitAqui.Data
         {
 
         }
-
-        public DbSet<Avaliacao> Avaliacao { get; set; }
-
+        public DbSet<Avaliacao> Avaliacoes { get; set; }
         public DbSet<Arrendamento> Arrendamentos { get; set; }
 
         public DbSet<Categoria> Categorias { get; set; }

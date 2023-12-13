@@ -119,6 +119,9 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("AvaliacaoId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("Confirmado")
                         .HasColumnType("bit");
 
@@ -144,6 +147,8 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("AvaliacaoId");
+
                     b.HasIndex("EstadoId");
 
                     b.HasIndex("HabitacaoId");
@@ -159,23 +164,12 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<decimal>("AvaliacaoNota")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("HabitacaoId")
+                    b.Property<int>("Nota")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("HabitacaoId");
-
-                    b.ToTable("Avaliacao");
+                    b.ToTable("Avaliacoes");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Categoria", b =>
@@ -525,6 +519,10 @@ namespace HabitAqui.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HabitAqui.Models.Avaliacao", "Avaliacao")
+                        .WithMany()
+                        .HasForeignKey("AvaliacaoId");
+
                     b.HasOne("HabitAqui.Models.Estado", "Estado")
                         .WithMany()
                         .HasForeignKey("EstadoId");
@@ -535,26 +533,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.Navigation("ApplicationUser");
 
+                    b.Navigation("Avaliacao");
+
                     b.Navigation("Estado");
-
-                    b.Navigation("Habitacao");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
-                {
-                    b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
-                        .WithMany("Avaliacoes")
-                        .HasForeignKey("HabitacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("Habitacao");
                 });
@@ -688,8 +669,6 @@ namespace HabitAqui.Data.Migrations
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.Navigation("Arrendamentos");
-
-                    b.Navigation("Avaliacoes");
                 });
 #pragma warning restore 612, 618
         }

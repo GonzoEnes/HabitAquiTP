@@ -63,9 +63,6 @@
                                 <div class="nav-item dropdown">
                                     <a class="nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
                                 </div>
-                                <div class="nav-item dropdown">
-                                    <a class="nav-link" asp-controller="Avaliacoes" asp-action="Index">Avaliações</a>
-                                </div>
                             }
                             else if (this.User.IsInRole("Funcionario") || this.User.IsInRole("Gestor"))
                             {
