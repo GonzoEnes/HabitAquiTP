@@ -159,19 +159,13 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ApplicationUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int?>("HabitacaoId")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("AvaliacaoNota")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("HabitacaoId")
+                    b.Property<int>("Nota")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.HasIndex("HabitacaoId");
 
@@ -542,21 +536,9 @@ namespace HabitAqui.Data.Migrations
 
             modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
                 {
-                    b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
+                    b.HasOne("HabitAqui.Models.Habitacao", null)
                         .WithMany("Avaliacoes")
-                        .HasForeignKey("HabitacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ApplicationUser");
-
-                    b.Navigation("Habitacao");
+                        .HasForeignKey("HabitacaoId");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Funcionario", b =>
