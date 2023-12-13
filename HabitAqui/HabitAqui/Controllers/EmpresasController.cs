@@ -97,8 +97,10 @@ namespace HabitAqui.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Nome,Avaliacao,Disponivel")] Empresa empresa)
         {
+         
             if (ModelState.IsValid)
             {
+                
                 var user = CreateUser();
                 var email = "gestor" + empresa.Nome.ToLower() + "@gmail.com";
                 await _userStore.SetUserNameAsync(user, email, CancellationToken.None);
@@ -123,7 +125,7 @@ namespace HabitAqui.Controllers
                         ApplicationUser = user
 
                     };
-                    
+
                     _context.Update(gestor);
                     await _context.SaveChangesAsync();
                     await _userManager.AddToRoleAsync(user, "Gestor");
@@ -407,72 +409,53 @@ namespace HabitAqui.Controllers
             return View(empresa);
         }
 
-        // POST: Empresas/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Empresa == null)
+            // Retrieve the Empresa along with its associated entities
+            var empresa = await _context.Empresa
+                .Include(e => e.Habitacoes)
+                    .ThenInclude(h => h.Arrendamentos)
+                .Include(e => e.Gestores)
+                .Include(e => e.Funcionarios)
+                .FirstOrDefaultAsync(e => e.Id == id);
+
+            if (empresa == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.empresas'  is null.");
+                return NotFound();
             }
-            var empresa = await _context.Empresa.FindAsync(id);
-            //var funcionarios = await _context.Funcionarios.Include("ApplicationUser").Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            //var gestores = await _context.Gestores.Include("ApplicationUser").Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            //var habitacoes = await _context.Habitacoes.Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            //var arrendamentos = await _context.Arrendamentos.Include("Habitacoes").ToListAsync();
-            //var check = false;
 
-            //if (arrendamentos == null)
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
+            if (empresa.Habitacoes.Any())
+            {
+                return Problem("Não é possível eliminar empresas que contêm habitações.\n");
+            }
 
-            //foreach (var habi in habitacoes)
-            //{
-            //    foreach (var arrenda in arrendamentos)
-            //    {
-            //        if (arrenda.Habitacao.Id == habi.Id)
-            //        {
-            //            check = true;
-            //        }
-            //    }
-            //}
+            // Remove associated Gestores
+            foreach (var user in empresa.Gestores.Select(g => g.ApplicationUser).Where(u => u != null))
+            {
+                var result = await _userManager.DeleteAsync(user);
+            }
 
-            //if (check == true)
-            //{
-            //    return RedirectToAction(nameof(Index));
-            //}
+            // Remove associated Funcionarios
+            if (empresa.Funcionarios != null && empresa.Funcionarios.Any())
+            {
+                foreach (var user in empresa.Funcionarios.Select(g => g.ApplicationUser).Where(u => u != null))
+                {
+                    await _userManager.DeleteAsync(user);
+                }
 
-            //if (empresa != null )
-            //{
-            //    if (gestores != null)
-            //    {
-            //        foreach (var gestor in gestores)
-            //        {
-            //            _context.Gestores.Remove(gestor);
-            //            await DeleteUser(gestor.ApplicationUser.Id);
-            //        }
-            //    }
-            //    if (funcionarios != null)
-            //    {
-            //        foreach (var func in funcionarios)
-            //        {
-            //            _context.Funcionarios.Remove(func);
-            //            await DeleteUser(func.ApplicationUser.Id);
-            //        }
-            //    }
-            //    if (habitacoes != null)
-            //    {
+                _context.Funcionarios.RemoveRange(empresa.Funcionarios);
+            }
 
-            //        foreach (var habi in habitacoes)
-            //        {
-            //            _context.Habitacoes.Remove(habi);
-            //        }
-            //    }
+            // Remove Empresa
             _context.Empresa.Remove(empresa);
+
             await _context.SaveChangesAsync();
-            //}
+
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> DeleteUser(string id)
         {

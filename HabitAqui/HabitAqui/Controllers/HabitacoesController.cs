@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography.Xml;
 using System.Security.Claims;
 using System.Numerics;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace HabitAqui.Controllers
 {
@@ -105,7 +106,12 @@ namespace HabitAqui.Controllers
             {
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole("Admin")) {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                return RedirectToAction(nameof(ListaHabitacoesByEmpresaId));
+
             }
 
             ViewData["ListaDeHabitacoes"] = new SelectList(_context.Habitacoes.OrderBy(c => c.Disponivel).ToList(), "Id", "Nome");
@@ -185,24 +191,7 @@ namespace HabitAqui.Controllers
 
             IQueryable<Habitacao> ListaFiltrada = query;
             
-                foreach (var habitacao in query)
-                {
-                    bool disponivel = true;
-
-                    foreach (var arrendamento in habitacao.Arrendamentos)
-                    {
-                        if ((arrendamento.DataInicio <= pesquisaHabitacoes.DataFinalPesquisa && arrendamento.DataFinal >= pesquisaHabitacoes.DataInicioPesquisa) || (arrendamento.DataFinal >= pesquisaHabitacoes.DataInicioPesquisa && arrendamento.DataInicio <= pesquisaHabitacoes.DataFinalPesquisa))
-                        {
-                            disponivel = false;
-                            break;
-                        }
-                    }
-
-                    if (!disponivel)
-                    {
-                        ListaFiltrada = ListaFiltrada.Where(c => c.Id != habitacao.Id);
-                    }
-                }
+                
 
                 query = ListaFiltrada;
 
@@ -427,23 +416,58 @@ namespace HabitAqui.Controllers
 
             }
 
-            if (habitacao.Localizacao != null) {
+            if (habitacao.Localizacao != null)
+            {
                 var localizacao = _context.Habitacoes.Find(Convert.ToInt32(habitacao.Localizacao)).Localizacao;
 
                 listaHabitacao = listaHabitacao.Where(l => l.Localizacao.Equals(localizacao));
             }
 
-            if (habitacao.TipologiaId != 0 && habitacao.TipologiaId != null) {
+            if (habitacao.TipologiaId != 0 && habitacao.TipologiaId != null)
+            {
                 listaHabitacao = listaHabitacao.Where(c => c.TipologiaId == habitacao.TipologiaId);
             }
 
-            if (habitacao.EmpresaId != 0 && habitacao.EmpresaId != null) {
+            if (habitacao.EmpresaId != 0 && habitacao.EmpresaId != null)
+            {
                 listaHabitacao = listaHabitacao.Where(c => c.EmpresaId == habitacao.EmpresaId);
             }
 
-            if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null) {
+            if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null)
+            {
                 listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == habitacao.CategoriaId);
             }
+
+            if (habitacao.PeriodoMinimoArrendamento != 0 && habitacao.PeriodoMinimoArrendamento != null) {
+                listaHabitacao = listaHabitacao.Where(c => c.PeriodoMinimoArrendamento == habitacao.PeriodoMinimoArrendamento);
+            }
+
+            IQueryable<Habitacao> listaFiltrada = listaHabitacao;
+
+            foreach (var habitacaoForLoop in listaHabitacao)
+            {
+                bool disponivel = true;
+
+                foreach (var arrendamento in habitacaoForLoop.Arrendamentos)
+                {
+                    if ((arrendamento.DataInicio <= pesquisaHabit.DataFinalPesquisa && arrendamento.DataFinal >= pesquisaHabit.DataInicioPesquisa) || (arrendamento.DataFinal >= pesquisaHabit.DataInicioPesquisa && arrendamento.DataInicio <= pesquisaHabit.DataFinalPesquisa))
+                    {
+                        disponivel = false;
+                        break;
+                    }
+                }
+
+                if (!disponivel)
+                {
+                    listaFiltrada = listaFiltrada.Where(c => c.Id != habitacao.Id);
+                }
+            }
+
+            listaHabitacao = listaFiltrada;
+
+            pesquisaHabit.ListaHabitacoes = await listaHabitacao.ToListAsync();
+
+            pesquisaHabit.NResults = pesquisaHabit.ListaHabitacoes.Count();
 
             /*if (!string.IsNullOrEmpty(pesquisaHabit.Categoria))
             {
@@ -463,9 +487,8 @@ namespace HabitAqui.Controllers
                 listaHabitacao = listaHabitacao.Where(c => c.PeriodoMinimoArrendamento == valor);
             }*/
 
-            Console.WriteLine("OLAESTOUAQUI\n\n\n\n\n\n\n" + pesquisaHabit.Ordenar);
 
-                switch (pesquisaHabit.Ordenar)
+            switch (pesquisaHabit.Ordenar)
                 {
                     case 1:
                         pesquisaHabit.ListaHabitacoes = pesquisaHabit.ListaHabitacoes
@@ -494,9 +517,7 @@ namespace HabitAqui.Controllers
                 }
             
 
-            pesquisaHabit.ListaHabitacoes = await listaHabitacao.ToListAsync();
-
-            pesquisaHabit.NResults = pesquisaHabit.ListaHabitacoes.Count();
+            
 
             return View(pesquisaHabit);
         }
