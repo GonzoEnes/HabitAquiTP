@@ -6,7 +6,7 @@
 
 <h1>Edit</h1>
 
-<h4>Habitacao</h4>
+<h4>Habitação - @Model.Nome</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,6 +24,24 @@
                     <input class="form-check-input" asp-for="Disponivel" /> @Html.DisplayNameFor(model => model.Disponivel)
                 </label>
             </div>
+            <div class="form-group form-check">
+                <select asp-for="TipologiaId" asp-items="ViewBag.ListaTipologias" class="form-select border-0 py-3">
+                    <option value="" disabled selected hidden>Tipo de Habitação</option>
+                </select>
+            </div>
+            <div class="form-group form-check">
+                <select asp-for="CategoriaId" asp-items="ViewBag.ListaCategorias" class="form-select border-0 py-3">
+                    <option value="" disabled selected hidden>Categoria da Habitação</option>
+                </select>
+            </div>
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="form-group form-check">
+                    <select asp-for="EmpresaId" asp-items="ViewBag.ListaEmpresas" class="form-select border-0 py-3">
+                        <option value="" disabled selected hidden>Empresa</option>
+                    </select>
+                </div>
+            }
             <div class="form-group">
                 <label asp-for="Localizacao" class="control-label">Localização</label>
                 <input asp-for="Localizacao" class="form-control" />
@@ -33,6 +51,26 @@
                 <label asp-for="PeriodoMinimoArrendamento" class="control-label">Localização</label>
                 <input asp-for="PeriodoMinimoArrendamento" class="form-control" />
                 <span asp-validation-for="PeriodoMinimoArrendamento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NBath" class="control-label">Número de Casas de Banho</label>
+                <input asp-for="NBath" class="form-control" />
+                <span asp-validation-for="NBath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NBedroom" class="control-label">Número de Quartos</label>
+                <input asp-for="NBedroom" class="form-control" />
+                <span asp-validation-for="NBedroom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Area" class="control-label">Localização</label>
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Custo" class="control-label">Custo</label>
+                <input asp-for="Custo" class="form-control" />
+                <span asp-validation-for="Custo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="MediaAvaliacoes" class="control-label">Avaliação</label>

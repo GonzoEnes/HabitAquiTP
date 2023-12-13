@@ -113,25 +113,56 @@ namespace HabitAqui.Controllers
         }
 
         // GET: Habitacoes/Edit/5
-        [Authorize(Roles = "Funcionario,Gestor")]
+        [Authorize(Roles = "Admin,Funcionario,Gestor")]
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
+
+            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
+
+            ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
+
             if (id == null || _context.Habitacoes == null)
             {
                 return NotFound();
             }
 
             var habitacao = await _context.Habitacoes.FindAsync(id);
+            
             if (habitacao == null)
             {
                 return NotFound();
             }
+
+            var appUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (User.IsInRole("Gestor"))
+            {
+                var gestor = _context.Gestores.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                if (habitacao.EmpresaId != gestor.EmpresaId) {
+                    return Problem("Não pode editar uma habitação que não é da sua empresa.");
+                }
+
+                
+            }
+            else if (User.IsInRole("Funcionario"))
+            {
+                var funcionario = _context.Funcionarios.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
+
+                if (habitacao.EmpresaId != funcionario.EmpresaId)
+                {
+                    return Problem("Não pode editar uma habitação que não é da sua empresa.");
+                }
+            }
+
+            
             return View(habitacao);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabitacoes)
+        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria,Ordenar")] HabitacoesViewModel pesquisaHabitacoes)
         {
             ViewData["Title"] = "Pesquisar Habitações";
 
@@ -179,13 +210,19 @@ namespace HabitAqui.Controllers
 
                 pesquisaHabitacoes.NResults = pesquisaHabitacoes.ListaHabitacoes.Count();
 
-                string ordenarValue = Request.Form["Ordenar"]; // get value from select in search
+            //string ordenarValue = Request.Form["Ordenar"]; // get value from select in search
 
-            if (int.TryParse(ordenarValue, out int ordenar))
-            {
-                pesquisaHabitacoes.Ordenar = ordenar;
+            /*if (int.TryParse(ordenarValue, out int ordenar))
+            {*/
+            // pesquisaHabitacoes.Ordenar = ordenar;
 
-                switch (pesquisaHabitacoes.Ordenar)
+            //string ordenarValue = Request.Form["Ordenar"];
+
+            //pesquisaHabitacoes.Ordenar = int.Parse(ordenarValue);
+
+                Console.WriteLine("AIJDAIDWAODJI \n\n\n\n\n\n\n" + pesquisaHabitacoes.Ordenar);
+
+            switch (pesquisaHabitacoes.Ordenar)
                 {
                     case 1:
                         pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes  
@@ -212,7 +249,25 @@ namespace HabitAqui.Controllers
                     default:
                         break;
                 }
+
+            if (!string.IsNullOrEmpty(pesquisaHabitacoes.Categoria))
+            {
+                int valor = int.Parse(pesquisaHabitacoes.Categoria);
+                pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.Where(c => c.CategoriaId == valor).ToList();
             }
+
+            if (!string.IsNullOrEmpty(pesquisaHabitacoes.Empresa))
+            {
+                int valor = int.Parse(pesquisaHabitacoes.Empresa);
+                pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.Where(c => c.EmpresaId == valor).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(pesquisaHabitacoes.PeriodoMinimoArrendamento))
+            {
+                int valor = int.Parse(pesquisaHabitacoes.PeriodoMinimoArrendamento);
+                pesquisaHabitacoes.ListaHabitacoes = pesquisaHabitacoes.ListaHabitacoes.Where(c => c.PeriodoMinimoArrendamento == valor).ToList();
+            }
+
 
             return View(pesquisaHabitacoes);
         }
@@ -230,6 +285,11 @@ namespace HabitAqui.Controllers
                 var funcionario = _context.Funcionarios.Where(c => c.ApplicationUser.Id == appUserId).FirstOrDefault();
 
                 pesquisaHabitacoes.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == funcionario.EmpresaId).ToListAsync();
+
+                if (pesquisaHabitacoes.Categoria != null)
+                {
+                    pesquisaHabitacoes.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == funcionario.EmpresaId && c.Categoria.Id == int.Parse(pesquisaHabitacoes.Categoria)).ToListAsync();
+                }
 
                 if (int.TryParse(ordenarValue, out int ordenar))
                 {
@@ -271,6 +331,11 @@ namespace HabitAqui.Controllers
 
                 pesquisaHabitacoes.ListaHabitacoes = _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == gestor.EmpresaId).ToList();
 
+                if (pesquisaHabitacoes.Categoria != null)
+                {
+                    pesquisaHabitacoes.ListaHabitacoes = await _context.Habitacoes.Include("Categoria").Include("Tipologia").Include("Arrendamentos").Include("Empresa").Where(c => c.EmpresaId == gestor.EmpresaId && c.Categoria.Id == int.Parse(pesquisaHabitacoes.Categoria)).ToListAsync();
+                }
+
                 if (int.TryParse(ordenarValue, out int ordenar))
                 {
                     pesquisaHabitacoes.Ordenar = ordenar;
@@ -310,7 +375,7 @@ namespace HabitAqui.Controllers
             return View(pesquisaHabitacoes);
         }
 
-        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria")] HabitacoesViewModel pesquisaHabit,
+        public async Task<IActionResult> Search([Bind("TextoAPesquisar,DataInicioPesquisa,DataFinalPesquisa,Localizacao,Tipologia,Empresa,Categoria,PeriodoMinimoArrendamento,Ordenar")] HabitacoesViewModel pesquisaHabit,
             [Bind("Id,Nome,Custo,NBath,NBedroom,Area,Disponivel,Localizacao,ArrendamentoId,TipologiaId,MediaAvaliacoes,PeriodoMinimoArrendamento,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao, string? TextoAPesquisar)
         {
 
@@ -368,15 +433,19 @@ namespace HabitAqui.Controllers
                 listaHabitacao = listaHabitacao.Where(l => l.Localizacao.Equals(localizacao));
             }
 
-            /*if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null) {
-                listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == habitacao.CategoriaId);
-            }*/
-
             if (habitacao.TipologiaId != 0 && habitacao.TipologiaId != null) {
                 listaHabitacao = listaHabitacao.Where(c => c.TipologiaId == habitacao.TipologiaId);
             }
 
-            if (!string.IsNullOrEmpty(pesquisaHabit.Categoria))
+            if (habitacao.EmpresaId != 0 && habitacao.EmpresaId != null) {
+                listaHabitacao = listaHabitacao.Where(c => c.EmpresaId == habitacao.EmpresaId);
+            }
+
+            if (habitacao.CategoriaId != 0 && habitacao.CategoriaId != null) {
+                listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == habitacao.CategoriaId);
+            }
+
+            /*if (!string.IsNullOrEmpty(pesquisaHabit.Categoria))
             {
                 int valor = int.Parse(pesquisaHabit.Categoria);
                 listaHabitacao = listaHabitacao.Where(c => c.CategoriaId == valor);
@@ -387,6 +456,43 @@ namespace HabitAqui.Controllers
                 int valor = int.Parse(pesquisaHabit.Empresa);
                 listaHabitacao = listaHabitacao.Where(c => c.EmpresaId == valor);
             }
+
+            if (!string.IsNullOrEmpty(pesquisaHabit.PeriodoMinimoArrendamento))
+            {
+                int valor = int.Parse(pesquisaHabit.PeriodoMinimoArrendamento);
+                listaHabitacao = listaHabitacao.Where(c => c.PeriodoMinimoArrendamento == valor);
+            }*/
+
+            Console.WriteLine("OLAESTOUAQUI\n\n\n\n\n\n\n" + pesquisaHabit.Ordenar);
+
+                switch (pesquisaHabit.Ordenar)
+                {
+                    case 1:
+                        pesquisaHabit.ListaHabitacoes = pesquisaHabit.ListaHabitacoes
+                            .OrderBy(c => c.Custo)
+                            .ToList();
+                        break;
+                    case 2:
+                        pesquisaHabit.ListaHabitacoes = pesquisaHabit.ListaHabitacoes
+                            .OrderByDescending(c => c.Custo)
+                            .ToList();
+                        break;
+                    case 3:
+                        pesquisaHabit.ListaHabitacoes = pesquisaHabit.ListaHabitacoes
+                            .Where(c => c.MediaAvaliacoes.HasValue)
+                            .OrderBy(c => c.MediaAvaliacoes)
+                            .ToList();
+                        break;
+                    case 4:
+                        pesquisaHabit.ListaHabitacoes = pesquisaHabit.ListaHabitacoes
+                            .Where(c => c.MediaAvaliacoes.HasValue)
+                            .OrderByDescending(c => c.MediaAvaliacoes)
+                            .ToList();
+                        break;
+                    default:
+                        break;
+                }
+            
 
             pesquisaHabit.ListaHabitacoes = await listaHabitacao.ToListAsync();
 
@@ -400,14 +506,8 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao)
         {
-            ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
-
-            ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
-
-            ViewData["ListaTipologias"] = new SelectList(_context.Tipologia.ToList(), "Id", "Nome");
-
             if (id != habitacao.Id)
             {
                 return NotFound();

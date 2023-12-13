@@ -18,7 +18,7 @@
 
                         <p>Resultado da pesquisa por "@Model.TextoAPesquisar":</p>
 
-                        <form asp-controller="Habitacoes" asp-action="Search" method="GET">
+                        <form asp-controller="Habitacoes" asp-action="Search" method="post">
                             <div class="input-group">
                                 <input type="text" name="TextoAPesquisar" id="TextoAPesquisar" placeholder="Pesquisar..."
                                        class="form-control form-control-sm" />
@@ -39,16 +39,18 @@
                                     <option value="" disabled selected hidden>Locador</option>
                                 </select>
 
-                                <a asp-controller="Habitacoes" asp-action="Index" class="btn btn-secondary" style="background-color: #00B98E;">
-                                    Limpar filtros
-                                </a>
-
                                 <button type="submit" class="btn btn-default ms-2 me-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00B98E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning" aria-label="Search">
                                         <circle cx="11" cy="11" r="8" />
                                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                     </svg>
                                 </button>
+
+                                <a asp-controller="Habitacoes" asp-action="Index" class="btn btn-secondary" style="background-color: #00B98E;">
+                                    Limpar filtros
+                                </a>
+
+                                
                             </div>
                         </form>
                         
@@ -137,7 +139,7 @@ else
 
                         <p>Resultado da pesquisa por "@Model.TextoAPesquisar":</p>
 
-                        <form asp-controller="Habitacoes" asp-action="Search" method="get">
+                        <form asp-controller="Habitacoes" asp-action="Search" method="post">
                             <div class="input-group">
                                 <input type="text" name="TextoAPesquisar"
                                        id="TextoAPesquisar" placeholder="Pesquisar..."
@@ -159,9 +161,7 @@ else
                                     <option value="" disabled selected hidden>Locador</option>
                                 </select>
 
-                                <a asp-controller="Habitacoes" asp-action="Index" class="btn btn-secondary" style="background-color: #00B98E;">
-                                    Limpar filtros
-                                </a>
+                                
 
                                 <button type="submit" class="btn btn-default ms-2 me-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00B98E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-warning" aria-label="Search">
@@ -169,6 +169,10 @@ else
                                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                                     </svg>
                                 </button>
+
+                                <a asp-controller="Habitacoes" asp-action="Index" class="btn btn-secondary" style="background-color: #00B98E;">
+                                    Limpar filtros
+                                </a>
                             </div>
                         </form>
                     </div>

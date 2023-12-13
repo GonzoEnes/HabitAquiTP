@@ -63,6 +63,9 @@
 
                         <dt class="col-sm-3 fw-bold">Empresa:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Empresa.Nome)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Custo:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Custo)</dd>
 @*
                         <dt class="col-sm-3 fw-bold">Danos:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Danos)</dd>
@@ -81,11 +84,10 @@
             </div>*@
 
             <div class="col-lg-6">
-                @if (User.IsInRole("Gestor,Funcionario,Admin")) 
+                @if (User.IsInRole("Gestor") || User.IsInRole("Funcionario") || User.IsInRole("Admin")) 
                 {
                     <div class="text-start mb-5 wow slideInLeft" data-wow-delay="0.1s">
                         <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
-                        
                     </div>
                 }
 

@@ -16,7 +16,7 @@
                     <h1 class="mb-3">Propriedades</h1>
                     <p>Aqui pode pesquisar a nossa seleção de habitações! Clique na que desejar para ver mais informações.</p>
 
-                    <form asp-controller="Habitacoes" asp-action="Search" method="GET">
+                    <form asp-controller="Habitacoes" asp-action="Search" method="post">
                         <div class="input-group">
                             <input type="text" name="TextoAPesquisar" id="TextoAPesquisar" placeholder="Pesquisar..."
                                    class="form-control form-control-sm" />
@@ -49,6 +49,8 @@
                             </a>
                         </div>
                     </form>
+
+
                 </div>
             </div>
             @if (User.IsInRole("Funcionario") || User.IsInRole("Gestor") || User.IsInRole("Admin"))

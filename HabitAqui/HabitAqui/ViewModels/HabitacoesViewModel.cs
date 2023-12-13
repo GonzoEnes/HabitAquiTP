@@ -21,5 +21,7 @@ namespace HabitAqui.ViewModels
         public int Ordenar { get; set; } // isto serve para escolher qual é o Order By que o user vai escolher
         public DateTime DataInicioPesquisa { get; set; }
         public DateTime DataFinalPesquisa { get; set; }
+
+        public string? PeriodoMinimoArrendamento { get; set; }
     }
 }
