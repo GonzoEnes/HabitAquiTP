@@ -44,7 +44,7 @@
                         <dt class="col-sm-3 fw-bold">Localização:</dt>
                         <dd class="col-sm-9">@Html.DisplayFor(model => model.Habitacao.Localizacao)</dd>
 
-                        @if (Model.Habitacao.MediaAvaliacoes == -1)
+                        @if (Model.Habitacao.MediaAvaliacoes == null)
                         {
                             <dt class="col-sm-3 fw-bold">Avaliação:</dt>
                             <dd class="col-sm-9">Esta propriedade não possui avaliação de momento.</dd>

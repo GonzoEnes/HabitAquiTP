@@ -1,0 +1,122 @@
+﻿@*@model HabitAqui.Models.Arrendamento
+
+@{
+    ViewData["Title"] = "Estado Habitação";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Estado da Habitação</h1>
+
+<h4>Editar Estado da Habitação</h4>
+<hr />
+
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <h5>Estado da Habitação - Entrega ao Cliente</h5>
+            <hr />
+            <form asp-action="VehicleState" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="HabitacaoId" value="@Model.HabitacaoId" />
+                <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
+                <input type="hidden" asp-for="ApplicationUser" value="@Model.ApplicationUser" />
+                <div class="form-group">
+                    <label asp-for="EstadoEntrega.Equipamentos" class="control-label"></label>
+                    <input asp-for="EstadoEntrega.Equipamentos" class="form-control" />
+                    <span asp-validation-for="EstadoEntrega.Equipamentos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoRececao.Danos" class="control-label"></label>
+                    <input asp-for="EstadoRececao.Danos" class="form-control" />
+                    <span asp-validation-for="EstadoRececao.Danos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoEntrega.Observacoes" class="control-label"></label>
+                    <input asp-for="EstadoEntrega.Observacoes" class="form-control" />
+                    <span asp-validation-for="EstadoEntrega.Observacoes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoEntrega.ApplicationUserId" class="control-label"></label>
+                    <select asp-for="EstadoEntrega.ApplicationUserId" class="form-control" asp-items="ViewBag.Employers"></select>
+                    <span asp-validation-for="EstadoRececao.ApplicationUserId" class="text-danger"></span>
+                </div>
+
+                <br />
+                <h5>Estado da Habitação - Receção do Cliente</h5>
+                <hr />
+                <div class="form-group">
+                    <label asp-for="EstadoRececao.Equipamentos" class="control-label"></label>
+                    <input asp-for="EstadoRececao.Equipamentos" class="form-control" />
+                    <span asp-validation-for="EstadoRececao.Equipamentos" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EstadoRececao.Danos" class="control-label"></label>
+                    <input asp-for="EstadoRececao.Danos" class="form-control" />
+                    <span asp-validation-for="EstadoRececao.Danos" class="text-danger"></span>
+                </div>
+
+                <br />
+                <div class="form-floating">
+                    <div>
+                        <label>Escolher imagens: </label>
+                        <input type="file"
+                               name="fotografias"
+                               id="files"
+                               multiple
+                               accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                               class="form-control" />
+                        <span class="text-danger"></span> 
+
+                    </div>
+                    <br />
+                </div>
+
+                <div class="row d-flex">
+                    @if (ViewBag.Ficheiros != null)
+                    {
+                        @foreach (var imagem in ViewBag.Ficheiros)
+                        {
+                            <div class="col p-2 m-2" style="border-radius: 10px">
+                                <a asp-action="deleteImage"
+                           asp-route-id="@Model.EstadoRececaoId"
+                           asp-route-image="@imagem">
+
+                                    <svg bootstrap-icon="XCircleFill"
+                                         onclick="return confirm('u sure u wanna delete?')"
+                                         class="text-danger" width="20" height="24"
+                                         aria-label="Trash"></svg>
+                                </a>
+
+                                <img src="@imagem"
+                                     class="img-thumbnail"
+                                     style="max-width: 150px; max-height: 150px" />
+
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="EstadoRececao.Observacoes" class="control-label"></label>
+                    <input asp-for="EstadoRececao.Observacoes" class="form-control" />
+                    <span asp-validation-for="EstadoRececao.Observacoes" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="EstadoRececao.ApplicationUserId" class="control-label"></label>
+                    <select asp-for="EstadoRececao.ApplicationUserId" class="form-control" asp-items="ViewBag.Funcionarios"></select>
+                    <span asp-validation-for="EstadoRececao.ApplicationUserId" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>*@

@@ -95,9 +95,9 @@ namespace HabitAqui.Controllers
             double NrDays = 0;
 
             if (request.DataInicio < DateTime.Now)
-                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data do fim!");
+                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data atual!");
             if (request.DataInicio > request.DataFinal)
-                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data do fim!");
+                ModelState.AddModelError("DataInicio", "A data de início não pode ser maior que a data de final!");
 
 
             var habitacao = _context.Habitacoes.Include("Arrendamentos").Include("Tipologia").Include("Categoria").FirstOrDefault(v => v.Id == request.HabitacaoId);
@@ -156,7 +156,7 @@ namespace HabitAqui.Controllers
                 return NotFound();
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", arrendamento.ApplicationUserId);
-            ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
+            //ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
             return View(arrendamento);
         }
@@ -194,7 +194,7 @@ namespace HabitAqui.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", arrendamento.ApplicationUserId);
-            ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
+            //ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
             return View(arrendamento);
         }
@@ -209,7 +209,6 @@ namespace HabitAqui.Controllers
 
             var arrendamento = await _context.Arrendamentos
                 .Include(a => a.ApplicationUser)
-                .Include(a => a.Estado)
                 .Include(a => a.Habitacao)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (arrendamento == null)
@@ -239,7 +238,141 @@ namespace HabitAqui.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ArrendamentoExists(int id)
+        [Authorize(Roles = "Gestor,Funcionario,Admin")]
+        public async Task<IActionResult> EstadoHabitacao(int? id) 
+        {
+            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var gestores = await userManager.GetUsersInRoleAsync("Gestor");
+
+            ViewData["Gestores"] = new SelectList(gestores, "Id", "PrimeiroNome");
+
+            var arrendamento = await _context.Arrendamentos.Include("EstadoEntrega").Include("EstadoRececao").Include(c => c.Habitacao).FirstOrDefaultAsync(c => c.Id == id);
+
+            if (arrendamento == null)
+            {
+                return NotFound("Não foi possível encontrar esse arrendamento.\n");
+            }
+
+            string danosDiretoria = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/fotografias/" + arrendamento.EstadoRececaoId.ToString());
+
+            if (!Directory.Exists(danosDiretoria)) {
+                Directory.CreateDirectory(danosDiretoria);
+            }
+
+            var ficheiros = from ficheiro in Directory.EnumerateFiles(danosDiretoria)
+                            select string.Format("/img/fotografias/{0}/{1}", arrendamento.EstadoRececaoId, Path.GetFileName(ficheiro));
+
+            ViewData["Ficheiros"] = ficheiros;
+
+            if (id == null || _context.Arrendamentos == null) {
+                return NotFound();
+            }
+
+            var arrendamentoAux = await _context.Arrendamentos.FindAsync(id);
+
+            if (arrendamentoAux == null) {
+                return NotFound();
+            }
+
+            return View(arrendamentoAux);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Gestor,Funcionario,Admin")]
+        public async Task<IActionResult> EstadoHabitacao(
+            int id,
+            [Bind("Id,DataInicio,DataFinal,CustoArrendamento,DataPedido,HabitacaoId,Habitacao,ApplicationUserId,Confirmado,ApplicationUser,EstadoEntrega,EstadoRececao")] Arrendamento arrendamento,
+            [Bind("Id,Nome,Equipamentos,Danos,Observacoes,ApplicationUserId")] Estado estadoEntrega,
+            [Bind("Danos,Equipamentos,Observacoes,ApplicationUserId")] Estado estadoRececao,
+            [FromForm] List<IFormFile> fotografias
+        )
+        {
+            if (id != arrendamento.Id) {
+                return NotFound();
+            }
+
+            var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
+
+            var funcionarios = await userManager.GetUsersInRoleAsync("Gestor");
+
+            ViewData["Funcionarios"] = new SelectList(funcionarios, "Id", "PrimeiroNome");
+
+            var arrendamentoComEstado = await _context.Arrendamentos.Include("EstadoEntrega").Include("EstadoRececao").Include("Habitacao").FirstOrDefaultAsync(c => c.Id == id);
+
+            if (arrendamentoComEstado == null) {
+                return NotFound();
+            }
+
+            string danosDiretoria = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/fotografias/" + arrendamento.EstadoRececao.ToString());
+
+            if (!Directory.Exists(danosDiretoria))
+            {
+                Directory.CreateDirectory(danosDiretoria);
+            }
+
+            var ficheiros = from ficheiro in Directory.EnumerateFiles(danosDiretoria)
+                            select string.Format("/img/fotografias/{0}/{1}", arrendamento.EstadoRececaoId, Path.GetFileName(ficheiro));
+
+            ViewData["Ficheiros"] = ficheiros;
+
+            arrendamentoComEstado.EstadoEntrega = estadoEntrega;
+
+            arrendamentoComEstado.EstadoRececao = estadoRececao;
+
+            if (ModelState.IsValid) {
+                try {
+                    _context.Update(arrendamentoComEstado);
+
+                    await _context.SaveChangesAsync();
+
+                    _context.Habitacoes.Find(arrendamentoComEstado.HabitacaoId).EstadoId = arrendamentoComEstado.EstadoEntregaId;
+
+                    await _context.SaveChangesAsync();
+
+                    if (estadoRececao.Danos) {
+                        string diretoria = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/fotografias");
+
+                        if (!Directory.Exists(diretoria)) {
+                            Directory.CreateDirectory(diretoria);
+                        }
+
+                        foreach (var fotografia in fotografias) {
+                            if (fotografia.Length > 0) {
+                                var diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
+
+                                while (System.IO.File.Exists(diretoriaFicheiro)) {
+                                    diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
+                                }
+
+                                using (var stream = System.IO.File.Create(diretoriaFicheiro)) {
+                                    await fotografia.CopyToAsync(stream);
+                                }
+                            }
+                        }
+                    }
+                    _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException) {
+                    if (!ArrendamentoExists(arrendamentoComEstado.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(Index)); // trocar para arrendamentos DESTA empresa, criar função de ListarArrendamentosByEmpresa
+            }
+            ViewData["ListaHabitacoes"] = new SelectList(_context.Habitacoes.ToList(), "Id", "Nome", arrendamentoComEstado.Id);
+
+            return View(arrendamentoComEstado);
+        }
+
+            private bool ArrendamentoExists(int id)
         {
             return (_context.Arrendamentos?.Any(e => e.Id == id)).GetValueOrDefault();
         }

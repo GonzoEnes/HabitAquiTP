@@ -134,7 +134,10 @@ namespace HabitAqui.Data.Migrations
                     b.Property<DateTime>("DataPedido")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EstadoId")
+                    b.Property<int?>("EstadoEntregaId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstadoRececaoId")
                         .HasColumnType("int");
 
                     b.Property<int?>("HabitacaoId")
@@ -144,7 +147,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.HasIndex("EstadoId");
+                    b.HasIndex("EstadoEntregaId");
+
+                    b.HasIndex("EstadoRececaoId");
 
                     b.HasIndex("HabitacaoId");
 
@@ -227,8 +232,8 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Danos")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("Danos")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Equipamentos")
                         .HasColumnType("nvarchar(max)");
@@ -239,6 +244,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.Property<string>("Observacoes")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("aleatorio")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -522,9 +530,13 @@ namespace HabitAqui.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HabitAqui.Models.Estado", "Estado")
+                    b.HasOne("HabitAqui.Models.Estado", "EstadoEntrega")
                         .WithMany()
-                        .HasForeignKey("EstadoId");
+                        .HasForeignKey("EstadoEntregaId");
+
+                    b.HasOne("HabitAqui.Models.Estado", "EstadoRececao")
+                        .WithMany()
+                        .HasForeignKey("EstadoRececaoId");
 
                     b.HasOne("HabitAqui.Models.Habitacao", "Habitacao")
                         .WithMany("Arrendamentos")
@@ -532,7 +544,9 @@ namespace HabitAqui.Data.Migrations
 
                     b.Navigation("ApplicationUser");
 
-                    b.Navigation("Estado");
+                    b.Navigation("EstadoEntrega");
+
+                    b.Navigation("EstadoRececao");
 
                     b.Navigation("Habitacao");
                 });

@@ -67,16 +67,20 @@
                             else if (this.User.IsInRole("Funcionario"))
                             {
                                 <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
-                                    <a class="nav-link" asp-controller="Reservations" asp-action="ListCompanyReservations">Reservations</a>
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListArrendamentosEmpresa">Arrendamentos</a>
+
                                 
                             }
                             else if (this.User.IsInRole("Gestor"))
                             {
                                 <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
                                     <a class="nav-link" asp-controller="Empresas" asp-action="ListEmpresaFuncionarios">Funcionários</a>
+
                                 
                                
                                     <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Registar Novo</a>
+
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListArrendamentosEmpresa">Arrendamentos</a>
                               
 
                             }
@@ -89,7 +93,7 @@
                                     <a class="nav-link" asp-controller="Empresas" asp-action="Index">Empresas</a>
                                 
                                 
-                                    <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListCompanyReservations">Arrendamentos</a>
+                                    <a class="nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
                                 
                                 <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorias</a>
 

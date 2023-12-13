@@ -16,13 +16,16 @@ namespace HabitAqui.Models
         public string? Equipamentos { get; set; }
 
         [Display(Name = "Danos", Prompt = "A habitação possui algum tipo de danos?")]
-        public string? Danos { get; set; }
+        public bool Danos { get; set; }
 
         [Display(Name = "Observações", Prompt = "Adicione mais algumas observações a ter em conta...")]
         public string? Observacoes { get; set; }
+        
         //public ApplicationUser? ApplicationUser { get; set; }
         
         //public string ApplicationUserId { get; set; }
+
+        public int aleatorio { get; set; }
 
         [NotMapped]
         [Display(Name = "Fotografias", Prompt = "Anexe fotografias do dano da habitação")]
