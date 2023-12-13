@@ -56,44 +56,47 @@
                     <div class="ms-auto">
                         <div class="navbar-nav">
                             <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
-                            <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                            
 
                             @if (this.User.IsInRole("Cliente"))
                             {
-                                <div class="nav-item dropdown">
+                                    <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
                                     <a class="nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
-                                </div>
+                                
                             }
                             else if (this.User.IsInRole("Funcionario"))
                             {
-                                <div class="nav-item dropdown">
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
                                     <a class="nav-link" asp-controller="Reservations" asp-action="ListCompanyReservations">Reservations</a>
-                                </div>
+                                
                             }
                             else if (this.User.IsInRole("Gestor"))
                             {
-                                <div class="nav-item dropdown">
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
                                     <a class="nav-link" asp-controller="Empresas" asp-action="ListEmpresaFuncionarios">Funcionários</a>
-                                </div>
-                                <div class="nav-item dropdown">
-                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Registar Novo</a>
-                                </div>
+                                
+                               
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/FuncionarioRegister">Registar Novo</a>
+                              
 
                             }
                             else if (this.User.IsInRole("Admin"))
                             {
-                                <div class="nav-item dropdown">
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                                
                                     <a class="nav-link" asp-controller="UserRolesManager" asp-action="Index">Permissões</a>
-                                </div>
-                                <div class="nav-item dropdown">
+                                
                                     <a class="nav-link" asp-controller="Empresas" asp-action="Index">Empresas</a>
-                                </div>
-                                <div class="nav-item dropdown">
+                                
+                                
                                     <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListCompanyReservations">Arrendamentos</a>
-                                </div>
-                                <div class="nav-item dropdown">
-                                    <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorias</a>
-                                </div>
+                                
+                                <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorias</a>
+
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
                             }
                         </div>
                     </div>

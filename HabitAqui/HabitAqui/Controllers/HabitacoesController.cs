@@ -12,6 +12,7 @@ using HabitAqui.ViewModels;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Cryptography.Xml;
+using System.Security.Claims;
 
 namespace HabitAqui.Controllers
 {
@@ -27,6 +28,7 @@ namespace HabitAqui.Controllers
         // GET: Habitacoes
         public async Task<IActionResult> Index()
         {
+            
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             ViewData["ListaEmpresas"] = new SelectList(_context.Empresa.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
@@ -364,6 +366,21 @@ namespace HabitAqui.Controllers
         private bool HabitacaoExists(int id)
         {
           return (_context.Habitacoes?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        [Authorize(Roles = "Gestor,Funcionario")]
+        public async Task<IActionResult> ListaHabitacoesByEmpresaId()
+        {
+            var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (User.IsInRole("Funcionario"))
+            {
+                var funcionario = _context.Funcionarios.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+                var habitacoesFunc = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == funcionario.EmpresaId).ToListAsync();
+                return View(habitacoesFunc);
+            }
+            var gestor = _context.Gestores.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+            var habitacoes = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == gestor.EmpresaId).ToListAsync();
+            return View(habitacoes);
         }
     }
 }
