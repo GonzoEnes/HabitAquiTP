@@ -9,6 +9,8 @@ using HabitAqui.Data;
 using HabitAqui.Models;
 using HabitAqui.ViewModels;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System;
+using System.Linq;
 
 namespace HabitAqui.Controllers
 {
@@ -175,18 +177,21 @@ namespace HabitAqui.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Empresa == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var empresa = await _context.Empresa.FindAsync(id);
+
             if (empresa == null)
             {
                 return NotFound();
             }
+
             return View(empresa);
         }
+
 
 
         [Authorize(Roles = "Gestor,Admin")]
@@ -253,101 +258,27 @@ namespace HabitAqui.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Nome,Avaliacao,Disponivel")] Empresa empresa)
+        public async Task<IActionResult> Edit(int id, [Bind("Id, Nome, Avaliacao, Disponivel")] Empresa empresa)
         {
             if (id != empresa.Id)
             {
                 return NotFound();
             }
-            var gestors = await _context.Gestores.Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            var funcionarios = await _context.Funcionarios.Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            var habitacoes = await _context.Habitacoes.Where(e => e.EmpresaId == empresa.Id).ToListAsync();
-            var arrendamentos = await _context.Arrendamentos.Include("Habitacao").ToListAsync();
-            var check = false;
 
-            if (arrendamentos == null)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            foreach (var habi in habitacoes)
-            {
-                foreach (var arrenda in arrendamentos)
-                {
-                    if (arrenda.Habitacao.Id == habi.Id)
-                    {
-                        check = true;
-                    }
-                }
-            }
-
-            if (check == true)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
+                
                     _context.Update(empresa);
                     await _context.SaveChangesAsync();
-                    if (empresa.Disponivel == false)
-                    {
-
-                        if (funcionarios != null)
-                        {
-                            foreach (var item in funcionarios)
-                            {
-                                await makeEmployeeAvailableUnavailable(item.Id);
-                            }
-                        }
-                        if (gestors != null)
-                        {
-                            foreach (var item in gestors)
-                            {
-                                await makeGestorAvailableUnavailable(item.Id);
-                            }
-                        }
-                        if (habitacoes != null)
-                        {
-                            foreach (var item in habitacoes)
-                            {
-                                item.Disponivel = false;
-                                _context.Update(item);
-                                await _context.SaveChangesAsync();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (funcionarios != null)
-                        {
-                            foreach (var item in funcionarios)
-                            {
-                                await makeEmployeeAvailableUnavailable(item.Id);
-                            }
-                        }
-                        if (gestors != null)
-                        {
-                            foreach (var item in gestors)
-                            {
-                                await makeGestorAvailableUnavailable(item.Id);
-                            }
-                        }
-                        if (habitacoes != null)
-                        {
-                            foreach (var item in habitacoes)
-                            {
-                                item.Disponivel = true;
-                                _context.Update(item);
-                                await _context.SaveChangesAsync();
-                            }
-                        }
-                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateConcurrencyException ex)
                 {
+                    // Log the exception or handle it as needed
+                    // For example, you can log the error using a logging framework
+                    // logger.LogError(ex, "Concurrency error while updating the empresa with ID {EmpresaId}", empresa.Id);
+
                     if (!EmpresaExists(empresa.Id))
                     {
                         return NotFound();
@@ -357,12 +288,25 @@ namespace HabitAqui.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+           
+
+            // Log ModelState errors
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                // Log or print the error messages
             }
+
             return View(empresa);
         }
 
-        // GET: Empresas/Delete/5
+
+
+
+
+
+
+
+
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -390,7 +334,9 @@ namespace HabitAqui.Controllers
                 .Include(e => e.Habitacoes)
                     .ThenInclude(h => h.Arrendamentos)
                 .Include(e => e.Gestores)
+                    .ThenInclude(g => g.ApplicationUser)
                 .Include(e => e.Funcionarios)
+                    .ThenInclude(f => f.ApplicationUser)
                 .FirstOrDefaultAsync(e => e.Id == id);
 
             if (empresa == null)
@@ -403,21 +349,34 @@ namespace HabitAqui.Controllers
                 return Problem("Não é possível eliminar empresas que contêm habitações.\n");
             }
 
-            // Remove associated Gestores
-            foreach (var user in empresa.Gestores.Select(g => g.ApplicationUser).Where(u => u != null))
-            {
-                var result = await _userManager.DeleteAsync(user);
-            }
-
             // Remove associated Funcionarios
             if (empresa.Funcionarios != null && empresa.Funcionarios.Any())
             {
-                foreach (var user in empresa.Funcionarios.Select(g => g.ApplicationUser).Where(u => u != null))
+                foreach (var funcionario in empresa.Funcionarios)
                 {
-                    await _userManager.DeleteAsync(user);
+                    var user = funcionario.ApplicationUser;
+                    if (user != null)
+                    {
+                        var result = await _userManager.DeleteAsync(user);
+                    }
                 }
 
                 _context.Funcionarios.RemoveRange(empresa.Funcionarios);
+            }
+
+            // Remove associated Gestores
+            if (empresa.Gestores != null && empresa.Gestores.Any())
+            {
+                foreach (var gestor in empresa.Gestores)
+                {
+                    var user = gestor.ApplicationUser;
+                    if (user != null)
+                    {
+                        var result = await _userManager.DeleteAsync(user);
+                    }
+                }
+
+                _context.Gestores.RemoveRange(empresa.Gestores);
             }
 
             // Remove Empresa
@@ -427,6 +386,8 @@ namespace HabitAqui.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
 
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> makeGestorAvailableUnavailable(int? id)
@@ -458,9 +419,10 @@ namespace HabitAqui.Controllers
             foreach (var gestor in gestores)
             {
                 // Toggle the Disponivel property
-                gestor.ApplicationUser.Disponivel = !gestor.ApplicationUser.Disponivel;
                 empresa.Disponivel = !empresa.Disponivel;
+                gestor.ApplicationUser.Disponivel = !gestor.ApplicationUser.Disponivel;
 
+                _context.Update(empresa);
                 _context.Update(gestor);
             }
             if (funcionarios == null || empresa == null)
@@ -470,10 +432,10 @@ namespace HabitAqui.Controllers
 
             foreach (var func in funcionarios)
             {
-                // Toggle the Disponivel property
-                func.ApplicationUser.Disponivel = !func.ApplicationUser.Disponivel;
                 empresa.Disponivel = !empresa.Disponivel;
+                func.ApplicationUser.Disponivel = !func.ApplicationUser.Disponivel;
 
+                _context.Update(empresa);
                 _context.Update(func);
             }
 
