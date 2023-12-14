@@ -53,6 +53,7 @@ namespace HabitAqui.Controllers
                 .Include(a => a.Habitacao.Empresa)
                 .Include(a => a.Habitacao.Categoria)
                 .Include(a => a.Habitacao.Tipologia)
+                .Include(a => a.Avaliacao)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (avaliacao == null)
             {
@@ -202,7 +203,41 @@ namespace HabitAqui.Controllers
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
             return View(arrendamento);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Avaliar(int id, [Bind("AvaliacaoId")] Arrendamento arrendamento)
+        {
+            ViewData["ListaAvaliacao"] = new SelectList(_context.Avaliacao.ToList(), "Id", "Nota");
+            if (id != arrendamento.Id)
+            {
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(arrendamento);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArrendamentoExists(arrendamento.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ApplicationUserId"] = new SelectList(_context.Users, "Id", "Id", arrendamento.ApplicationUserId);
+            //ViewData["EstadoId"] = new SelectList(_context.Set<Estado>(), "Id", "Id", arrendamento.EstadoId);
+            ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
+            return View(arrendamento);
+        }
         // GET: Arrendamentos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

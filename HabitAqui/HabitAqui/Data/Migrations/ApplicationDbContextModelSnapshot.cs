@@ -533,7 +533,7 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("HabitAqui.Models.Avaliacao", "Avaliacao")
-                        .WithMany()
+                        .WithMany("Arrendamentos")
                         .HasForeignKey("AvaliacaoId");
 
                     b.HasOne("HabitAqui.Models.Estado", "EstadoEntrega")
@@ -680,6 +680,11 @@ namespace HabitAqui.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
+                {
+                    b.Navigation("Arrendamentos");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Categoria", b =>
