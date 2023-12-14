@@ -20,12 +20,12 @@ namespace HabitAqui.Models
         [Display(Name = "Habitação", Prompt = "Insira a habitação")]
         public int? HabitacaoId { get; set; }
 
-        
+
         public Habitacao? Habitacao { get; set; }
 
         [Display(Name = "Utilizador", Prompt = "Utilizador que realizou o arrendamento")]
         public string ApplicationUserId { get; set; }
-        
+
         public ApplicationUser? ApplicationUser { get; set; }
 
         [Display(Name = "Estado da Entrega", Prompt = "Insira o estado da habitação a entregar")]
@@ -40,5 +40,8 @@ namespace HabitAqui.Models
         public Estado? EstadoRececao { get; set; }
 
         public bool? Confirmado { get; set; }
+
+        public int? AvaliacaoId {get; set;}
+        public Avaliacao? Avaliacao { get; set;}
     }
 }

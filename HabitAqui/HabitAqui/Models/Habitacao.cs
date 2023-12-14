@@ -40,8 +40,6 @@ namespace HabitAqui.Models
 
         public ICollection<Arrendamento>? Arrendamentos { get; set; }
 
-        public ICollection<Avaliacao>? Avaliacoes { get; set; }
-
         [Range(0.00, 5.00, ErrorMessage = "A avaliação deve ser de 0 a 5, permitindo valores intermédios (ex: 4,52)")]
         public decimal? MediaAvaliacoes { get; set; }
 
