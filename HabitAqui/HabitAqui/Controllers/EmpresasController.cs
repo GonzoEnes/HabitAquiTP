@@ -42,7 +42,7 @@ namespace HabitAqui.Controllers
             {
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").ToListAsync();
             }
-            
+
             if (disponivel != null && TextoAPesquisar != null)
             {
                 searchEmpresa.ListaEmpresas = await _context.Empresa.Include("Habitacoes").Where(c => c.Disponivel == disponivel && c.Nome.Contains(TextoAPesquisar)).ToListAsync();
@@ -95,44 +95,58 @@ namespace HabitAqui.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Avaliacao,Disponivel")] Empresa empresa)
+        public async Task<IActionResult> Create([Bind("Id, Nome, Avaliacao, Disponivel")] Empresa empresa)
         {
-         
             if (ModelState.IsValid)
             {
-                
-                var user = CreateUser();
                 var email = "gestor" + empresa.Nome.ToLower() + "@gmail.com";
-                await _userStore.SetUserNameAsync(user, email, CancellationToken.None);
-                //await _emailStore.SetEmailAsync(user, email, CancellationToken.None);
-                user.PrimeiroNome = "Gestor";
-                user.UltimoNome = empresa.Nome.ToLower();
-                user.NIF = 0;
-                user.DataNascimento = DateTime.Today;
-                user.EmailConfirmed = true;
-                user.Disponivel = true;
+
+                // Create a new user
+                var user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email,
+                    PrimeiroNome = "Gestor",
+                    UltimoNome = empresa.Nome.ToLower(),
+                    NIF = 0,
+                    DataNascimento = DateTime.Today,
+                    EmailConfirmed = true,
+                    Disponivel = true
+                };
 
                 var result = await _userManager.CreateAsync(user, "Gestor123!");
 
                 if (result.Succeeded)
                 {
+                    // Add the new user to the "Gestor" role
+                    await _userManager.AddToRoleAsync(user, "Gestor");
+
+                    // Add the new empresa and associated gestor to the context
                     _context.Add(empresa);
-                    //   await _context.SaveChangesAsync();
+
                     var gestor = new Gestor
                     {
-                        Id = empresa.Id,
+                        EmpresaId = empresa.Id,
                         Empresa = empresa,
                         ApplicationUser = user
-
                     };
 
-                    _context.Update(gestor);
+                    _context.Add(gestor);
+
+                    // Save changes to the database
                     await _context.SaveChangesAsync();
-                    await _userManager.AddToRoleAsync(user, "Gestor");
+
                     return RedirectToAction(nameof(Index));
                 }
 
+                // If user creation fails, add errors to ModelState and return to the view
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
+
+            // If ModelState is not valid, return to the view with the existing data
             return View(empresa);
         }
 
@@ -141,9 +155,20 @@ namespace HabitAqui.Controllers
         {
             var applicationUserId = _userManager.GetUserId(User);
             var gestor = _context.Gestores.Where(m => m.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+
+            // Check if gestor is null before accessing its properties
+            if (gestor == null)
+            {
+                // Handle the case where gestor is null, maybe return a NotFound or BadRequest result
+                return NotFound();
+            }
+
+            // Make sure gestor.EmpresaId is not null before using it
             var funcionario = _context.Funcionarios.Include("ApplicationUser").Include("Empresa").Where(e => e.EmpresaId == gestor.EmpresaId);
+
             return View(await funcionario.ToListAsync());
         }
+
 
         //aqui
         // GET: Empresas/Edit/5
@@ -220,60 +245,7 @@ namespace HabitAqui.Controllers
         }
 
         //MUDAR VARIAVEIS
-        [Authorize(Roles = "Gestor,Admin")]
-        public async Task<IActionResult> makeManagerAvailableUnavailable(int? id)
-        {
-            if (id == null || _context.Gestores == null)
-            {
-                return NotFound();
-            }
 
-            var manager = await _context.Gestores.Include("ApplicationUser").Where(e => e.Id == id).FirstOrDefaultAsync();
-            if (manager == null)
-            {
-                return NotFound();
-            }
-            if (manager.ApplicationUser.Disponivel == true)
-            {
-
-                manager.ApplicationUser.Disponivel = false;
-                var userTask = _userManager.FindByEmailAsync(manager.ApplicationUser.Email);
-                userTask.Wait();
-                var user = userTask.Result;
-                var lockUserTask = _userManager.SetLockoutEnabledAsync(user, true);
-                lockUserTask.Wait();
-                var lockDateTask = _userManager.SetLockoutEndDateAsync(user, DateTime.MaxValue);
-                lockDateTask.Wait();
-            }
-            else
-            {
-                manager.ApplicationUser.Disponivel = true;
-                var userTask = _userManager.FindByEmailAsync(manager.ApplicationUser.Email);
-                userTask.Wait();
-                var user = userTask.Result;
-                var lockDisabledTask = _userManager.SetLockoutEnabledAsync(user, false);
-                lockDisabledTask.Wait();
-                var setLockoutEndDateTask = _userManager.SetLockoutEndDateAsync(user, DateTime.Now - TimeSpan.FromMinutes(1));
-                setLockoutEndDateTask.Wait();
-            }
-            try
-            {
-                _context.Update(manager);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmpresaExists(manager.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(ListEmpresaFuncionarios));
-        }
 
         // POST: Empresas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -334,7 +306,7 @@ namespace HabitAqui.Controllers
                         {
                             foreach (var item in gestors)
                             {
-                                await makeManagerAvailableUnavailable(item.Id);
+                                await makeGestorAvailableUnavailable(item.Id);
                             }
                         }
                         if (habitacoes != null)
@@ -360,7 +332,7 @@ namespace HabitAqui.Controllers
                         {
                             foreach (var item in gestors)
                             {
-                                await makeManagerAvailableUnavailable(item.Id);
+                                await makeGestorAvailableUnavailable(item.Id);
                             }
                         }
                         if (habitacoes != null)
@@ -455,6 +427,61 @@ namespace HabitAqui.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> makeGestorAvailableUnavailable(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var gestores = await _context.Gestores
+                .Include(g => g.ApplicationUser)  // Assuming ApplicationUser is a navigation property
+                .Where(g => g.EmpresaId == id)
+                .ToListAsync();
+
+            var funcionarios = await _context.Funcionarios
+                .Include(g => g.ApplicationUser)  // Assuming ApplicationUser is a navigation property
+                .Where(g => g.EmpresaId == id)
+                .ToListAsync();
+
+            var empresa = await _context.Empresa
+                .Where(e => e.Id == id)
+                .FirstOrDefaultAsync();
+
+            if (gestores == null || empresa == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var gestor in gestores)
+            {
+                // Toggle the Disponivel property
+                gestor.ApplicationUser.Disponivel = !gestor.ApplicationUser.Disponivel;
+                empresa.Disponivel = !empresa.Disponivel;
+
+                _context.Update(gestor);
+            }
+            if (funcionarios == null || empresa == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var func in funcionarios)
+            {
+                // Toggle the Disponivel property
+                func.ApplicationUser.Disponivel = !func.ApplicationUser.Disponivel;
+                empresa.Disponivel = !empresa.Disponivel;
+
+                _context.Update(func);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
 
         public async Task<IActionResult> DeleteUser(string id)

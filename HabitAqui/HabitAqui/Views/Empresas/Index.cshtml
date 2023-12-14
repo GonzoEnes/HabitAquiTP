@@ -78,6 +78,18 @@
                         }
                     }
                 </td>
+                @if (item.Disponivel)
+                {
+                    <td>
+                        <a asp-action="makeGestorAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-danger">Indisponível</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="makeGestorAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
+                    </td>
+                }
                 <td>
                     @Html.DisplayFor(modelItem => item.Disponivel)
                 </td>
