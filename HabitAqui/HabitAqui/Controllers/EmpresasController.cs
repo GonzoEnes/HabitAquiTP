@@ -300,11 +300,49 @@ namespace HabitAqui.Controllers
         }
 
 
+        [Authorize(Roles = "Gestor")]
+        public async Task<IActionResult> DeleteFunc(int? id)
+        {
+            if (id == null || _context.Habitacoes == null)
+            {
+                return NotFound();
+            }
+
+            var funcionario = await _context.Funcionarios
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (funcionario == null)
+            {
+                return NotFound();
+            }
+
+            
+
+            return View(funcionario);
+        }
+
+        [HttpPost, ActionName("DeleteFunc")]
+        [Authorize(Roles = "Gestor")]
+        public async Task<IActionResult> DeleteConfirmedFunc(int id)
+        {
+
+            if (_context.Funcionarios == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Habitacoes'  is null.");
+            }
+ 
+            var funcionario = await _context.Funcionarios.FindAsync(id);
+            if (funcionario != null)
+            {
+                _context.Funcionarios.Remove(funcionario);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ListEmpresaFuncionarios));
+        }
 
 
-
-
-
+          
 
 
         [Authorize(Roles = "Admin")]

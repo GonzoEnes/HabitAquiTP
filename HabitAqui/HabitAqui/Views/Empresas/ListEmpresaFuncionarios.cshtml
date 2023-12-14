@@ -54,6 +54,7 @@
                         <a asp-action="makeEmployeeAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
                     </td>
                 }
+                <td><a asp-action="DeleteFunc" asp-route-id="@item.Id">Apagar</a></td>
             </tr>
         }
     </tbody>
