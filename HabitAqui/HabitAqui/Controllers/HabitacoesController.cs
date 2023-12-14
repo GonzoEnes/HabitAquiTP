@@ -15,6 +15,7 @@ using System.Security.Cryptography.Xml;
 using System.Security.Claims;
 using System.Numerics;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HabitAqui.Controllers
 {
@@ -22,9 +23,12 @@ namespace HabitAqui.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public HabitacoesController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public HabitacoesController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         // GET: Habitacoes
@@ -91,19 +95,54 @@ namespace HabitAqui.Controllers
             return View();
         }
 
+        private async Task<string> UploadImage(IFormFile imageFile)
+        {
+            if (imageFile == null || imageFile.Length == 0)
+                return new string("Erro, não há fotografia.");
+
+            
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img");
+
+            // Garante que o diretório de destino existe, caso contrário, cria-o
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            // Gera um nome de arquivo único para evitar colisões
+            var uniqueFileName = Guid.NewGuid().ToString() + "_" + imageFile.FileName;
+
+            // Caminho completo para o arquivo no sistema de arquivos
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            // Salva a imagem no sistema de arquivos
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await imageFile.CopyToAsync(fileStream);
+            }
+
+            // Retorna a URL da imagem (assumindo que 'img' seja o diretório virtual para as imagens)
+            return uniqueFileName;
+        }
+
         // POST: Habitacoes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Authorize(Roles = "Admin,Funcionario,Gestor")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,PeriodoMinimoArrendamento,CategoriaId,NBath,NBedroom,Area,Image")] Habitacao habitacao)
+        public async Task<IActionResult> Create([Bind("Id,Nome,Custo,Disponivel,Localizacao,ArrendamentoId,TipologiaId,EstadoId,EmpresaId,Avaliacao,PeriodoMinimoArrendamento,CategoriaId,NBath,NBedroom,Area,ImagePath, Fotografia")] Habitacao habitacao)
         {
 
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
             
            if (ModelState.IsValid)
             {
+
+                if (habitacao.Fotografia != null)
+                {
+                    habitacao.ImagePath = await UploadImage(habitacao.Fotografia);
+                }
                 _context.Add(habitacao);
                 await _context.SaveChangesAsync();
                 if (User.IsInRole("Admin")) {
@@ -527,7 +566,7 @@ namespace HabitAqui.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId,CategoriaId")] Habitacao habitacao)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId,CategoriaId,ImagePath,Fotografia")] Habitacao habitacao)
         {
             if (id != habitacao.Id)
             {
@@ -536,6 +575,11 @@ namespace HabitAqui.Controllers
 
             if (ModelState.IsValid)
             {
+                if (habitacao.Fotografia != null)
+                {
+                    habitacao.ImagePath = await UploadImage(habitacao.Fotografia);
+                }
+
                 try
                 {
                     _context.Update(habitacao);
@@ -611,6 +655,7 @@ namespace HabitAqui.Controllers
             ViewData["ListaCategorias"] = new SelectList(_context.Categorias.Where(c => c.Disponivel == true).ToList(), "Id", "Nome");
 
             var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
             if (User.IsInRole("Funcionario"))
             {
                 var funcionario = _context.Funcionarios.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();

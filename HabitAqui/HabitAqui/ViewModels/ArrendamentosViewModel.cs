@@ -28,10 +28,9 @@ namespace HabitAqui.ViewModels
 
         [Display(Name = "Cliente")]
         public string? ApplicationUserId { get; set; }
-        public ApplicationUser? Cliente { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
 
         public int Ordenar { get; set; }
-
         
     }
 }

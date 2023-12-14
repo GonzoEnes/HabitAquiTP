@@ -50,6 +50,9 @@ namespace HabitAqui.Controllers
             var avaliacao = await _context.Arrendamentos
                 .Include(a => a.ApplicationUser)
                 .Include(a => a.Habitacao)
+                .Include(a => a.Habitacao.Empresa)
+                .Include(a => a.Habitacao.Categoria)
+                .Include(a => a.Habitacao.Tipologia)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (avaliacao == null)
             {
@@ -134,6 +137,7 @@ namespace HabitAqui.Controllers
                 x.HabitacaoId = request.HabitacaoId;
                 x.CustoArrendamento = Math.Round(habitacao.Custo * (int)NrDays);
                 x.Habitacao = habitacao;
+                x.Confirmado = false;
 
                 return View("PedidoArrendamento", x);
 
@@ -243,9 +247,9 @@ namespace HabitAqui.Controllers
         {
             var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var gestores = await userManager.GetUsersInRoleAsync("Gestor");
+            var funcionarios = await userManager.GetUsersInRoleAsync("Funcionario");
 
-            ViewData["Gestores"] = new SelectList(gestores, "Id", "PrimeiroNome");
+            ViewData["Funcionarios"] = new SelectList(funcionarios, "Id", "PrimeiroNome");
 
             var arrendamento = await _context.Arrendamentos.Include("EstadoEntrega").Include("EstadoRececao").Include(c => c.Habitacao).FirstOrDefaultAsync(c => c.Id == id);
 
@@ -295,7 +299,7 @@ namespace HabitAqui.Controllers
 
             var userManager = HttpContext.RequestServices.GetRequiredService<UserManager<ApplicationUser>>();
 
-            var funcionarios = await userManager.GetUsersInRoleAsync("Gestor");
+            var funcionarios = await userManager.GetUsersInRoleAsync("Funcionario");
 
             ViewData["Funcionarios"] = new SelectList(funcionarios, "Id", "PrimeiroNome");
 
@@ -321,60 +325,153 @@ namespace HabitAqui.Controllers
 
             arrendamentoComEstado.EstadoRececao = estadoRececao;
 
-            if (ModelState.IsValid) {
-                try {
-                    _context.Update(arrendamentoComEstado);
+            if (ModelState.IsValid)  // voltar a comentar se isto não der bem, mas acho que vai dar
+            {
+                try
+                {
+                _context.Update(arrendamentoComEstado);
 
-                    await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                    _context.Habitacoes.Find(arrendamentoComEstado.HabitacaoId).EstadoId = arrendamentoComEstado.EstadoEntregaId;
+                _context.Habitacoes.Find(arrendamentoComEstado.HabitacaoId).EstadoId = arrendamentoComEstado.EstadoEntregaId;
 
-                    await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                    if (estadoRececao.Danos) {
-                        string diretoria = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/fotografias");
+                if (estadoRececao.Danos) {
+                    string diretoria = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/img/fotografias");
 
-                        if (!Directory.Exists(diretoria)) {
-                            Directory.CreateDirectory(diretoria);
-                        }
+                    if (!Directory.Exists(diretoria)) {
+                        Directory.CreateDirectory(diretoria);
+                    }
 
-                        foreach (var fotografia in fotografias) {
-                            if (fotografia.Length > 0) {
-                                var diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
+                    foreach (var fotografia in fotografias) {
+                        if (fotografia.Length > 0) {
+                            var diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
 
-                                while (System.IO.File.Exists(diretoriaFicheiro)) {
-                                    diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
-                                }
+                            while (System.IO.File.Exists(diretoriaFicheiro)) {
+                                diretoriaFicheiro = Path.Combine(diretoria, Guid.NewGuid().ToString() + Path.GetExtension(fotografia.FileName));
+                            }
 
-                                using (var stream = System.IO.File.Create(diretoriaFicheiro)) {
-                                    await fotografia.CopyToAsync(stream);
-                                }
+                            using (var stream = System.IO.File.Create(diretoriaFicheiro)) {
+                                await fotografia.CopyToAsync(stream);
                             }
                         }
                     }
-                    _context.SaveChangesAsync();
                 }
-                catch (DbUpdateConcurrencyException) {
-                    if (!ArrendamentoExists(arrendamentoComEstado.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return RedirectToAction(nameof(Index)); // trocar para arrendamentos DESTA empresa, criar função de ListarArrendamentosByEmpresa
+                await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException) {
+                if (!ArrendamentoExists(arrendamentoComEstado.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(ListaArrendamentoByEmpresa));
+            }
+
             ViewData["ListaHabitacoes"] = new SelectList(_context.Habitacoes.ToList(), "Id", "Nome", arrendamentoComEstado.Id);
 
             return View(arrendamentoComEstado);
         }
 
-            private bool ArrendamentoExists(int id)
+        [Authorize(Roles = "Funcionario,Gestor")]
+        public async Task<IActionResult> ListaArrendamentoByEmpresa([Bind("ApplicationUserId,HabitacaoId,CategoriaId,DataInicio,DataFinal,NomeEmpresa")] ArrendamentosViewModel arrendamentoPesquisa)
         {
-            return (_context.Arrendamentos?.Any(e => e.Id == id)).GetValueOrDefault();
+
+            var applicationUserId = _userManager.GetUserId(User);
+
+            List<Arrendamento> arrendamentos = new List<Arrendamento>();
+
+            var categorias = _context.Categorias.ToList();
+
+            ViewData["CategoriaHabitacoes"] = new SelectList(categorias, "Id", "Nome");
+
+            var clientes = _context.Arrendamentos
+                        .Select(arrendamento => arrendamento.ApplicationUser)
+                        .Distinct();
+
+            ViewData["Clientes"] = new SelectList(clientes.ToList(), "Id", "PrimeiroNome");
+
+            if (HttpContext.User.IsInRole("Funcionario"))
+            {
+                var funcionario = _context.Funcionarios.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+                arrendamentos = _context.Arrendamentos.Include(v => v.Habitacao).Include(a => a.ApplicationUser).Where(r => r.Habitacao.EmpresaId == funcionario.EmpresaId).ToList();
+            }
+            else
+            {
+                var gestor = _context.Gestores.Where(m => m.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+                arrendamentos = _context.Arrendamentos.Include(v => v.Habitacao).Include(a => a.ApplicationUser).Where(r => r.Habitacao.EmpresaId == gestor.EmpresaId).ToList();
+            }
+
+            var model = new ArrendamentosViewModel
+            {
+                ListaArrendamentos = arrendamentos
+            };
+
+
+            if (!(arrendamentoPesquisa.CategoriaId == 0 || arrendamentoPesquisa.CategoriaId == null))
+            {
+                arrendamentos = arrendamentos.Where(r => r.Habitacao.CategoriaId == arrendamentoPesquisa.CategoriaId).ToList();
+            }
+            if (!string.IsNullOrEmpty(arrendamentoPesquisa.ApplicationUserId))
+            {
+                arrendamentos = arrendamentos.Where(r => r.ApplicationUser.Id == arrendamentoPesquisa.ApplicationUserId).ToList();
+            }
+
+            var filtrado = new ArrendamentosViewModel
+            {
+                ListaArrendamentos = arrendamentos
+            };
+
+            return View(filtrado);
         }
+
+        [Authorize(Roles = "Funcionario,Gestor")]
+        public async Task<IActionResult> RejeitarArrendamento(int id)
+        {
+            if (_context.Arrendamentos == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Arrendamento'  is null.");
+            }
+            var arrendamento = await _context.Arrendamentos.FindAsync(id);
+            if (arrendamento != null)
+            {
+                _context.Arrendamentos.Remove(arrendamento);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ListaArrendamentoByEmpresa));
+        }
+
+        [Authorize(Roles = "Funcionario,Gestor")]
+        public async Task<IActionResult> AceitarArrendamento(int id)
+        {
+            if (_context.Arrendamentos == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Arrendamento'  is null.");
+            }
+            var arrendamento = await _context.Arrendamentos.FindAsync(id);
+            if (arrendamento != null)
+            {
+                arrendamento.Confirmado = true;
+
+                _context.Update(arrendamento);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(ListaArrendamentoByEmpresa));
+        }
+
+        private bool ArrendamentoExists(int id)
+            {
+                return (_context.Arrendamentos?.Any(e => e.Id == id)).GetValueOrDefault();
+            }
     }
 }

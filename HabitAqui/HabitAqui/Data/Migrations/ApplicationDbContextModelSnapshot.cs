@@ -232,25 +232,24 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("Danos")
                         .HasColumnType("bit");
 
                     b.Property<string>("Equipamentos")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Observacoes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("aleatorio")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Estado");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Estados");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Funcionario", b =>
@@ -330,6 +329,9 @@ namespace HabitAqui.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImagePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Localizacao")
@@ -556,6 +558,17 @@ namespace HabitAqui.Data.Migrations
                     b.HasOne("HabitAqui.Models.Habitacao", null)
                         .WithMany("Avaliacoes")
                         .HasForeignKey("HabitacaoId");
+                });
+
+            modelBuilder.Entity("HabitAqui.Models.Estado", b =>
+                {
+                    b.HasOne("HabitAqui.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Funcionario", b =>

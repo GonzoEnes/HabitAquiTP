@@ -9,13 +9,19 @@
 
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <form asp-action="Create">
+            <form asp-action="Create" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="mb-3">
                     <label asp-for="Nome" class="form-label"></label>
                     <input asp-for="Nome" class="form-control" />
                     <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Custo" class="form-label"></label>
+                    <input asp-for="Custo" class="form-control" />
+                    <span asp-validation-for="Custo" class="text-danger"></span>
                 </div>
                 <div class="mb-3 form-check">
                     <input class="form-check-input" asp-for="Disponivel" />
@@ -50,10 +56,6 @@
                         <label asp-for="EmpresaId" class="form-label"></label>
                         <select asp-for="EmpresaId" class="form-control" asp-items="ViewBag.ListaEmpresas"></select>
                     </div>
-                
-                
-
-
                 <div class="mb-3">
                     <label asp-for="Area" class="form-label"></label>
                     <input asp-for="Area" class="form-control" />
@@ -64,16 +66,12 @@
                     <input asp-for="NBedroom" class="form-control" />
                     <span asp-validation-for="NBedroom" class="text-danger"></span>
                 </div>
-                @*<div class="mb-3">
-                    <label asp-for="Estado" class="form-label"></label>
-                    <input asp-for="Estado" class="form-control" />
-                    <span asp-validation-for="Estado" class="text-danger"></span>
-                </div>*@
+               
                 <div class="mb-3">
-                    <label asp-for="Custo" class="form-label"></label>
-                    <input asp-for="Custo" class="form-control" />
-                    <span asp-validation-for="Custo" class="text-danger"></span>
+                    <label asp-for="Fotografia" class="form-label"></label>
+                    <input asp-for="Fotografia" type="file" class="form-control" accept=".jpg, .jpeg, .png"/>
                 </div>
+
 
                 <div class="mb-3">
                     <input type="submit" value="Create" class="btn btn-primary" />

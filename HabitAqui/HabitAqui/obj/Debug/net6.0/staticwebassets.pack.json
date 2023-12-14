@@ -41,6 +41,14 @@
       "PackagePath": "staticwebassets\\fonts\\KronaOne-Regular.ttf"
     },
     {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\2cd6cf8a-48ff-46a4-a587-f1fc0ba5c10d_casaparatestar.jpg",
+      "PackagePath": "staticwebassets\\img\\2cd6cf8a-48ff-46a4-a587-f1fc0ba5c10d_casaparatestar.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\4b698da5-ab96-4bec-8b36-5598f6fe18de_diagramaestados.jpg",
+      "PackagePath": "staticwebassets\\img\\4b698da5-ab96-4bec-8b36-5598f6fe18de_diagramaestados.jpg"
+    },
+    {
       "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\about.jpg",
       "PackagePath": "staticwebassets\\img\\about.jpg"
     },
@@ -69,6 +77,10 @@
       "PackagePath": "staticwebassets\\img\\banner_06.jpg"
     },
     {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\c7224c04-87af-4623-b4b5-800b763b63e2_casaparatestar.jpg",
+      "PackagePath": "staticwebassets\\img\\c7224c04-87af-4623-b4b5-800b763b63e2_casaparatestar.jpg"
+    },
+    {
       "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\call-to-action.jpg",
       "PackagePath": "staticwebassets\\img\\call-to-action.jpg"
     },
@@ -79,6 +91,18 @@
     {
       "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\carousel-2.jpg",
       "PackagePath": "staticwebassets\\img\\carousel-2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\df7c2617-b66e-40f0-841f-9fd0f2b2bc66_casaparatestar.jpg",
+      "PackagePath": "staticwebassets\\img\\df7c2617-b66e-40f0-841f-9fd0f2b2bc66_casaparatestar.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\fotografias\\08788b79-5d6a-4ee5-a910-efe38a10479b.jpg",
+      "PackagePath": "staticwebassets\\img\\fotografias\\08788b79-5d6a-4ee5-a910-efe38a10479b.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\fotografias\\65a07645-d5b7-47e3-9612-f82d48bf8e5f.jpg",
+      "PackagePath": "staticwebassets\\img\\fotografias\\65a07645-d5b7-47e3-9612-f82d48bf8e5f.jpg"
     },
     {
       "Id": "C:\\Users\\Goncalo\\Desktop\\ISEC\\PWEB\\HabitAquiTP\\HabitAqui\\HabitAqui\\wwwroot\\img\\header.jpg",

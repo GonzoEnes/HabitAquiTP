@@ -67,7 +67,7 @@
                             else if (this.User.IsInRole("Funcionario"))
                             {
                                 <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
-                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListArrendamentosEmpresa">Arrendamentos</a>
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListaArrendamentoByEmpresa">Arrendamentos</a>
 
                                 
                             }
@@ -80,7 +80,7 @@
                                
                                     <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Registar Novo</a>
 
-                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListArrendamentosEmpresa">Arrendamentos</a>
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListaArrendamentoByEmpresa">Arrendamentos</a>
                               
 
                             }

@@ -61,8 +61,11 @@ namespace HabitAqui.Models
 
         public int? EmpresaId { get; set; }
 
+        public string? ImagePath { get; set; }
+
         [NotMapped]
-        public IFormFile Fotografia { get; set; }
+        [Display(Name = "Imagem", Prompt = "Escolha a imagem que deseja")]
+        public IFormFile? Fotografia { get; set; }
 
         //[Display(Name = "Fotografias da Habitação", Prompt = "Escolha as fotografias a anexar")]
         //public byte[]? Fotografias { get; set; }
