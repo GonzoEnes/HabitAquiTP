@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1niCri6NWGbr55BJykgcU5kYWZFI7XvCQV/zeWjZdOI=",
+  "Hash": "REEiBGGk3q+GFHj6YLTXyl5CT3mivr0uO4PiNTzWc6g=",
   "Source": "HabitAqui",
   "BasePath": "_content/HabitAqui",
   "Mode": "Default",
@@ -1611,6 +1611,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\df7c2617-b66e-40f0-841f-9fd0f2b2bc66_casaparatestar.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\wwwroot\\img\\favicon.ico",
+      "SourceId": "HabitAqui",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\wwwroot\\",
+      "BasePath": "_content/HabitAqui",
+      "RelativePath": "img/favicon.ico",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\favicon.ico"
     },
     {
       "Identity": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\wwwroot\\img\\fotografias\\08788b79-5d6a-4ee5-a910-efe38a10479b.jpg",

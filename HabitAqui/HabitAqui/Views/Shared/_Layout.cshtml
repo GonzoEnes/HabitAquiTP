@@ -76,10 +76,14 @@
                                 <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
                                     <a class="nav-link" asp-controller="Empresas" asp-action="ListEmpresaFuncionarios">Funcionários</a>
 
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Registar</a>
+                                    <div class="dropdown-menu rounded-0 m-0">
+                                        <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Funcionário</a>
+                                        <a class="nav-link" asp-area="Identity" asp-page="/Account/GestorRegister"> Gestor</a>                                     
+                                    </div>
+                                </div>       
                                 
-                               
-                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Registar Novo</a>
-
                                 <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListaArrendamentoByEmpresa">Arrendamentos</a>
                               
 
