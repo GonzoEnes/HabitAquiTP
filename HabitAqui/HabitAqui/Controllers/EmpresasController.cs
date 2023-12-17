@@ -195,7 +195,7 @@ namespace HabitAqui.Controllers
 
 
         [Authorize(Roles = "Gestor,Admin")]
-        public async Task<IActionResult> makeEmployeeAvailableUnavailable(int? id)
+        public async Task<IActionResult> FuncionarioAvailableUnavailable(int? id)
         {
             if (id == null || _context.Funcionarios == null)
             {
@@ -249,7 +249,7 @@ namespace HabitAqui.Controllers
             return RedirectToAction(nameof(ListEmpresaFuncionarios));
         }
 
-        //MUDAR VARIAVEIS
+       
 
 
         // POST: Empresas/Edit/5

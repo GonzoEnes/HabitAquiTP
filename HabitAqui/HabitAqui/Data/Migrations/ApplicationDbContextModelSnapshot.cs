@@ -119,6 +119,9 @@ namespace HabitAqui.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("AvaliacaoId")
+                        .HasColumnType("int");
+
                     b.Property<bool?>("Confirmado")
                         .HasColumnType("bit");
 
@@ -147,6 +150,8 @@ namespace HabitAqui.Data.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
+                    b.HasIndex("AvaliacaoId");
+
                     b.HasIndex("EstadoEntregaId");
 
                     b.HasIndex("EstadoRececaoId");
@@ -164,15 +169,10 @@ namespace HabitAqui.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("HabitacaoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Nota")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("HabitacaoId");
 
                     b.ToTable("Avaliacao");
                 });
@@ -532,6 +532,10 @@ namespace HabitAqui.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HabitAqui.Models.Avaliacao", "Avaliacao")
+                        .WithMany()
+                        .HasForeignKey("AvaliacaoId");
+
                     b.HasOne("HabitAqui.Models.Estado", "EstadoEntrega")
                         .WithMany()
                         .HasForeignKey("EstadoEntregaId");
@@ -546,18 +550,13 @@ namespace HabitAqui.Data.Migrations
 
                     b.Navigation("ApplicationUser");
 
+                    b.Navigation("Avaliacao");
+
                     b.Navigation("EstadoEntrega");
 
                     b.Navigation("EstadoRececao");
 
                     b.Navigation("Habitacao");
-                });
-
-            modelBuilder.Entity("HabitAqui.Models.Avaliacao", b =>
-                {
-                    b.HasOne("HabitAqui.Models.Habitacao", null)
-                        .WithMany("Avaliacoes")
-                        .HasForeignKey("HabitacaoId");
                 });
 
             modelBuilder.Entity("HabitAqui.Models.Estado", b =>
@@ -700,8 +699,6 @@ namespace HabitAqui.Data.Migrations
             modelBuilder.Entity("HabitAqui.Models.Habitacao", b =>
                 {
                     b.Navigation("Arrendamentos");
-
-                    b.Navigation("Avaliacoes");
                 });
 #pragma warning restore 612, 618
         }

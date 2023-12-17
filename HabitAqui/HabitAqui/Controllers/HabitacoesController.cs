@@ -248,8 +248,7 @@ namespace HabitAqui.Controllers
 
             //pesquisaHabitacoes.Ordenar = int.Parse(ordenarValue);
 
-                Console.WriteLine("AIJDAIDWAODJI \n\n\n\n\n\n\n" + pesquisaHabitacoes.Ordenar);
-
+              
             switch (pesquisaHabitacoes.Ordenar)
                 {
                     case 1:
@@ -568,7 +567,13 @@ namespace HabitAqui.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Custo,NBath,NBedroom,Area,PeriodoMinimoArrendamento,Disponivel,Localizacao,ArrendamentoId,TipologiaId,Avaliacao,EstadoId,EmpresaId,CategoriaId,ImagePath,Fotografia")] Habitacao habitacao)
         {
-            if (id != habitacao.Id)
+
+               
+
+
+
+
+                if (id != habitacao.Id)
             {
                 return NotFound();
             }
@@ -582,6 +587,20 @@ namespace HabitAqui.Controllers
 
                 try
                 {
+                    if (User.IsInRole("Funcionario"))
+                    {
+                        var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        var funcionario = _context.Funcionarios.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+                        habitacao.EmpresaId = funcionario.EmpresaId;
+                    }
+                    else if (User.IsInRole("Gestor")) {
+
+
+                        var applicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                        var gestor = _context.Gestores.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
+                        habitacao.EmpresaId = gestor.EmpresaId;
+                    }
+                    //var habitacoesFunc = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == funcionario.EmpresaId).ToListAsync();                
                     _context.Update(habitacao);
                     await _context.SaveChangesAsync();
                 }
@@ -596,6 +615,7 @@ namespace HabitAqui.Controllers
                         throw;
                     }
                 }
+                if(User.IsInRole("Gestor") || User.IsInRole("Funcionario")) { return RedirectToAction(nameof(ListaHabitacoesByEmpresaId));}
                 return RedirectToAction(nameof(Index));
             }
             return View(habitacao);
@@ -658,9 +678,14 @@ namespace HabitAqui.Controllers
             
             if (User.IsInRole("Funcionario"))
             {
+
                 var funcionario = _context.Funcionarios.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
                 var habitacoesFunc = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == funcionario.EmpresaId).ToListAsync();
-                return View(habitacoesFunc);
+                var habitacoesViewModelFunc = new HabitacoesViewModel();
+
+                habitacoesViewModelFunc.ListaHabitacoes = habitacoesFunc;
+
+                return View(habitacoesViewModelFunc);
             }
             var gestor = _context.Gestores.Where(e => e.ApplicationUser.Id == applicationUserId).FirstOrDefault();
             var habitacoes = await _context.Habitacoes.Include("Empresa").Include("Categoria").Include("Tipologia").Where(v => v.EmpresaId == gestor.EmpresaId).ToListAsync();

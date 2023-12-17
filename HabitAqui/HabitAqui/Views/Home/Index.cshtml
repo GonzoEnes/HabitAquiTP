@@ -28,65 +28,67 @@
         </div>
 
 <!-- Search Start -->
-@using (Html.BeginForm("Search", "Habitacoes", FormMethod.Get))
+@if (!User.IsInRole("Gestor") && !User.IsInRole("Funcionario"))
 {
-    <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 50px 35px;">
-        <div class="container">
-            <div class="row g-2">
-                <div class="col-md-10">
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                            <input type="text" class="form-control border-0 py-3" placeholder="Pesquisar..." name="TextoAPesquisar">
-                        </div>
-                        <div class="col-md-4">
-                            <select asp-for="Localizacao" asp-items="ViewBag.LocalizacaoList" class="form-select border-0 py-3">
-                                <option value="" disabled selected hidden>Localização</option>
-                            </select>
-                        </div>
+    using (Html.BeginForm("Search", "Habitacoes", FormMethod.Get))
+    {
+        <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 50px 35px;">
+            <div class="container">
+                <div class="row g-2">
+                    <div class="col-md-10">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <input type="text" class="form-control border-0 py-3" placeholder="Pesquisar..." name="TextoAPesquisar">
+                            </div>
+                            <div class="col-md-4">
+                                <select asp-for="Localizacao" asp-items="ViewBag.LocalizacaoList" class="form-select border-0 py-3">
+                                    <option value="" disabled selected hidden>Localização</option>
+                                </select>
+                            </div>
 
-                        <div class="col-md-4">
-                            <select asp-for="Tipologia" asp-items="ViewBag.TipologiaList" class="form-select border-0 py-3">
-                                <option value="" disabled selected hidden>Tipo de Habitação</option>
-                            </select>
-                        </div>
-                        <div class="col-md-12 px-2">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
-                                        <div class="input-append date form_datetime">
-                                            <label for="DataInicioPesquisa">Data Início:</label>
-                                            <input type="datetime-local" id="DataInicioPesquisa" name="DataInicioPesquisa">
+                            <div class="col-md-4">
+                                <select asp-for="Tipologia" asp-items="ViewBag.TipologiaList" class="form-select border-0 py-3">
+                                    <option value="" disabled selected hidden>Tipo de Habitação</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 px-2">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                            <div class="input-append date form_datetime">
+                                                <label for="DataInicioPesquisa">Data Início:</label>
+                                                <input type="datetime-local" id="DataInicioPesquisa" name="DataInicioPesquisa">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
-                                        <div class="input-append date form_datetime">
-                                            <label for="DataFinalPesquisa">Data Fim:</label>
-                                            <input type="datetime-local" id="DataFinalPesquisa" name="DataFinalPesquisa">
+                                    <div class="col-md-4">
+                                        <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                            <div class="input-append date form_datetime">
+                                                <label for="DataFinalPesquisa">Data Fim:</label>
+                                                <input type="datetime-local" id="DataFinalPesquisa" name="DataFinalPesquisa">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
-                                        <div class="input-append date form_datetime">
-                                            <label for="PeriodoMinimoArrendamento">Período Mínimo:</label>
-                                            <input type="text" id="PeriodoMinimoArrendamento" name="PeriodoMinimoArrendamento">
+                                    <div class="col-md-4">
+                                        <div style="background-color: #fff; border-radius: 8px; padding: 15px; margin-bottom: 10px; text-align: center;">
+                                            <div class="input-append date form_datetime">
+                                                <label for="PeriodoMinimoArrendamento">Período Mínimo:</label>
+                                                <input type="text" id="PeriodoMinimoArrendamento" name="PeriodoMinimoArrendamento">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-2 d-flex align-items-center justify-content-center">
-                    <button class="btn btn-dark border-0 w-100 py-4">Pesquisar</button>
+                    <div class="col-md-2 d-flex align-items-center justify-content-center">
+                        <button class="btn btn-dark border-0 w-100 py-4">Pesquisar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    }
 }
-
 
 <!-- Search End -->
 <!-- About Start -->

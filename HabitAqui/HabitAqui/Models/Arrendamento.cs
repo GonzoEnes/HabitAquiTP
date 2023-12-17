@@ -40,5 +40,7 @@ namespace HabitAqui.Models
         public Estado? EstadoRececao { get; set; }
 
         public bool? Confirmado { get; set; }
+        public int? AvaliacaoId { get; set; }
+        public Avaliacao? Avaliacao { get; set; }
     }
 }

@@ -45,13 +45,13 @@
                 @if (item.ApplicationUser.Disponivel)
                 {
                     <td>
-                        <a asp-action="makeEmployeeAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-danger">Indisponível</a>
+                        <a asp-action="FuncionarioAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-danger">Indisponível</a>
                     </td>
                 }
                 else
                 {
                     <td>
-                        <a asp-action="makeEmployeeAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
+                        <a asp-action="FuncionarioAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
                     </td>
                 }
                 <td><a asp-action="DeleteFunc" asp-route-id="@item.Id">Apagar</a></td>

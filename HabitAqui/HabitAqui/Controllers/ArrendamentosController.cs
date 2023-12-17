@@ -109,6 +109,9 @@ namespace HabitAqui.Controllers
                 ModelState.AddModelError("HabitacaoId", "Habitação não existe!");
             }
 
+            NrDays = (request.DataFinal - request.DataInicio).TotalDays;
+            if (NrDays < habitacao.PeriodoMinimoArrendamento)
+                ModelState.AddModelError("Periodo Minimo de Arrendamento", "O numero de dias nao atingiu o minimo de dias necessarios para arrendar");
             bool available = true;
             
             foreach (Arrendamento arrendamento in habitacao.Arrendamentos)
@@ -202,7 +205,45 @@ namespace HabitAqui.Controllers
             ViewData["HabitacaoId"] = new SelectList(_context.Habitacoes, "Id", "Id", arrendamento.HabitacaoId);
             return View(arrendamento);
         }
+        public async Task<IActionResult> Avaliar(int? id)
+        {
+            ViewData["ListaAvaliacao"] = new SelectList(_context.Avaliacao.ToList(), "Id", "Nota");
+            var arrendamento = await _context.Arrendamentos
+                .Include(a => a.ApplicationUser)
+                .Include(a => a.Habitacao)
+                .Include(a => a.Habitacao.Empresa)
+                .Include(a => a.Habitacao.Categoria)
+                .Include(a => a.Habitacao.Tipologia)
+                .Include(a => a.Avaliacao)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
+            return View(arrendamento);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Avaliar([Bind("Id,Nota")] Avaliacao avaliacao, [Bind("Id,AvaliacaoId,CustoArrendamento,DataInicio,DataFinal,DataPedido,HabitacaoId,ApplicationUserId,EstadoId")] Arrendamento arrendamento)
+        {
+            ViewData["ListaAvaliacao"] = new SelectList(_context.Avaliacao.ToList(), "Id", "Nota");
+            try
+            {
+                _context.Update(arrendamento);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ArrendamentoExists(arrendamento.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
+            return View(arrendamento);
+        }
         // GET: Arrendamentos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
