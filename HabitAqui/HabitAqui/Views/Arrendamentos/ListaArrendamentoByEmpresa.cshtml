@@ -1,0 +1,92 @@
+﻿@model HabitAqui.ViewModels.ArrendamentosViewModel
+
+@{
+    ViewData["Title"] = "Listagem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Os Nossos Arrendamentos</h1>
+
+@using (Html.BeginForm("ListaArrendamentoByEmpresa", "Arrendamentos", FormMethod.Get))
+{
+    <div class="container-fluid bg-white pt-3 px-lg-5">
+        <div class="row mx-n2">
+
+            <div class="col-xl-2 col-lg-4 col-md-6 px-2">
+                <select asp-for="CategoriaId"
+                    asp-items="ViewBag.CategoriaHabitacoes"
+                        class="form-control">
+                    <option value="" selected>Categorias</option>
+                </select>
+            </div>
+            <div class="col-xl-2 col-lg-4 col-md-6 px-2">
+                <select asp-for="ApplicationUserId"
+                    asp-items="ViewBag.Clientes"
+                        class="form-control">
+                    <option value="" selected>Cliente</option>
+                </select>
+            </div>
+
+            <div class="col-xl-2 col-lg-4 col-md-6 px-2">
+                <button class="btn btn-primary btn-block mb-3" type="submit" style="height: 50px;">Pesquisar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Nome de Utilizador
+            </th>
+            <th>
+                Primeiro Nome
+            </th>
+            <th>
+                Último Nome
+            </th>
+            <th>
+                Nome da Habitação
+            </th>
+            <th>
+                Data de Início (Arrendamento)
+            </th>
+            <th>
+                Data de Final (Arrendamento)
+            </th>
+            <th>
+                Custo Total de Arrendamento
+            </th>
+            <th>
+                Confirmado
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.ListaArrendamentos)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.UserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.PrimeiroNome)</td>
+                <td>@Html.DisplayFor(modelItem => item.ApplicationUser.UltimoNome)</td>
+                <td>@Html.DisplayFor(modelItem => item.Habitacao.Nome)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataInicio)</td>
+                <td>@Html.DisplayFor(modelItem => item.DataFinal)</td>
+                <td>@Html.DisplayFor(modelItem => item.CustoArrendamento)</td>
+                @if (item.Confirmado == true)
+                {
+                    <td>Confirmado</td>
+                }
+                else
+                {
+                    <td>Por confirmar</td>
+                }
+                
+                <td><a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> </td>
+            </tr>
+        }
+    </tbody>
+</table>

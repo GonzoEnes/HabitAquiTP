@@ -1,0 +1,57 @@
+﻿@model HabitAqui.Models.Empresa
+
+@{
+    ViewData["Title"] = "Detalhes Empresa";
+}
+
+<h1>Detalhes</h1>
+
+<div>
+    <h4>Empresa - @Model.Nome</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Avaliacao)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Avaliacao)
+        </dd>
+        <dt class="col-sm-2">
+            Lista de Habitações
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.Habitacoes == null)
+            {
+                <a>Sem habitações para mostrar! </a>
+            }
+            @if (Model.Habitacoes != null)
+            {
+                var counter = 0;
+                @foreach (var habitacao in Model.Habitacoes)
+                {
+                    var HabitacoesDisplay = habitacao.Empresa + " " + habitacao.Tipologia;
+                    counter++;
+                    if (counter == Model.Habitacoes.Count)
+                    {
+                        HabitacoesDisplay += " ";
+                    }
+                    else
+                    {
+                        HabitacoesDisplay += ", ";
+                    }
+                    @Html.DisplayFor(modelItem => HabitacoesDisplay)
+                }
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Editar</a> |
+    <a asp-action="Index">Voltar para a Lista</a>
+</div>

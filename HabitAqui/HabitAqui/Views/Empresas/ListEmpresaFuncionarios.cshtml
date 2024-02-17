@@ -1,0 +1,61 @@
+﻿@model IEnumerable<HabitAqui.Models.Funcionario>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Funcionários</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Primeiro Nome
+            </th>
+            <th>
+                Último Nome
+            </th>
+            <th>
+                Empresa
+            </th>
+            <th>
+                Disponível
+            </th>
+            <th>
+                Opções
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.PrimeiroNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.UltimoNome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empresa.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApplicationUser.Disponivel)
+                </td>
+                @if (item.ApplicationUser.Disponivel)
+                {
+                    <td>
+                        <a asp-action="FuncionarioAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-danger">Indisponível</a>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <a asp-action="FuncionarioAvailableUnavailable" asp-route-id="@item.Id" class="btn btn-success">Disponivel</a>
+                    </td>
+                }
+                <td><a asp-action="DeleteFunc" asp-route-id="@item.Id">Apagar</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

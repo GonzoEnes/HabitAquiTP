@@ -11495,23 +11495,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Gonsalo\\.nuget\\packages\\": {},
+    "C:\\Users\\henri\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Gonsalo\\Desktop\\ISEC\\PWEB\\TP\\HabitAquiTP\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
+      "projectUniqueName": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
       "projectName": "HabitAqui",
-      "projectPath": "C:\\Users\\Gonsalo\\Desktop\\ISEC\\PWEB\\TP\\HabitAquiTP\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
-      "packagesPath": "C:\\Users\\Gonsalo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Gonsalo\\Desktop\\ISEC\\PWEB\\TP\\HabitAquiTP\\HabitAqui\\HabitAqui\\obj\\",
+      "projectPath": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\HabitAqui.csproj",
+      "packagesPath": "C:\\Users\\henri\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\henri\\Desktop\\UNI\\Githubrepos\\PWEB-23-24\\HabitAqui\\HabitAqui\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Gonsalo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\henri\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -11586,7 +11586,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -4,26 +4,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HabitAqui.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            // criar aqui os dbSets da BD para conseguir ir buscar info
 
         }
 
-        public DbSet<Arrendamento> Agendamentos { get; set; }
+        public DbSet<Avaliacao> Avaliacao { get; set; }
+
+        public DbSet<Estado> Estados { get; set; }
+
+        public DbSet<Arrendamento> Arrendamentos { get; set; }
 
         public DbSet<Categoria> Categorias { get; set; }
 
-        public DbSet<Contrato> Contratos { get; set; }
-
         public DbSet<Habitacao> Habitacoes { get; set; }
 
-        public DbSet<Locador> Locadores { get; set; }
+        public DbSet<Tipologia> Tipologia { get; set; }
 
-        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<Empresa> Empresa { get; set; }
+
+        public DbSet<Funcionario> Funcionarios { get; set; }
+
+        public DbSet<Gestor> Gestores { get; set; }
     }
 }

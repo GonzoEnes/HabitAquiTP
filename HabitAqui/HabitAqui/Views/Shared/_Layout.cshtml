@@ -45,7 +45,7 @@
             <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
                 <a class="navbar-brand d-flex align-items-center text-center" asp-area="" asp-controller="Home" asp-action="Index">
                     <div class="icon p-2 me-2">
-                        <img class="img-fluid" src="~/img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;">
+                        <img class="img-fluid" src="~/img/icon-deal.png" alt="Icon" style="width: 50px; height: 50px;">
                     </div>
                     <h1 class="m-0 text-primary">HabitAqui</h1>
                 </a>
@@ -53,9 +53,60 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
-                        <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                    <div class="ms-auto">
+                        <div class="navbar-nav">
+                            <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-item nav-link active">Home</a>
+                            
+
+                            @if (this.User.IsInRole("Cliente"))
+                            {
+                                    <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                                    <a class="nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
+                                
+                            }
+                            else if (this.User.IsInRole("Funcionario"))
+                            {
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListaArrendamentoByEmpresa">Arrendamentos</a>
+
+                                
+                            }
+                            else if (this.User.IsInRole("Gestor"))
+                            {
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="ListaHabitacoesByEmpresaId" class="nav-item nav-link">Habitações</a>
+                                    <a class="nav-link" asp-controller="Empresas" asp-action="ListEmpresaFuncionarios">Funcionários</a>
+
+                                <div class="nav-item dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Registar</a>
+                                    <div class="dropdown-menu rounded-0 m-0">
+                                        <a class="nav-link" asp-area="Identity" asp-page="/Account/FuncionarioRegister">Funcionário</a>
+                                        <a class="nav-link" asp-area="Identity" asp-page="/Account/GestorRegister"> Gestor</a>                                     
+                                    </div>
+                                </div>       
+                                
+                                <a class="nav-link" asp-controller="Arrendamentos" asp-action="ListaArrendamentoByEmpresa">Arrendamentos</a>
+                              
+
+                            }
+                            else if (this.User.IsInRole("Admin"))
+                            {
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                                
+                                    <a class="nav-link" asp-controller="UserRolesManager" asp-action="Index">Permissões</a>
+                                
+                                    <a class="nav-link" asp-controller="Empresas" asp-action="Index">Empresas</a>
+                                
+                                
+                                    <a class="nav-link" asp-controller="Arrendamentos" asp-action="Index">Arrendamentos</a>
+                                
+                                <a class="nav-link" asp-controller="Categorias" asp-action="Index">Categorias</a>
+
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Habitacoes" asp-action="Index" class="nav-item nav-link">Habitações</a>
+                            }
+                        </div>
                     </div>
                     <div>
                         <partial name="_LoginPartial" />

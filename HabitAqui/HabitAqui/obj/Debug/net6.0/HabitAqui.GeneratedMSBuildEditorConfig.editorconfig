@@ -9,101 +9,223 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HabitAqui
 build_property.RootNamespace = HabitAqui
-build_property.ProjectDir = C:\Users\Gonsalo\Desktop\ISEC\PWEB\TP\HabitAquiTP\HabitAqui\HabitAqui\
+build_property.ProjectDir = C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Gonsalo\Desktop\ISEC\PWEB\TP\HabitAquiTP\HabitAqui\HabitAqui
+build_property.MSBuildProjectDirectory = C:\Users\henri\Desktop\UNI\Githubrepos\PWEB-23-24\HabitAqui\HabitAqui
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/FuncionarioRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxGdW5jaW9uYXJpb1JlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/GestorRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxHZXN0b3JSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/Index.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX01hbmFnZU5hdi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Manage/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxNYW5hZ2VcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Habitacoes/Create.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Avaliar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xBdmFsaWFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/EstadoHabitacao.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xFc3RhZG9IYWJpdGFjYW8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/ListaArrendamentoByEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xMaXN0YUFycmVuZGFtZW50b0J5RW1wcmVzYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Arrendamentos/PedidoArrendamento.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXJyZW5kYW1lbnRvc1xQZWRpZG9BcnJlbmRhbWVudG8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Categorias/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Categorias/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Categorias/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Categorias/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Categorias/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmlhc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/DeleteFunc.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcRGVsZXRlRnVuYy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/ListEmpresaFuncionarios.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcTGlzdEVtcHJlc2FGdW5jaW9uYXJpb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Empresas/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wcmVzYXNcU2VhcmNoLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Habitacoes/Delete.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xEZWxldGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Habitacoes/Details.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Habitacoes/Edit.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Habitacoes/Index.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Home/Index.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/ListaHabitacoesByEmpresaId.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xMaXN0YUhhYml0YWNvZXNCeUVtcHJlc2FJZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/Search.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xTZWFyY2guY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Habitacoes/SearchEmpresa.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSGFiaXRhY29lc1xTZWFyY2hFbXByZXNhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Home/Privacy.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Shared/Error.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/RoleManager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9sZU1hbmFnZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Shared/_QuickSearchPartial.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Shared/_QuickSearchPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9RdWlja1NlYXJjaFBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/_ViewImports.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/UserRolesManager/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclJvbGVzTWFuYWdlclxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/UserRolesManager/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclJvbGVzTWFuYWdlclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/_ViewStart.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Gonsalo/Desktop/ISEC/PWEB/TP/HabitAquiTP/HabitAqui/HabitAqui/Views/Shared/_Layout.cshtml]
+[C:/Users/henri/Desktop/UNI/Githubrepos/PWEB-23-24/HabitAqui/HabitAqui/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-l3xs0rysfs

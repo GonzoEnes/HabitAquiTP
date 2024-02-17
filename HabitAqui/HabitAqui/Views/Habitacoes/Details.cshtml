@@ -1,75 +1,114 @@
 ﻿@model HabitAqui.Models.Habitacao
 
 @{
-    ViewData["Title"] = "Details";
+   ViewData["Title"] = "Detalhes - " + Model?.Nome;
+    
 }
 
-<h1>Details</h1>
 
-<div>
-    <h4>Habitacao</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nome)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nome)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdContrato)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdContrato)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Disponivel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Disponivel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Localizacao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Localizacao)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdArrendamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdArrendamento)
-        </dd>
-       
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdLocador)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdLocador)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Avaliacao)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Avaliacao)
-        </dd>
-        
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Danos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Danos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Observacoes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Observacoes)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<style>
+    /* Add custom styles for increased text size */
+    h1 {
+        font-size: 28px; /* Adjust the value as needed */
+    }
+
+    dt, dd {
+        font-size: 22px; /* Adjust the value as needed */
+    }
+
+    .btn {
+        height: 40px; /* Adjust the value as needed */
+    }
+
+    /* Add more styles as needed for other elements */
+</style>
+
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                    <h1 class="mb-3">Detalhes: @Model?.Nome</h1>
+                    <hr />
+
+                    <dl class="row">
+                        <dt class="col-sm-3 fw-bold">Nome:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Nome)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Categoria:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Categoria.Nome)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Disponível:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Disponivel)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Localização:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Localizacao)</dd>
+                        <dt class="col-sm-3 fw-bold">Período Mínimo de Arrendamento:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.PeriodoMinimoArrendamento) dias</dd>
+
+                        @if (Model.MediaAvaliacoes == null)
+                        {
+                            <dt class="col-sm-3 fw-bold">Avaliação:</dt>
+                            <dd class="col-sm-9">Esta propriedade não possui avaliação de momento.</dd>
+                        }
+                        else
+                        {
+                            <dt class="col-sm-3 fw-bold">Avaliação:</dt>
+                            <dd class="col-sm-9">@Html.DisplayFor(model => model.MediaAvaliacoes) / 5,00</dd>
+                        }
+
+                        <dt class="col-sm-3 fw-bold">Tipo:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Tipologia.Nome)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Empresa:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Empresa.Nome)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Custo:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Custo)</dd>
+
+                        <dt class="col-sm-4">Imagem:</dt>
+                        <dd class="col-sm-8">
+                            @if (!string.IsNullOrEmpty(Model.ImagePath))
+                            {
+                                <img src="~/img/@Model.ImagePath" alt="" class="img-a img-fluid">
+                            }
+                            else
+                            {
+                                <span>Esta habitação não tem imagem</span>
+                            }
+                        </dd>
+@*
+                        <dt class="col-sm-3 fw-bold">Danos:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Danos)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Observações:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Observacoes)</dd>*@
+                    </dl>
+                </div>
+            </div>
+
+            @*<div class="col-lg-6 position-relative overflow-hidden wow slideInRight" data-wow-delay="0.1s">
+                <a asp-controller="Habitacoes" asp-action="Details" asp-route-id="@Model.Id">
+                    <img class="img-fluid" src="~/img/@Model?.Image" alt="">
+                </a>
+                <div class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-4 pt-1 px-3">@Model.Tipologia.Nome</div>
+            </div>*@
+
+            <div class="col-lg-6">
+                @if (User.IsInRole("Gestor") || User.IsInRole("Funcionario") || User.IsInRole("Admin"))
+                {
+                    <div class="text-start mb-5 wow slideInLeft" data-wow-delay="0.1s">
+                        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Editar</a>
+                    </div>
+                    <a class="btn btn-secondary ms-2" asp-action="ListaHabitacoesByEmpresaId">Voltar à Lista</a>
+                }
+                else if (!User.IsInRole("Gestor") || !User.IsInRole("Funcionario") || !User.IsInRole("Admin"))
+                {
+
+                    <a class="btn btn-secondary ms-2" asp-action="Index">Voltar à Lista</a>
+                }
+            </div>
+        </div>
+    </div>
 </div>
